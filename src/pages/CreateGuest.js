@@ -8,8 +8,13 @@ export default function CreateGuest({ onHandleSubmit }) {
     event.preventDefault();
     const form = event.target;
     const { newName, newNotes } = form.elements;
-    onHandleSubmit(newName.value, newNotes.value);
-    navigate("/");
+    if (newName.value.trim() === "") {
+      newName.value = "";
+      alert("Each name must have one letter at least.");
+    } else {
+      onHandleSubmit(newName.value, newNotes.value);
+      navigate("/");
+    }
   }
 
   return (
