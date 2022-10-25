@@ -1,30 +1,19 @@
-import styled from "styled-components";
+import Home from "./pages/Home";
+import CreateGuest from "./pages/CreateGuest";
+import Layout from "./components/Layout";
+import ErrorPage from "./pages/ErrorPage";
+import { Routes, Route } from "react-router-dom";
 
 function App() {
   return (
-    <Container>
-      <StyledHeader>
-        <h1>Cook4All</h1>
-      </StyledHeader>
-      <h2>Welcome!</h2>
-      <p>Soon you will see your guest list here!</p>
-    </Container>
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        <Route path="/home" element={<Home />} />
+        <Route path="/create-guest" element={<CreateGuest />} />
+        <Route path="/*" element={<ErrorPage />} />
+      </Route>
+    </Routes>
   );
 }
-
-const Container = styled.div`
-  text-align: center;
-  margin: 0 auto;
-  max-width: 450px;
-  min-width: 320px;
-`;
-
-const StyledHeader = styled.header`
-  background-color: var(--header-color-bg);
-  font-family: var(--header-font);
-  font-size: 2rem;
-  margin-bottom: 20px;
-  padding: 10px;
-`;
 
 export default App;
