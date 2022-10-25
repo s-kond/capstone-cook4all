@@ -8,6 +8,8 @@ import { useState } from "react";
 import GuestDetails from "./pages/GuestDetails";
 import { UserContext } from "./util/UserContext";
 
+//just a comment so that vercel deploys again - fighting a 'danger'-message...
+
 const testArray = [
   { id: nanoid(), name: "John", notes: "Likes his coffee black" },
   { id: nanoid(), name: "Anna", notes: "Doesn't like cucumber." },
