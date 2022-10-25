@@ -14,11 +14,11 @@ export default function Home({ data }) {
       </StyledHeader>
       <main>
         <h2>Welcome!</h2>
-        <P1>
+        <WelcomeMessage>
           {guestArray.length > 0
             ? "Who do you want to cook for today?"
             : "Nobody here... Start by clicking + and add new guests!"}
-        </P1>
+        </WelcomeMessage>
         <section>
           {guestArray.map((guest) => {
             return <GuestCard key={guest.id} personalData={guest} />;
@@ -41,6 +41,6 @@ export const StyledHeader = styled.header`
   justify-content: center;
 `;
 
-const P1 = styled.p`
+const WelcomeMessage = styled.p`
   margin: 20px auto;
 `;
