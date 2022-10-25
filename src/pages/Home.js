@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import GuestCard from "../components/GuestCard";
 
-export default function Home() {
+export default function Home({ data }) {
   const navigate = useNavigate();
 
   return (
@@ -11,7 +12,16 @@ export default function Home() {
       </StyledHeader>
       <StyledMain>
         <h2>Welcome!</h2>
-        <p>Soon you will see your guest list here!</p>
+        <P1>
+          {data.length > 0
+            ? "Who do you want to cook for today?"
+            : "Nobody here... Start by clicking + and add new guests!"}
+        </P1>
+        <section>
+          {data.map((guest) => {
+            return <GuestCard key={guest.id} personalData={guest} />;
+          })}
+        </section>
         <button onClick={() => navigate("/create-guest")}>+</button>
       </StyledMain>
     </>
@@ -26,8 +36,12 @@ const StyledHeader = styled.header`
   padding: 10px;
 `;
 
+const P1 = styled.p`
+  margin: 20px auto;
+`;
+
 const StyledMain = styled.main`
-  p {
-    margin: 20px auto;
+  button {
+    margin-top: 20px;
   }
 `;
