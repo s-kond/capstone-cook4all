@@ -15,7 +15,7 @@ function App() {
 const Container = styled.div`
   text-align: center;
   margin: 0 auto;
-  max-width: 390px;
+  max-width: 450px;
   min-width: 320px;
 `;
 
@@ -23,6 +23,7 @@ const StyledHeader = styled.header`
   background-color: #dcedc1;
   font-family: var(--header-font);
   font-size: 2rem;
+  width: ;
   margin-bottom: 20px;
   padding: 10px;
 `;
