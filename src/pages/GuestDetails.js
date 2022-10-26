@@ -17,6 +17,9 @@ export default function GuestDetails({ onDelete }) {
         <h2>Details</h2>
       </StyledHeader>
       <StyledSection>
+        <StyledEditButton onClick={() => navigate(`/edit-guest/${id}`)}>
+          Edit
+        </StyledEditButton>
         <StyledName>{name}</StyledName>
         <h3>Further Notes:</h3>
         <StyledNotes>{notes}</StyledNotes>
@@ -33,10 +36,17 @@ const StyledNotes = styled.p`
 
 const StyledSection = styled.section`
   text-align: left;
+  position: relative;
   margin-bottom: 20px;
 `;
 
 const StyledName = styled.h2`
   margin-bottom: 20px;
   text-decoration: underline;
+`;
+
+const StyledEditButton = styled.button`
+  position: absolute;
+  top: 0;
+  right: 0;
 `;
