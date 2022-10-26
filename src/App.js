@@ -1,5 +1,6 @@
 import Home from "./pages/Home";
 import CreateGuest from "./pages/CreateGuest";
+import EditGuest from "./pages/EditGuest";
 import Layout from "./components/Layout";
 import ErrorPage from "./pages/ErrorPage";
 import { Routes, Route, useNavigate } from "react-router-dom";
@@ -29,6 +30,15 @@ function App() {
     navigate("/");
   }
 
+  function editGuest(guestId, newName, newNotes) {
+    let editedArray = guestArray.map((guest) =>
+      guest.id === guestId
+        ? { ...guest, name: newName, notes: newNotes }
+        : guest
+    );
+    setGuestArray(editedArray);
+  }
+
   return (
     <UserContext.Provider value={{ guestArray }}>
       <Routes>
@@ -41,6 +51,10 @@ function App() {
           <Route
             path="/details/:id"
             element={<GuestDetails onDelete={deleteGuest} />}
+          />
+          <Route
+            path="edit-guest/:id"
+            element={<EditGuest onHandleEditSubmit={editGuest} />}
           />
           <Route path="*" element={<ErrorPage />} />
         </Route>
