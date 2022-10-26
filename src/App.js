@@ -54,10 +54,15 @@ function App() {
     navigate("/");
   }
 
-  function editGuest(guestId, newName, newNotes) {
+  function editGuest(guestId, newName, newIntolerances, newNotes) {
     let editedArray = guestArray.map((guest) =>
       guest.id === guestId
-        ? { ...guest, name: newName, notes: newNotes }
+        ? {
+            ...guest,
+            name: newName,
+            intolerances: newIntolerances,
+            notes: newNotes,
+          }
         : guest
     );
     setGuestArray(editedArray);

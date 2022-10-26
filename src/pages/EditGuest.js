@@ -1,15 +1,21 @@
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { StyledHeader } from "./Home";
+import { StyledList } from "./CreateGuest";
 import { UserContext } from "../util/UserContext";
-import { useContext } from "react";
+import { useContext, useState, useRef } from "react";
+import { search } from "fast-fuzzy";
+import { possibleIntolerances } from "../assets/data";
 
-export default function EditGuest({ guestData, onHandleEditSubmit }) {
+export default function EditGuest({ onHandleEditSubmit }) {
   const navigate = useNavigate();
   const { guestArray } = useContext(UserContext);
   const { id } = useParams();
   const guestDetails = guestArray.filter((guest) => guest.id === id);
-  const { name, notes } = guestDetails[0];
+  const { name, intolerances, notes } = guestDetails[0];
+  const [filteredIntolerance, setFilteredIntolerance] = useState([]);
+  const [activeEditList, setActiveEditList] = useState(intolerances);
+  const intolerancesRef = useRef();
 
   function onSubmit(event) {
     event.preventDefault();
@@ -19,9 +25,27 @@ export default function EditGuest({ guestData, onHandleEditSubmit }) {
       newName.value = "";
       alert("Each name must have one letter at least.");
     } else {
-      onHandleEditSubmit(id, newName.value, newNotes.value);
+      onHandleEditSubmit(id, newName.value, activeEditList, newNotes.value);
       navigate("/");
     }
+  }
+
+  function searchIntolerance(input) {
+    const results = search(input, possibleIntolerances).slice(0, 3);
+    setFilteredIntolerance(results);
+  }
+
+  function addToActive(intolerance) {
+    setActiveEditList([...activeEditList, intolerance]);
+    setFilteredIntolerance(
+      filteredIntolerance.filter((item) => item !== intolerance)
+    );
+    intolerancesRef.current.focus();
+  }
+
+  function removeFromActive(intolerance) {
+    setFilteredIntolerance([...filteredIntolerance, intolerance]);
+    setActiveEditList(activeEditList.filter((item) => item !== intolerance));
   }
 
   return (
@@ -40,6 +64,30 @@ export default function EditGuest({ guestData, onHandleEditSubmit }) {
           defaultValue={name}
           required
         />
+        <label htmlFor="newIntolerances">Intolerances:</label>
+        <StyledList>
+          {activeEditList.map((item) => (
+            <li>
+              <button type="button" onClick={() => removeFromActive(item)}>
+                {item}
+              </button>
+            </li>
+          ))}
+        </StyledList>
+        <input
+          name="newIntolerances"
+          id="newIntolerances"
+          type="text"
+          ref={intolerancesRef}
+          onChange={(event) => searchIntolerance(event.target.value)}
+        />
+        <div>
+          {filteredIntolerance.map((item) => (
+            <button type="button" onClick={() => addToActive(item)}>
+              {item}
+            </button>
+          ))}
+        </div>
         <label htmlFor="newNotes">Notes: </label>
         <textarea name="newNotes" id="newNotes" defaultValue={notes}></textarea>
         <button type="submit">Submit</button>

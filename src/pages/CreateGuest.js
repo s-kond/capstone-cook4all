@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { search } from "fast-fuzzy";
 import { possibleIntolerances } from "../assets/data";
 
@@ -8,6 +8,7 @@ export default function CreateGuest({ onHandleSubmit }) {
   const navigate = useNavigate();
   const [filteredIntolerance, setFilteredIntolerance] = useState([]);
   const [activeList, setActiveList] = useState([]);
+  const intolerancesRef = useRef();
 
   function onSubmit(event) {
     event.preventDefault();
@@ -32,6 +33,8 @@ export default function CreateGuest({ onHandleSubmit }) {
     setFilteredIntolerance(
       filteredIntolerance.filter((item) => item !== intolerance)
     );
+    intolerancesRef.current.value = "";
+    intolerancesRef.current.focus();
   }
 
   function removeFromActive(intolerance) {
@@ -65,6 +68,7 @@ export default function CreateGuest({ onHandleSubmit }) {
           name="newIntolerances"
           id="newIntolerances"
           type="text"
+          ref={intolerancesRef}
           onChange={(event) => searchIntolerance(event.target.value)}
         />
         <div>
@@ -96,7 +100,7 @@ const StyledForm = styled.form`
   }
 `;
 
-const StyledList = styled.ul`
+export const StyledList = styled.ul`
   margin: 10px auto;
   list-style-type: "-";
   padding: 0;
