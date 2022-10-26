@@ -11,8 +11,18 @@ import { UserContext } from "./util/UserContext";
 import useLocalStorage from "./hooks/useLocalStorage";
 
 const testArray = [
-  { id: nanoid(), name: "John", notes: "Likes his coffee black" },
-  { id: nanoid(), name: "Anna", notes: "Doesn't like cucumber." },
+  {
+    id: nanoid(),
+    name: "John",
+    intolerances: ["dairy-free", "gluten-free"],
+    notes: "Likes his coffee black",
+  },
+  {
+    id: nanoid(),
+    name: "Anna",
+    intolerances: ["kosher"],
+    notes: "Doesn't like cucumber.",
+  },
 ];
 
 function App() {
@@ -27,9 +37,14 @@ function App() {
     setStoredValue(guestArray);
   }, [guestArray]);
 
-  function createGuest(newName, newNotes) {
+  function createGuest(newName, newNotes, intolerancesArray) {
     setGuestArray([
-      { id: nanoid(), name: newName, notes: newNotes },
+      {
+        id: nanoid(),
+        name: newName,
+        intolerances: intolerancesArray,
+        notes: newNotes,
+      },
       ...guestArray,
     ]);
   }

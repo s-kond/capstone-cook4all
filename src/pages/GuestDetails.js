@@ -9,7 +9,7 @@ export default function GuestDetails({ onDelete }) {
   const { guestArray } = useContext(UserContext);
   const { id } = useParams();
   const guestDetails = guestArray.filter((guest) => guest.id === id);
-  const { name, notes } = guestDetails[0];
+  const { name, intolerances, notes } = guestDetails[0];
 
   return (
     <>
@@ -21,6 +21,12 @@ export default function GuestDetails({ onDelete }) {
           Edit
         </StyledEditButton>
         <StyledName>{name}</StyledName>
+        <h3>Food should be:</h3>
+        <StyledList>
+          {intolerances.map((item) => (
+            <li>{item}</li>
+          ))}
+        </StyledList>
         <h3>Further Notes:</h3>
         <StyledNotes>{notes}</StyledNotes>
       </StyledSection>
@@ -49,4 +55,8 @@ const StyledEditButton = styled.button`
   position: absolute;
   top: 0;
   right: 0;
+`;
+
+const StyledList = styled.ul`
+  margin-bottom: 20px;
 `;
