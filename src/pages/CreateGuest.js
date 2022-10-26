@@ -1,8 +1,13 @@
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { useState } from "react";
+import { search } from "fast-fuzzy";
+import { possibleIntolerances } from "../assets/data";
 
 export default function CreateGuest({ onHandleSubmit }) {
   const navigate = useNavigate();
+  const [filteredIntolerance, setFilteredIntolerance] = useState([]);
+  const [activeList, setActiveList] = useState([]);
 
   function onSubmit(event) {
     event.preventDefault();
@@ -17,6 +22,23 @@ export default function CreateGuest({ onHandleSubmit }) {
     }
   }
 
+  function searchIntolerance(input) {
+    const results = search(input, possibleIntolerances).slice(0, 3);
+    setFilteredIntolerance(results);
+  }
+
+  function addToActive(intolerance) {
+    setActiveList([...activeList, intolerance]);
+    setFilteredIntolerance(
+      filteredIntolerance.filter((item) => item !== intolerance)
+    );
+  }
+
+  function removeFromActive(intolerance) {
+    setFilteredIntolerance([...filteredIntolerance, intolerance]);
+    setActiveList(activeList.filter((item) => item !== intolerance));
+  }
+
   return (
     <>
       <h2>Add a guest</h2>
@@ -29,6 +51,29 @@ export default function CreateGuest({ onHandleSubmit }) {
           maxLength={40}
           required
         />
+        <label htmlFor="newIntolerances">Intolerances:</label>
+        <StyledList>
+          {activeList.map((item) => (
+            <li>
+              <button type="button" onClick={() => removeFromActive(item)}>
+                {item}
+              </button>
+            </li>
+          ))}
+        </StyledList>
+        <input
+          name="newIntolerances"
+          id="newIntolerances"
+          type="text"
+          onChange={(event) => searchIntolerance(event.target.value)}
+        />
+        <div>
+          {filteredIntolerance.map((item) => (
+            <button type="button" onClick={() => addToActive(item)}>
+              {item}
+            </button>
+          ))}
+        </div>
         <label htmlFor="newNotes">Notes: </label>
         <textarea name="newNotes" id="newNotes" />
         <button type="submit">Submit</button>
@@ -48,5 +93,15 @@ const StyledForm = styled.form`
   textarea {
     display: block;
     margin: 10px auto;
+  }
+`;
+
+const StyledList = styled.ul`
+  margin: 10px auto;
+  list-style-type: "-";
+  padding: 0;
+
+  li {
+    width: auto;
   }
 `;
