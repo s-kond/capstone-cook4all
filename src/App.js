@@ -1,12 +1,14 @@
 import Home from "./pages/Home";
 import CreateGuest from "./pages/CreateGuest";
+import EditGuest from "./pages/EditGuest";
 import Layout from "./components/Layout";
 import ErrorPage from "./pages/ErrorPage";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import { nanoid } from "nanoid";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import GuestDetails from "./pages/GuestDetails";
 import { UserContext } from "./util/UserContext";
+import useLocalStorage from "./hooks/useLocalStorage";
 
 const testArray = [
   { id: nanoid(), name: "John", notes: "Likes his coffee black" },
@@ -14,8 +16,16 @@ const testArray = [
 ];
 
 function App() {
-  const [guestArray, setGuestArray] = useState(testArray);
+  const [storedValue, setStoredValue] = useLocalStorage(
+    "cookingGuestList",
+    testArray
+  );
+  const [guestArray, setGuestArray] = useState(storedValue);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    setStoredValue(guestArray);
+  }, [guestArray]);
 
   function createGuest(newName, newNotes) {
     setGuestArray([
@@ -27,6 +37,15 @@ function App() {
   function deleteGuest(guestId) {
     setGuestArray(guestArray.filter((guest) => guest.id !== guestId));
     navigate("/");
+  }
+
+  function editGuest(guestId, newName, newNotes) {
+    let editedArray = guestArray.map((guest) =>
+      guest.id === guestId
+        ? { ...guest, name: newName, notes: newNotes }
+        : guest
+    );
+    setGuestArray(editedArray);
   }
 
   return (
@@ -41,6 +60,10 @@ function App() {
           <Route
             path="/details/:id"
             element={<GuestDetails onDelete={deleteGuest} />}
+          />
+          <Route
+            path="edit-guest/:id"
+            element={<EditGuest onHandleEditSubmit={editGuest} />}
           />
           <Route path="*" element={<ErrorPage />} />
         </Route>
