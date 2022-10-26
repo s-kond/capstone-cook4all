@@ -14,10 +14,13 @@ export default function GuestDetails({ onDelete }) {
   return (
     <>
       <StyledHeader>
-        <h2>{name}</h2>
+        <h2>Details</h2>
       </StyledHeader>
-      <h3>Notes</h3>
-      <StyledNotes>{notes}</StyledNotes>
+      <StyledSection>
+        <StyledName>{name}</StyledName>
+        <h3>Further Notes:</h3>
+        <StyledNotes>{notes}</StyledNotes>
+      </StyledSection>
       <button onClick={() => onDelete(id)}>delete guest</button>
       <button onClick={() => navigate("/")}>back</button>
     </>
@@ -25,5 +28,15 @@ export default function GuestDetails({ onDelete }) {
 }
 
 const StyledNotes = styled.p`
-  margin: 20px auto;
+  margin: 10px auto;
+`;
+
+const StyledSection = styled.section`
+  text-align: left;
+  margin-bottom: 20px;
+`;
+
+const StyledName = styled.h2`
+  margin-bottom: 20px;
+  text-decoration: underline;
 `;

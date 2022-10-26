@@ -15,6 +15,7 @@ export default function GuestCard({ personalData }) {
 
 const StyledArticle = styled.article`
   display: flex;
+  flex-wrap: wrap;
   justify-content: flex-start;
   padding: 10px;
   margin: 10px auto;
