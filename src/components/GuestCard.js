@@ -1,17 +1,22 @@
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 export default function GuestCard({ personalData }) {
-  const { name } = personalData;
+  const { name, id } = personalData;
+  const navigate = useNavigate();
   return (
     <StyledArticle>
       <input type="checkbox" />
       <p>{name}</p>
+      <button onClick={() => navigate(`/details/${id}`)}>details</button>
     </StyledArticle>
   );
 }
 
 const StyledArticle = styled.article`
   display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
   padding: 10px;
   margin: 10px auto;
   max-width: 80%;
@@ -26,5 +31,11 @@ const StyledArticle = styled.article`
 
   input {
     margin-left: 20px;
+  }
+
+  button {
+    justify-self: flex-end;
+    margin-left: auto;
+    margin-right: 20px;
   }
 `;

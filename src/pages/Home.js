@@ -1,47 +1,46 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import GuestCard from "../components/GuestCard";
+import { useContext } from "react";
+import { UserContext } from "../util/UserContext";
 
 export default function Home({ data }) {
   const navigate = useNavigate();
-
+  const { guestArray } = useContext(UserContext);
   return (
     <>
       <StyledHeader>
         <h1>Cook4All</h1>
       </StyledHeader>
-      <StyledMain>
+      <main>
         <h2>Welcome!</h2>
-        <P1>
-          {data.length > 0
+        <WelcomeMessage>
+          {guestArray.length > 0
             ? "Who do you want to cook for today?"
             : "Nobody here... Start by clicking + and add new guests!"}
-        </P1>
+        </WelcomeMessage>
         <section>
-          {data.map((guest) => {
+          {guestArray.map((guest) => {
             return <GuestCard key={guest.id} personalData={guest} />;
           })}
         </section>
         <button onClick={() => navigate("/create-guest")}>+</button>
-      </StyledMain>
+      </main>
     </>
   );
 }
 
-const StyledHeader = styled.header`
+export const StyledHeader = styled.header`
   background-color: var(--header-color-bg);
   font-family: var(--header-font);
   font-size: 2rem;
+  height: 90px;
   margin-bottom: 20px;
-  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
-const P1 = styled.p`
+const WelcomeMessage = styled.p`
   margin: 20px auto;
-`;
-
-const StyledMain = styled.main`
-  button {
-    margin-top: 20px;
-  }
 `;

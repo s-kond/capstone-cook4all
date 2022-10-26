@@ -2,9 +2,11 @@ import Home from "./pages/Home";
 import CreateGuest from "./pages/CreateGuest";
 import Layout from "./components/Layout";
 import ErrorPage from "./pages/ErrorPage";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import { nanoid } from "nanoid";
 import { useState } from "react";
+import GuestDetails from "./pages/GuestDetails";
+import { UserContext } from "./util/UserContext";
 
 const testArray = [
   { id: nanoid(), name: "John", notes: "Likes his coffee black" },
@@ -13,6 +15,7 @@ const testArray = [
 
 function App() {
   const [guestArray, setGuestArray] = useState(testArray);
+  const navigate = useNavigate();
 
   function createGuest(newName, newNotes) {
     setGuestArray([
@@ -21,17 +24,28 @@ function App() {
     ]);
   }
 
+  function deleteGuest(guestId) {
+    setGuestArray(guestArray.filter((guest) => guest.id !== guestId));
+    navigate("/");
+  }
+
   return (
-    <Routes>
-      <Route path="/" element={<Layout />}>
-        <Route index element={<Home data={guestArray} />} />
-        <Route
-          path="create-guest"
-          element={<CreateGuest onHandleSubmit={createGuest} />}
-        />
-        <Route path="*" element={<ErrorPage />} />
-      </Route>
-    </Routes>
+    <UserContext.Provider value={{ guestArray }}>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Home />} />
+          <Route
+            path="create-guest"
+            element={<CreateGuest onHandleSubmit={createGuest} />}
+          />
+          <Route
+            path="/details/:id"
+            element={<GuestDetails onDelete={deleteGuest} />}
+          />
+          <Route path="*" element={<ErrorPage />} />
+        </Route>
+      </Routes>
+    </UserContext.Provider>
   );
 }
 
