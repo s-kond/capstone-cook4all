@@ -5,9 +5,10 @@ import Layout from "./components/Layout";
 import ErrorPage from "./pages/ErrorPage";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import { nanoid } from "nanoid";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import GuestDetails from "./pages/GuestDetails";
 import { UserContext } from "./util/UserContext";
+import useLocalStorage from "./hooks/useLocalStorage";
 
 const testArray = [
   { id: nanoid(), name: "John", notes: "Likes his coffee black" },
@@ -15,8 +16,16 @@ const testArray = [
 ];
 
 function App() {
-  const [guestArray, setGuestArray] = useState(testArray);
+  const [storedValue, setStoredValue] = useLocalStorage(
+    "cookingGuestList",
+    testArray
+  );
+  const [guestArray, setGuestArray] = useState(storedValue);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    setStoredValue(guestArray);
+  }, [guestArray]);
 
   function createGuest(newName, newNotes) {
     setGuestArray([
