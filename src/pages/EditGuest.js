@@ -9,6 +9,7 @@ import { UserContext } from "../util/UserContext";
 import { useContext, useState, useRef } from "react";
 import { search } from "fast-fuzzy";
 import { possibleIntolerances } from "../assets/data";
+import compareArrays from "../util/CompareArrays";
 
 export default function EditGuest({ onHandleEditSubmit }) {
   const navigate = useNavigate();
@@ -34,20 +35,13 @@ export default function EditGuest({ onHandleEditSubmit }) {
     }
   }
 
-  function compareArrays(userIntolerances, allPossibleIntolerances) {
-    let editedPossibleIntolerances = [];
-    for (let i = 0; i < allPossibleIntolerances.length; i++) {
-      if (userIntolerances.includes(allPossibleIntolerances[i])) {
-        continue;
-      } else {
-        editedPossibleIntolerances.push(allPossibleIntolerances[i]);
-      }
-    }
-    setEditedIntolerances(editedPossibleIntolerances);
-  }
-
   function searchIntolerance(input) {
-    compareArrays(activeEditList, possibleIntolerances);
+    console.log("Active Edit: ", activeEditList);
+    console.log("PossibleInt: ", possibleIntolerances);
+    let compared = compareArrays(activeEditList, possibleIntolerances);
+    console.log(compared);
+    setEditedIntolerances(compared);
+    console.log("editedInt: ", editedIntolerances);
     const results = search(input, editedIntolerances, {
       keySelector: (obj) => obj.name,
     }).slice(0, 3);
@@ -56,8 +50,6 @@ export default function EditGuest({ onHandleEditSubmit }) {
 
   function addToActive(intolerance) {
     setActiveEditList([...activeEditList, intolerance]);
-    console.log(intolerance);
-    console.log(filteredIntolerance);
     setFilteredIntolerance(
       filteredIntolerance.filter((item) => item.id !== intolerance.id)
     );

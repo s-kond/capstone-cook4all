@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { useState, useRef } from "react";
 import { search } from "fast-fuzzy";
 import { possibleIntolerances } from "../assets/data";
+import compareArrays from "../util/CompareArrays";
 import { StyledHeader } from "./Home";
 
 export default function CreateGuest({ onHandleSubmit }) {
@@ -24,24 +25,11 @@ export default function CreateGuest({ onHandleSubmit }) {
     }
   }
 
-  function compareArrays(userIntolerances, allPossibleIntolerances) {
-    let editedPossibleIntolerances = [];
-    for (let i = 0; i < allPossibleIntolerances.length; i++) {
-      if (userIntolerances.includes(allPossibleIntolerances[i])) {
-        continue;
-      } else {
-        editedPossibleIntolerances.push(allPossibleIntolerances[i]);
-      }
-    }
-    return editedPossibleIntolerances;
-  }
-
   function searchIntolerance(input) {
     const results = search(input, possibleIntolerances, {
       keySelector: (obj) => obj.name,
     }).slice(0, 3);
-    const comparedResults = compareArrays(activeList, results);
-    setFilteredIntolerance(comparedResults);
+    setFilteredIntolerance(compareArrays(activeList, results));
   }
 
   function addToActive(intolerance) {
