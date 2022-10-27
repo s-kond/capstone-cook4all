@@ -36,12 +36,7 @@ export default function EditGuest({ onHandleEditSubmit }) {
   }
 
   function searchIntolerance(input) {
-    console.log("Active Edit: ", activeEditList);
-    console.log("PossibleInt: ", possibleIntolerances);
-    let compared = compareArrays(activeEditList, possibleIntolerances);
-    console.log(compared);
-    setEditedIntolerances(compared);
-    console.log("editedInt: ", editedIntolerances);
+    setEditedIntolerances(compareArrays(activeEditList, possibleIntolerances));
     const results = search(input, editedIntolerances, {
       keySelector: (obj) => obj.name,
     }).slice(0, 3);
