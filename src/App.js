@@ -14,13 +14,16 @@ const testArray = [
   {
     id: nanoid(),
     name: "John",
-    intolerances: ["dairy-free", "gluten-free"],
+    intolerances: [
+      { id: 5, name: "dairy-free" },
+      { id: 10, name: "gluten-free" },
+    ],
     notes: "Likes his coffee black",
   },
   {
     id: nanoid(),
     name: "Anna",
-    intolerances: ["kosher"],
+    intolerances: [{ id: 14, name: "kosher" }],
     notes: "Doesn't like cucumber.",
   },
 ];

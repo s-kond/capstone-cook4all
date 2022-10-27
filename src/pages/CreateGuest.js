@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { useState, useRef } from "react";
 import { search } from "fast-fuzzy";
 import { possibleIntolerances } from "../assets/data";
-import { nanoid } from "nanoid";
 import { StyledHeader } from "./Home";
 
 export default function CreateGuest({ onHandleSubmit }) {
@@ -38,7 +37,9 @@ export default function CreateGuest({ onHandleSubmit }) {
   }
 
   function searchIntolerance(input) {
-    const results = search(input, possibleIntolerances).slice(0, 3);
+    const results = search(input, possibleIntolerances, {
+      keySelector: (obj) => obj.name,
+    }).slice(0, 3);
     const comparedResults = compareArrays(activeList, results);
     setFilteredIntolerance(comparedResults);
   }
@@ -82,22 +83,22 @@ export default function CreateGuest({ onHandleSubmit }) {
         <section>
           {activeList.map((item) => (
             <StyledActiveIntolerance
-              key={nanoid()}
+              key={item.id}
               type="button"
               onClick={() => removeFromActive(item)}
             >
-              {item}
+              {item.name} x
             </StyledActiveIntolerance>
           ))}
         </section>
         <section>
           {filteredIntolerance.map((item) => (
             <StyledSearchResult
-              key={nanoid()}
+              key={item.id}
               type="button"
               onClick={() => addToActive(item)}
             >
-              {item}
+              + {item.name}
             </StyledSearchResult>
           ))}
         </section>

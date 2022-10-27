@@ -9,7 +9,6 @@ import { UserContext } from "../util/UserContext";
 import { useContext, useState, useRef } from "react";
 import { search } from "fast-fuzzy";
 import { possibleIntolerances } from "../assets/data";
-import { nanoid } from "nanoid";
 
 export default function EditGuest({ onHandleEditSubmit }) {
   const navigate = useNavigate();
@@ -49,17 +48,21 @@ export default function EditGuest({ onHandleEditSubmit }) {
 
   function searchIntolerance(input) {
     compareArrays(activeEditList, possibleIntolerances);
-    const results = search(input, editedIntolerances).slice(0, 3);
+    const results = search(input, editedIntolerances, {
+      keySelector: (obj) => obj.name,
+    }).slice(0, 3);
     setFilteredIntolerance(results);
   }
 
   function addToActive(intolerance) {
     setActiveEditList([...activeEditList, intolerance]);
+    console.log(intolerance);
+    console.log(filteredIntolerance);
     setFilteredIntolerance(
-      filteredIntolerance.filter((item) => item !== intolerance)
+      filteredIntolerance.filter((item) => item.id !== intolerance.id)
     );
     setEditedIntolerances(
-      editedIntolerances.filter((item) => item !== intolerance)
+      editedIntolerances.filter((item) => item.id !== intolerance.id)
     );
     intolerancesRef.current.focus();
     intolerancesRef.current.value = "";
@@ -67,7 +70,9 @@ export default function EditGuest({ onHandleEditSubmit }) {
 
   function removeFromActive(intolerance) {
     setFilteredIntolerance([...filteredIntolerance, intolerance]);
-    setActiveEditList(activeEditList.filter((item) => item !== intolerance));
+    setActiveEditList(
+      activeEditList.filter((item) => item.id !== intolerance.id)
+    );
     setEditedIntolerances([intolerance, ...editedIntolerances]);
     intolerancesRef.current.focus();
     intolerancesRef.current.value = "";
@@ -100,22 +105,22 @@ export default function EditGuest({ onHandleEditSubmit }) {
         <section>
           {activeEditList.map((item) => (
             <StyledActiveIntolerance
-              key={nanoid()}
+              key={item.id}
               type="button"
               onClick={() => removeFromActive(item)}
             >
-              {item}
+              {item.name} x
             </StyledActiveIntolerance>
           ))}
         </section>
         <section>
           {filteredIntolerance.map((item) => (
             <StyledSearchResult
-              key={nanoid()}
+              key={item.id}
               type="button"
               onClick={() => addToActive(item)}
             >
-              {item}
+              + {item.name}
             </StyledSearchResult>
           ))}
         </section>
