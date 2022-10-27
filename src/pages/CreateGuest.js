@@ -52,6 +52,8 @@ export default function CreateGuest({ onHandleSubmit }) {
 
   function removeFromActive(intolerance) {
     setActiveList(activeList.filter((item) => item !== intolerance));
+    intolerancesRef.current.value = "";
+    intolerancesRef.current.focus();
   }
 
   return (
