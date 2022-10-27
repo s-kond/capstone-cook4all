@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { StyledHeader } from "./Home";
-import { StyledList } from "./CreateGuest";
+import { StyledActiveIntolerance, StyledSearchResult } from "./CreateGuest";
 import { UserContext } from "../util/UserContext";
 import { useContext, useState, useRef } from "react";
 import { search } from "fast-fuzzy";
@@ -81,15 +81,6 @@ export default function EditGuest({ onHandleEditSubmit }) {
           required
         />
         <label htmlFor="newIntolerances">Food should be:</label>
-        <StyledList>
-          {activeEditList.map((item) => (
-            <li key={nanoid()}>
-              <button type="button" onClick={() => removeFromActive(item)}>
-                {item}
-              </button>
-            </li>
-          ))}
-        </StyledList>
         <input
           name="newIntolerances"
           id="newIntolerances"
@@ -97,17 +88,28 @@ export default function EditGuest({ onHandleEditSubmit }) {
           ref={intolerancesRef}
           onChange={(event) => searchIntolerance(event.target.value)}
         />
-        <div>
+        <section>
+          {activeEditList.map((item) => (
+            <StyledActiveIntolerance
+              key={nanoid()}
+              type="button"
+              onClick={() => removeFromActive(item)}
+            >
+              {item}
+            </StyledActiveIntolerance>
+          ))}
+        </section>
+        <section>
           {filteredIntolerance.map((item) => (
-            <button
+            <StyledSearchResult
               key={nanoid()}
               type="button"
               onClick={() => addToActive(item)}
             >
               {item}
-            </button>
+            </StyledSearchResult>
           ))}
-        </div>
+        </section>
         <label htmlFor="newNotes">Notes: </label>
         <textarea name="newNotes" id="newNotes" defaultValue={notes}></textarea>
         <button type="submit">Submit</button>

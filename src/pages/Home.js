@@ -31,7 +31,7 @@ export default function Home({ data }) {
 }
 
 export const StyledHeader = styled.header`
-  background-color: var(--header-color-bg);
+  background-color: var(--primary-color);
   font-family: var(--header-font);
   font-size: 2rem;
   height: 90px;

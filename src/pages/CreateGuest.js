@@ -3,6 +3,8 @@ import styled from "styled-components";
 import { useState, useRef } from "react";
 import { search } from "fast-fuzzy";
 import { possibleIntolerances } from "../assets/data";
+import { nanoid } from "nanoid";
+import { StyledHeader } from "./Home";
 
 export default function CreateGuest({ onHandleSubmit }) {
   const navigate = useNavigate();
@@ -44,7 +46,9 @@ export default function CreateGuest({ onHandleSubmit }) {
 
   return (
     <>
-      <h2>Add a guest</h2>
+      <StyledHeader>
+        <h2>Add a guest</h2>
+      </StyledHeader>
       <StyledForm onSubmit={onSubmit}>
         <label htmlFor="newName">Name: </label>
         <input
@@ -54,30 +58,37 @@ export default function CreateGuest({ onHandleSubmit }) {
           maxLength={40}
           required
         />
-        <label htmlFor="newIntolerances">Intolerances:</label>
-        <StyledList>
-          {activeList.map((item) => (
-            <li>
-              <button type="button" onClick={() => removeFromActive(item)}>
-                {item}
-              </button>
-            </li>
-          ))}
-        </StyledList>
+        <label htmlFor="newIntolerances">Food should be:</label>
         <input
           name="newIntolerances"
           id="newIntolerances"
           type="text"
+          placeholder="e.g. fish-free"
           ref={intolerancesRef}
           onChange={(event) => searchIntolerance(event.target.value)}
         />
-        <div>
-          {filteredIntolerance.map((item) => (
-            <button type="button" onClick={() => addToActive(item)}>
+        <section>
+          {activeList.map((item) => (
+            <StyledActiveIntolerance
+              key={nanoid()}
+              type="button"
+              onClick={() => removeFromActive(item)}
+            >
               {item}
-            </button>
+            </StyledActiveIntolerance>
           ))}
-        </div>
+        </section>
+        <section>
+          {filteredIntolerance.map((item) => (
+            <StyledSearchResult
+              key={nanoid()}
+              type="button"
+              onClick={() => addToActive(item)}
+            >
+              {item}
+            </StyledSearchResult>
+          ))}
+        </section>
         <label htmlFor="newNotes">Notes: </label>
         <textarea name="newNotes" id="newNotes" />
         <button type="submit">Submit</button>
@@ -88,24 +99,48 @@ export default function CreateGuest({ onHandleSubmit }) {
 }
 
 const StyledForm = styled.form`
-  margin-top: 10px;
   input {
     display: block;
     margin: 10px auto;
   }
 
+  label {
+    display: block;
+    margin-top: 20px;
+
+    &:first-of-type {
+      margin-top: 10px;
+    }
+  }
+
   textarea {
     display: block;
-    margin: 10px auto;
+    margin: 10px auto 20px auto;
   }
 `;
 
-export const StyledList = styled.ul`
-  margin: 10px auto;
-  list-style-type: "-";
-  padding: 0;
+export const StyledActiveIntolerance = styled.button`
+  background-color: var(--primary-color);
+  margin-bottom: 5px;
+  margin-right: 5px;
+  padding: 8px;
+  border: unset;
+  border-radius: 35px;
 
-  li {
-    width: auto;
+  &:hover {
+    cursor: pointer;
+  }
+`;
+
+export const StyledSearchResult = styled.button`
+  background-color: var(--secondary-color);
+  margin-bottom: 10px;
+  margin-right: 5px;
+  padding: 8px;
+  border: unset;
+  border-radius: 35px;
+
+  &:hover {
+    cursor: pointer;
   }
 `;

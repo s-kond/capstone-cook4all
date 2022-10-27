@@ -21,7 +21,8 @@ const GlobalStyle = createGlobalStyle`
   * {
     box-sizing: border-box;
     margin: 0;
-    --header-color-bg: #dcedc1;
+    --primary-color: #dcedc1;
+    --secondary-color: #FFD3B6;
   }
 
   body {
