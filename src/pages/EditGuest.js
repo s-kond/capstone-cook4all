@@ -6,6 +6,7 @@ import { UserContext } from "../util/UserContext";
 import { useContext, useState, useRef } from "react";
 import { search } from "fast-fuzzy";
 import { possibleIntolerances } from "../assets/data";
+import { nanoid } from "nanoid";
 
 export default function EditGuest({ onHandleEditSubmit }) {
   const navigate = useNavigate();
@@ -16,6 +17,7 @@ export default function EditGuest({ onHandleEditSubmit }) {
   const [filteredIntolerance, setFilteredIntolerance] = useState([]);
   const [activeEditList, setActiveEditList] = useState(intolerances);
   const intolerancesRef = useRef();
+  const [editedIntolerances, setEditedIntolerances] = useState([]);
 
   function onSubmit(event) {
     event.preventDefault();
@@ -30,8 +32,21 @@ export default function EditGuest({ onHandleEditSubmit }) {
     }
   }
 
+  function compareArrays(userIntolerances, allPossibleIntolerances) {
+    let editedPossibleIntolerances = [];
+    for (let i = 0; i < allPossibleIntolerances.length; i++) {
+      if (userIntolerances.includes(allPossibleIntolerances[i])) {
+        continue;
+      } else {
+        editedPossibleIntolerances.push(allPossibleIntolerances[i]);
+      }
+    }
+    setEditedIntolerances(editedPossibleIntolerances);
+  }
+
   function searchIntolerance(input) {
-    const results = search(input, possibleIntolerances).slice(0, 3);
+    compareArrays(activeEditList, possibleIntolerances);
+    const results = search(input, editedIntolerances).slice(0, 3);
     setFilteredIntolerance(results);
   }
 
@@ -46,6 +61,7 @@ export default function EditGuest({ onHandleEditSubmit }) {
   function removeFromActive(intolerance) {
     setFilteredIntolerance([...filteredIntolerance, intolerance]);
     setActiveEditList(activeEditList.filter((item) => item !== intolerance));
+    setEditedIntolerances([intolerance, ...editedIntolerances]);
   }
 
   return (
@@ -64,10 +80,10 @@ export default function EditGuest({ onHandleEditSubmit }) {
           defaultValue={name}
           required
         />
-        <label htmlFor="newIntolerances">Intolerances:</label>
+        <label htmlFor="newIntolerances">Food should be:</label>
         <StyledList>
           {activeEditList.map((item) => (
-            <li>
+            <li key={nanoid()}>
               <button type="button" onClick={() => removeFromActive(item)}>
                 {item}
               </button>
@@ -83,7 +99,11 @@ export default function EditGuest({ onHandleEditSubmit }) {
         />
         <div>
           {filteredIntolerance.map((item) => (
-            <button type="button" onClick={() => addToActive(item)}>
+            <button
+              key={nanoid()}
+              type="button"
+              onClick={() => addToActive(item)}
+            >
               {item}
             </button>
           ))}
@@ -91,7 +111,7 @@ export default function EditGuest({ onHandleEditSubmit }) {
         <label htmlFor="newNotes">Notes: </label>
         <textarea name="newNotes" id="newNotes" defaultValue={notes}></textarea>
         <button type="submit">Submit</button>
-        <button onClick={() => navigate("/")}>Back</button>
+        <button onClick={() => navigate(`/details/${id}`)}>Back</button>
       </StyledForm>
     </>
   );

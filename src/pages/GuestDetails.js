@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { UserContext } from "../util/UserContext";
 import { StyledHeader } from "./Home";
 import styled from "styled-components";
+import { nanoid } from "nanoid";
 
 export default function GuestDetails({ onDelete }) {
   const navigate = useNavigate();
@@ -24,7 +25,7 @@ export default function GuestDetails({ onDelete }) {
         <h3>Food should be:</h3>
         <StyledList>
           {intolerances.map((item) => (
-            <li>{item}</li>
+            <li key={nanoid()}>{item}</li>
           ))}
         </StyledList>
         <h3>Further Notes:</h3>
