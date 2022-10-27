@@ -25,22 +25,32 @@ export default function CreateGuest({ onHandleSubmit }) {
     }
   }
 
+  function compareArrays(userIntolerances, allPossibleIntolerances) {
+    let editedPossibleIntolerances = [];
+    for (let i = 0; i < allPossibleIntolerances.length; i++) {
+      if (userIntolerances.includes(allPossibleIntolerances[i])) {
+        continue;
+      } else {
+        editedPossibleIntolerances.push(allPossibleIntolerances[i]);
+      }
+    }
+    return editedPossibleIntolerances;
+  }
+
   function searchIntolerance(input) {
     const results = search(input, possibleIntolerances).slice(0, 3);
-    setFilteredIntolerance(results);
+    const comparedResults = compareArrays(activeList, results);
+    setFilteredIntolerance(comparedResults);
   }
 
   function addToActive(intolerance) {
     setActiveList([...activeList, intolerance]);
-    setFilteredIntolerance(
-      filteredIntolerance.filter((item) => item !== intolerance)
-    );
+    setFilteredIntolerance([]);
     intolerancesRef.current.value = "";
     intolerancesRef.current.focus();
   }
 
   function removeFromActive(intolerance) {
-    setFilteredIntolerance([...filteredIntolerance, intolerance]);
     setActiveList(activeList.filter((item) => item !== intolerance));
   }
 
@@ -98,7 +108,7 @@ export default function CreateGuest({ onHandleSubmit }) {
   );
 }
 
-const StyledForm = styled.form`
+export const StyledForm = styled.form`
   input {
     display: block;
     margin: 10px auto;

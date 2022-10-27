@@ -1,7 +1,10 @@
 import { useNavigate, useParams } from "react-router-dom";
-import styled from "styled-components";
 import { StyledHeader } from "./Home";
-import { StyledActiveIntolerance, StyledSearchResult } from "./CreateGuest";
+import {
+  StyledActiveIntolerance,
+  StyledSearchResult,
+  StyledForm,
+} from "./CreateGuest";
 import { UserContext } from "../util/UserContext";
 import { useContext, useState, useRef } from "react";
 import { search } from "fast-fuzzy";
@@ -55,13 +58,19 @@ export default function EditGuest({ onHandleEditSubmit }) {
     setFilteredIntolerance(
       filteredIntolerance.filter((item) => item !== intolerance)
     );
+    setEditedIntolerances(
+      editedIntolerances.filter((item) => item !== intolerance)
+    );
     intolerancesRef.current.focus();
+    intolerancesRef.current.value = "";
   }
 
   function removeFromActive(intolerance) {
     setFilteredIntolerance([...filteredIntolerance, intolerance]);
     setActiveEditList(activeEditList.filter((item) => item !== intolerance));
     setEditedIntolerances([intolerance, ...editedIntolerances]);
+    intolerancesRef.current.focus();
+    intolerancesRef.current.value = "";
   }
 
   return (
@@ -118,16 +127,3 @@ export default function EditGuest({ onHandleEditSubmit }) {
     </>
   );
 }
-
-const StyledForm = styled.form`
-  margin-top: 10px;
-  input {
-    display: block;
-    margin: 10px auto;
-  }
-
-  textarea {
-    display: block;
-    margin: 10px auto;
-  }
-`;
