@@ -1,16 +1,12 @@
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { useState, useRef } from "react";
-import { search } from "fast-fuzzy";
-import { possibleIntolerances } from "../assets/data";
-import compareArrays from "../util/CompareArrays";
+import { useState } from "react";
 import { StyledHeader } from "./Home";
+import SearchIntolerances from "../components/SearchIntolerances";
 
 export default function CreateGuest({ onHandleSubmit }) {
   const navigate = useNavigate();
-  const [filteredIntolerance, setFilteredIntolerance] = useState([]);
   const [activeList, setActiveList] = useState([]);
-  const intolerancesRef = useRef();
 
   function onSubmit(event) {
     event.preventDefault();
@@ -23,26 +19,6 @@ export default function CreateGuest({ onHandleSubmit }) {
       onHandleSubmit(newName.value, newNotes.value, activeList);
       navigate("/");
     }
-  }
-
-  function searchIntolerance(input) {
-    const results = search(input, possibleIntolerances, {
-      keySelector: (obj) => obj.name,
-    }).slice(0, 3);
-    setFilteredIntolerance(compareArrays(activeList, results));
-  }
-
-  function addToActive(intolerance) {
-    setActiveList([...activeList, intolerance]);
-    setFilteredIntolerance([]);
-    intolerancesRef.current.value = "";
-    intolerancesRef.current.focus();
-  }
-
-  function removeFromActive(intolerance) {
-    setActiveList(activeList.filter((item) => item !== intolerance));
-    intolerancesRef.current.value = "";
-    intolerancesRef.current.focus();
   }
 
   return (
@@ -59,37 +35,11 @@ export default function CreateGuest({ onHandleSubmit }) {
           maxLength={40}
           required
         />
-        <label htmlFor="newIntolerances">Food should be:</label>
-        <input
-          name="newIntolerances"
-          id="newIntolerances"
-          type="text"
-          placeholder="e.g. fish-free"
-          ref={intolerancesRef}
-          onChange={(event) => searchIntolerance(event.target.value)}
+        <SearchIntolerances
+          completelyNewSearch={true}
+          activeList={activeList}
+          setActiveList={setActiveList}
         />
-        <section>
-          {activeList.map((item) => (
-            <StyledActiveIntolerance
-              key={item.id}
-              type="button"
-              onClick={() => removeFromActive(item)}
-            >
-              {item.name} x
-            </StyledActiveIntolerance>
-          ))}
-        </section>
-        <section>
-          {filteredIntolerance.map((item) => (
-            <StyledSearchResult
-              key={item.id}
-              type="button"
-              onClick={() => addToActive(item)}
-            >
-              + {item.name}
-            </StyledSearchResult>
-          ))}
-        </section>
         <label htmlFor="newNotes">Notes: </label>
         <textarea name="newNotes" id="newNotes" />
         <button type="submit">Submit</button>
@@ -117,31 +67,5 @@ export const StyledForm = styled.form`
   textarea {
     display: block;
     margin: 10px auto 20px auto;
-  }
-`;
-
-export const StyledActiveIntolerance = styled.button`
-  background-color: var(--primary-color);
-  margin-bottom: 5px;
-  margin-right: 5px;
-  padding: 8px;
-  border: unset;
-  border-radius: 35px;
-
-  &:hover {
-    cursor: pointer;
-  }
-`;
-
-export const StyledSearchResult = styled.button`
-  background-color: var(--secondary-color);
-  margin-bottom: 10px;
-  margin-right: 5px;
-  padding: 8px;
-  border: unset;
-  border-radius: 35px;
-
-  &:hover {
-    cursor: pointer;
   }
 `;

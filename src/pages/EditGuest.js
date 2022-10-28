@@ -1,15 +1,9 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { StyledHeader } from "./Home";
-import {
-  StyledActiveIntolerance,
-  StyledSearchResult,
-  StyledForm,
-} from "./CreateGuest";
+import { StyledForm } from "./CreateGuest";
+import SearchIntolerances from "../components/SearchIntolerances";
 import { UserContext } from "../util/UserContext";
-import { useContext, useState, useRef } from "react";
-import { search } from "fast-fuzzy";
-import { possibleIntolerances } from "../assets/data";
-import compareArrays from "../util/CompareArrays";
+import { useContext, useState } from "react";
 
 export default function EditGuest({ onHandleEditSubmit }) {
   const navigate = useNavigate();
@@ -17,10 +11,7 @@ export default function EditGuest({ onHandleEditSubmit }) {
   const { id } = useParams();
   const guestDetails = guestArray.filter((guest) => guest.id === id);
   const { name, intolerances, notes } = guestDetails[0];
-  const [filteredIntolerance, setFilteredIntolerance] = useState([]);
   const [activeEditList, setActiveEditList] = useState(intolerances);
-  const intolerancesRef = useRef();
-  const [editedIntolerances, setEditedIntolerances] = useState([]);
 
   function onSubmit(event) {
     event.preventDefault();
@@ -33,36 +24,6 @@ export default function EditGuest({ onHandleEditSubmit }) {
       onHandleEditSubmit(id, newName.value, activeEditList, newNotes.value);
       navigate("/");
     }
-  }
-
-  function searchIntolerance(input) {
-    setEditedIntolerances(compareArrays(activeEditList, possibleIntolerances));
-    const results = search(input, editedIntolerances, {
-      keySelector: (obj) => obj.name,
-    }).slice(0, 3);
-    setFilteredIntolerance(results);
-  }
-
-  function addToActive(intolerance) {
-    setActiveEditList([...activeEditList, intolerance]);
-    setFilteredIntolerance(
-      filteredIntolerance.filter((item) => item.id !== intolerance.id)
-    );
-    setEditedIntolerances(
-      editedIntolerances.filter((item) => item.id !== intolerance.id)
-    );
-    intolerancesRef.current.focus();
-    intolerancesRef.current.value = "";
-  }
-
-  function removeFromActive(intolerance) {
-    setFilteredIntolerance([...filteredIntolerance, intolerance]);
-    setActiveEditList(
-      activeEditList.filter((item) => item.id !== intolerance.id)
-    );
-    setEditedIntolerances([intolerance, ...editedIntolerances]);
-    intolerancesRef.current.focus();
-    intolerancesRef.current.value = "";
   }
 
   return (
@@ -81,36 +42,11 @@ export default function EditGuest({ onHandleEditSubmit }) {
           defaultValue={name}
           required
         />
-        <label htmlFor="newIntolerances">Food should be:</label>
-        <input
-          name="newIntolerances"
-          id="newIntolerances"
-          type="text"
-          ref={intolerancesRef}
-          onChange={(event) => searchIntolerance(event.target.value)}
+        <SearchIntolerances
+          completelyNewSearch={false}
+          activeList={activeEditList}
+          setActiveList={setActiveEditList}
         />
-        <section>
-          {activeEditList.map((item) => (
-            <StyledActiveIntolerance
-              key={item.id}
-              type="button"
-              onClick={() => removeFromActive(item)}
-            >
-              {item.name} x
-            </StyledActiveIntolerance>
-          ))}
-        </section>
-        <section>
-          {filteredIntolerance.map((item) => (
-            <StyledSearchResult
-              key={item.id}
-              type="button"
-              onClick={() => addToActive(item)}
-            >
-              + {item.name}
-            </StyledSearchResult>
-          ))}
-        </section>
         <label htmlFor="newNotes">Notes: </label>
         <textarea name="newNotes" id="newNotes" defaultValue={notes}></textarea>
         <button type="submit">Submit</button>
