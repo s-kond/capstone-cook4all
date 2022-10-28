@@ -1,5 +1,10 @@
-//a function to compare two arrays with objects ->
-//array1 (userIntolerances) containing objects that should be deleted from array2 (allPossibleIntolerances)
+/**
+ * Returns a filtered array ('allPossibleIntolerances' minus 'userIntolerances').
+ *
+ * @param {array} userIntolerances An array containing objects with an id.
+ * @param {array} allPossibleIntolerances A second array containing objects with an id including those from userIntolerances.
+ * @return {array} returns an array with the allPossibleIntolerances-objects minus the userIntolerances-objects.
+ */
 
 const compareArrays = (userIntolerances, allPossibleIntolerances) =>
   allPossibleIntolerances.filter(

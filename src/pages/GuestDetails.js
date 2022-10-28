@@ -38,6 +38,7 @@ export default function GuestDetails({ onDelete }) {
 
 const StyledNotes = styled.p`
   margin: 10px auto;
+  word-wrap: break-word;
 `;
 
 const StyledSection = styled.section`

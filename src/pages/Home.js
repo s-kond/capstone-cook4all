@@ -10,7 +10,7 @@ export default function Home({ data }) {
   return (
     <>
       <StyledHeader>
-        <h1>Cook4All</h1>
+        <h1>cook4all</h1>
       </StyledHeader>
       <main>
         <h2>Welcome!</h2>
