@@ -1,15 +1,17 @@
 import { useNavigate, useParams } from "react-router-dom";
-import styled from "styled-components";
 import { StyledHeader } from "./Home";
+import { StyledForm } from "./CreateGuest";
+import SearchIntolerances from "../components/SearchIntolerances";
 import { UserContext } from "../util/UserContext";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 
-export default function EditGuest({ guestData, onHandleEditSubmit }) {
+export default function EditGuest({ onHandleEditSubmit }) {
   const navigate = useNavigate();
   const { guestArray } = useContext(UserContext);
   const { id } = useParams();
   const guestDetails = guestArray.filter((guest) => guest.id === id);
-  const { name, notes } = guestDetails[0];
+  const { name, intolerances, notes } = guestDetails[0];
+  const [activeEditList, setActiveEditList] = useState(intolerances);
 
   function onSubmit(event) {
     event.preventDefault();
@@ -19,7 +21,7 @@ export default function EditGuest({ guestData, onHandleEditSubmit }) {
       newName.value = "";
       alert("Each name must have one letter at least.");
     } else {
-      onHandleEditSubmit(id, newName.value, newNotes.value);
+      onHandleEditSubmit(id, newName.value, activeEditList, newNotes.value);
       navigate("/");
     }
   }
@@ -40,24 +42,16 @@ export default function EditGuest({ guestData, onHandleEditSubmit }) {
           defaultValue={name}
           required
         />
+        <SearchIntolerances
+          completelyNewSearch={false}
+          activeList={activeEditList}
+          setActiveList={setActiveEditList}
+        />
         <label htmlFor="newNotes">Notes: </label>
         <textarea name="newNotes" id="newNotes" defaultValue={notes}></textarea>
         <button type="submit">Submit</button>
-        <button onClick={() => navigate("/")}>Back</button>
+        <button onClick={() => navigate(`/details/${id}`)}>Back</button>
       </StyledForm>
     </>
   );
 }
-
-const StyledForm = styled.form`
-  margin-top: 10px;
-  input {
-    display: block;
-    margin: 10px auto;
-  }
-
-  textarea {
-    display: block;
-    margin: 10px auto;
-  }
-`;

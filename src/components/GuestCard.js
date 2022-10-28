@@ -27,6 +27,7 @@ const StyledArticle = styled.article`
   p {
     display: inline;
     margin-left: 20px;
+    word-wrap: break-word;
   }
 
   input {

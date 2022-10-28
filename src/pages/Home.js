@@ -10,7 +10,7 @@ export default function Home({ data }) {
   return (
     <>
       <StyledHeader>
-        <h1>Cook4All</h1>
+        <h1>cook4all</h1>
       </StyledHeader>
       <main>
         <h2>Welcome!</h2>
@@ -31,7 +31,7 @@ export default function Home({ data }) {
 }
 
 export const StyledHeader = styled.header`
-  background-color: var(--header-color-bg);
+  background-color: var(--primary-color);
   font-family: var(--header-font);
   font-size: 2rem;
   height: 90px;
