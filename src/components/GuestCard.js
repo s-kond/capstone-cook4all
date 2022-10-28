@@ -6,7 +6,7 @@ export default function GuestCard({ personalData }) {
   const navigate = useNavigate();
   return (
     <StyledArticle>
-      <input type="checkbox" />
+      <input type="checkbox" id={name} name="name" value={name} />
       <p>{name}</p>
       <button onClick={() => navigate(`/details/${id}`)}>details</button>
     </StyledArticle>

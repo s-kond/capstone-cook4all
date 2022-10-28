@@ -4,9 +4,19 @@ import GuestCard from "../components/GuestCard";
 import { useContext } from "react";
 import { UserContext } from "../util/UserContext";
 
-export default function Home({ data }) {
+export default function Home({ handleSubmit }) {
   const navigate = useNavigate();
   const { guestArray } = useContext(UserContext);
+
+  function onSubmit(event) {
+    event.preventDefault();
+    const form = event.target;
+    console.log(form.elements);
+    const { Anna } = form.elements;
+    console.log(Anna);
+    handleSubmit();
+  }
+
   return (
     <>
       <StyledHeader>
@@ -19,12 +29,15 @@ export default function Home({ data }) {
             ? "Who do you want to cook for today?"
             : "Nobody here... Start by clicking + and add new guests!"}
         </WelcomeMessage>
-        <section>
+        <form onSubmit={onSubmit}>
           {guestArray.map((guest) => {
             return <GuestCard key={guest.id} personalData={guest} />;
           })}
-        </section>
-        <button onClick={() => navigate("/create-guest")}>+</button>
+          <button type="button" onClick={() => navigate("/create-guest")}>
+            +
+          </button>
+          <StyledSubmitButton type="submit">Show recipes</StyledSubmitButton>
+        </form>
       </main>
     </>
   );
@@ -42,5 +55,10 @@ export const StyledHeader = styled.header`
 `;
 
 const WelcomeMessage = styled.p`
+  margin: 20px auto;
+`;
+
+const StyledSubmitButton = styled.button`
+  display: block;
   margin: 20px auto;
 `;

@@ -19,12 +19,14 @@ const testArray = [
       { id: 10, name: "gluten-free" },
     ],
     notes: "Likes his coffee black",
+    checked: false,
   },
   {
     id: nanoid(),
     name: "Anna",
     intolerances: [{ id: 14, name: "kosher" }],
     notes: "Doesn't like cucumber.",
+    checked: false,
   },
 ];
 
@@ -40,13 +42,19 @@ function App() {
     setStoredValue(guestArray);
   }, [guestArray]);
 
-  function createGuest(newName, newNotes, intolerancesArray) {
+  function setRecipeFilter() {
+    console.log("works");
+  }
+
+  //Basic CRUD-Operations, used on CreateGuest.js and EditGuest.js
+  function createGuest(newName, intolerancesArray, newNotes) {
     setGuestArray([
       {
         id: nanoid(),
         name: newName,
         intolerances: intolerancesArray,
         notes: newNotes,
+        checked: false,
       },
       ...guestArray,
     ]);
@@ -58,24 +66,26 @@ function App() {
   }
 
   function editGuest(guestId, newName, newIntolerances, newNotes) {
-    let editedArray = guestArray.map((guest) =>
-      guest.id === guestId
-        ? {
-            ...guest,
-            name: newName,
-            intolerances: newIntolerances,
-            notes: newNotes,
-          }
-        : guest
+    setGuestArray(
+      guestArray.map((guest) =>
+        guest.id === guestId
+          ? {
+              ...guest,
+              name: newName,
+              intolerances: newIntolerances,
+              notes: newNotes,
+              checked: false,
+            }
+          : guest
+      )
     );
-    setGuestArray(editedArray);
   }
 
   return (
     <UserContext.Provider value={{ guestArray }}>
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route index element={<Home />} />
+          <Route index element={<Home handleSubmit={setRecipeFilter} />} />
           <Route
             path="create-guest"
             element={<CreateGuest onHandleSubmit={createGuest} />}
