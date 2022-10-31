@@ -75,7 +75,7 @@ function App() {
               name: newName,
               intolerances: newIntolerances,
               notes: newNotes,
-              checked: false,
+              selected: false,
             }
           : guest
       )
