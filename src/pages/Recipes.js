@@ -6,9 +6,9 @@ import styled from "styled-components";
 
 export default function Recipes() {
   const navigate = useNavigate();
-  const { guestArray } = useContext(UserContext);
+  const { guestArray, setGuestArray } = useContext(UserContext);
   const selectedGuests = guestArray.filter((guest) => guest.selected);
-  const intolerances = getIntolerances();
+  let intolerances = getIntolerances();
 
   function getIntolerances() {
     let intolerancesObjects = [];
@@ -27,17 +27,37 @@ export default function Recipes() {
       }, []);
     return intolerancesNames;
   }
+
+  function unselectGuest(id) {
+    setGuestArray(
+      guestArray.map((guest) =>
+        guest.id === id
+          ? {
+              ...guest,
+              selected: false,
+            }
+          : guest
+      )
+    );
+    intolerances = getIntolerances();
+  }
+
   return (
     <>
       <StyledHeader>
         <h2>Recipes</h2>
       </StyledHeader>
       <StyledSubheader>For</StyledSubheader>
-      <div>
+      <section>
         {selectedGuests.map((guest) => (
-          <StyledP key={guest.id}> {guest.name}</StyledP>
+          <StyledGuestButton
+            key={guest.id}
+            onClick={() => unselectGuest(guest.id)}
+          >
+            x {guest.name}
+          </StyledGuestButton>
         ))}
-      </div>
+      </section>
       <StyledSubheader>Food should be:</StyledSubheader>
       <StyledSection>
         {intolerances.map((item) => (
@@ -49,12 +69,18 @@ export default function Recipes() {
   );
 }
 
-const StyledP = styled.p`
+const StyledGuestButton = styled.p`
   display: inline;
-  background-color: var(--primary-color);
+  background-color: transparent;
   padding: 10px;
   margin: 10px;
+  border: 1px solid black;
   border-radius: 15px;
+
+  &:hover {
+    cursor: pointer;
+    background-color: rgba(236, 236, 236, 0.78);
+  }
 `;
 
 const StyledSubheader = styled.h3`
