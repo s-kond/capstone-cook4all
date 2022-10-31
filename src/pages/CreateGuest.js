@@ -16,7 +16,7 @@ export default function CreateGuest({ onHandleSubmit }) {
       newName.value = "";
       alert("Each name must have one letter at least.");
     } else {
-      onHandleSubmit(newName.value, newNotes.value, activeList);
+      onHandleSubmit(newName.value, activeList, newNotes.value);
       navigate("/");
     }
   }

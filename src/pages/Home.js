@@ -4,9 +4,10 @@ import GuestCard from "../components/GuestCard";
 import { useContext } from "react";
 import { UserContext } from "../util/UserContext";
 
-export default function Home({ data }) {
+export default function Home() {
   const navigate = useNavigate();
   const { guestArray } = useContext(UserContext);
+
   return (
     <>
       <StyledHeader>
@@ -24,7 +25,10 @@ export default function Home({ data }) {
             return <GuestCard key={guest.id} personalData={guest} />;
           })}
         </section>
-        <button onClick={() => navigate("/create-guest")}>+</button>
+        <button type="button" onClick={() => navigate("/create-guest")}>
+          +
+        </button>
+        <button onClick={() => navigate("/recipes")}>To recipes</button>
       </main>
     </>
   );

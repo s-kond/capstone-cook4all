@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import GuestDetails from "./pages/GuestDetails";
 import { UserContext } from "./util/UserContext";
 import useLocalStorage from "./hooks/useLocalStorage";
+import Recipes from "./pages/Recipes";
 
 const testArray = [
   {
@@ -19,12 +20,14 @@ const testArray = [
       { id: 10, name: "gluten-free" },
     ],
     notes: "Likes his coffee black",
+    selected: false,
   },
   {
     id: nanoid(),
     name: "Anna",
     intolerances: [{ id: 14, name: "kosher" }],
     notes: "Doesn't like cucumber.",
+    selected: false,
   },
 ];
 
@@ -40,13 +43,15 @@ function App() {
     setStoredValue(guestArray);
   }, [guestArray]);
 
-  function createGuest(newName, newNotes, intolerancesArray) {
+  //Basic CRUD-Operations, used on CreateGuest.js and EditGuest.js
+  function createGuest(newName, intolerancesArray, newNotes) {
     setGuestArray([
       {
         id: nanoid(),
         name: newName,
         intolerances: intolerancesArray,
         notes: newNotes,
+        selected: false,
       },
       ...guestArray,
     ]);
@@ -58,24 +63,32 @@ function App() {
   }
 
   function editGuest(guestId, newName, newIntolerances, newNotes) {
-    let editedArray = guestArray.map((guest) =>
-      guest.id === guestId
-        ? {
-            ...guest,
-            name: newName,
-            intolerances: newIntolerances,
-            notes: newNotes,
-          }
-        : guest
+    setGuestArray(
+      guestArray.map((guest) =>
+        guest.id === guestId
+          ? {
+              ...guest,
+              name: newName,
+              intolerances: newIntolerances,
+              notes: newNotes,
+              selected: false,
+            }
+          : guest
+      )
     );
-    setGuestArray(editedArray);
   }
 
   return (
-    <UserContext.Provider value={{ guestArray }}>
+    <UserContext.Provider
+      value={{
+        guestArray,
+        setGuestArray,
+      }}
+    >
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
+          <Route path="recipes" element={<Recipes />} />
           <Route
             path="create-guest"
             element={<CreateGuest onHandleSubmit={createGuest} />}
