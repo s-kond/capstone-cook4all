@@ -47,7 +47,11 @@ export default function Recipes() {
       <StyledHeader>
         <h2>Recipes</h2>
       </StyledHeader>
-      <StyledSubheader>For</StyledSubheader>
+      <StyledSubheader>
+        {intolerances.length > 0
+          ? "For"
+          : "Go to your guestlist and choose guests you want to cook for!"}
+      </StyledSubheader>
       <section>
         {selectedGuests.map((guest) => (
           <StyledGuestButton
@@ -58,7 +62,9 @@ export default function Recipes() {
           </StyledGuestButton>
         ))}
       </section>
-      <StyledSubheader>Food should be:</StyledSubheader>
+      <StyledSubheader>
+        {intolerances.length > 0 ? "Food should be:" : ""}
+      </StyledSubheader>
       <StyledSection>
         {intolerances.map((item) => (
           <span key={item}> {item}</span>
@@ -84,7 +90,11 @@ const StyledGuestButton = styled.p`
 `;
 
 const StyledSubheader = styled.h3`
-  margin: 20px auto 10px auto;
+  margin: 20px auto;
+
+  &:last-of-type {
+    margin: 30px auto 10px auto;
+  }
 `;
 
 const StyledSection = styled.section`
