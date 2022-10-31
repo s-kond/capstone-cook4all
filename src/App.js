@@ -43,10 +43,6 @@ function App() {
     setStoredValue(guestArray);
   }, [guestArray]);
 
-  function setRecipeFilter() {
-    console.log("works");
-  }
-
   //Basic CRUD-Operations, used on CreateGuest.js and EditGuest.js
   function createGuest(newName, intolerancesArray, newNotes) {
     setGuestArray([
@@ -91,7 +87,7 @@ function App() {
     >
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route index element={<Home handleSubmit={setRecipeFilter} />} />
+          <Route index element={<Home />} />
           <Route path="recipes" element={<Recipes />} />
           <Route
             path="create-guest"
