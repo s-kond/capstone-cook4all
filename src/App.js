@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import GuestDetails from "./pages/GuestDetails";
 import { UserContext } from "./util/UserContext";
 import useLocalStorage from "./hooks/useLocalStorage";
+import Recipes from "./pages/Recipes";
 
 const testArray = [
   {
@@ -19,14 +20,14 @@ const testArray = [
       { id: 10, name: "gluten-free" },
     ],
     notes: "Likes his coffee black",
-    checked: false,
+    selected: false,
   },
   {
     id: nanoid(),
     name: "Anna",
     intolerances: [{ id: 14, name: "kosher" }],
     notes: "Doesn't like cucumber.",
-    checked: false,
+    selected: false,
   },
 ];
 
@@ -54,7 +55,7 @@ function App() {
         name: newName,
         intolerances: intolerancesArray,
         notes: newNotes,
-        checked: false,
+        selected: false,
       },
       ...guestArray,
     ]);
@@ -82,10 +83,16 @@ function App() {
   }
 
   return (
-    <UserContext.Provider value={{ guestArray }}>
+    <UserContext.Provider
+      value={{
+        guestArray,
+        setGuestArray,
+      }}
+    >
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home handleSubmit={setRecipeFilter} />} />
+          <Route path="recipes" element={<Recipes />} />
           <Route
             path="create-guest"
             element={<CreateGuest onHandleSubmit={createGuest} />}
