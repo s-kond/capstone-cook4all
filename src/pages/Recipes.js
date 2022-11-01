@@ -10,19 +10,17 @@ export default function Recipes() {
   const selectedGuests = guestArray.filter((guest) => guest.selected);
   let intolerances = getIntolerances();
   const [data, setData] = useState([]);
+  const API_KEY = process.env.REACT_APP_API_KEY;
 
   useEffect(() => {
     fetchData();
   }, []);
 
   async function fetchData() {
-    const url = `https://api.edamam.com/api/recipes/v2?type=public&q=pasta&app_id=93fe14fb&app_key=515cbd62c9864645af6de1076420bdb9${intolerances
-      .map((item) => `&health=${item}`)
-      .join("")}`;
-    console.log(url);
+    const healthParams = intolerances.map((item) => `&health=${item}`).join("");
+    const url = `https://api.edamam.com/api/recipes/v2?type=public&q=pasta&app_id=93fe14fb&app_key=${API_KEY}${healthParams}`;
     const response = await fetch(url);
     const data = await response.json();
-    console.log(data.hits);
     setData(data.hits);
   }
 
@@ -88,9 +86,9 @@ export default function Recipes() {
         ))}
       </StyledSection>
       <section>
-        {data.map((recipe) => {
-          return <RecipeCard recipeData={recipe} />;
-        })}
+        {data.map((recipe, index) => (
+          <RecipeCard key={index} recipeData={recipe} />
+        ))}
       </section>
       <NavBar />
     </>
