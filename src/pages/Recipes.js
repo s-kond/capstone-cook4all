@@ -1,11 +1,10 @@
 import { StyledHeader } from "./Home";
-import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { UserContext } from "../util/UserContext";
 import styled from "styled-components";
+import NavBar from "../components/NavBar";
 
 export default function Recipes() {
-  const navigate = useNavigate();
   const { guestArray, setGuestArray } = useContext(UserContext);
   const selectedGuests = guestArray.filter((guest) => guest.selected);
   let intolerances = getIntolerances();
@@ -70,7 +69,7 @@ export default function Recipes() {
           <span key={item}> {item}</span>
         ))}
       </StyledSection>
-      <button onClick={() => navigate("/")}>back</button>
+      <NavBar />
     </>
   );
 }

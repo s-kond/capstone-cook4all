@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import GuestCard from "../components/GuestCard";
 import { useContext } from "react";
 import { UserContext } from "../util/UserContext";
+import NavBar from "../components/NavBar";
+import addIcon from "../assets/icons/add-circle-20-regular.svg";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -25,11 +27,14 @@ export default function Home() {
             return <GuestCard key={guest.id} personalData={guest} />;
           })}
         </section>
-        <button type="button" onClick={() => navigate("/create-guest")}>
-          +
-        </button>
-        <button onClick={() => navigate("/recipes")}>To recipes</button>
+        <StyledAddButton
+          type="button"
+          onClick={() => navigate("/create-guest")}
+        >
+          <img src={addIcon} alt="Add guest" />
+        </StyledAddButton>
       </main>
+      <NavBar />
     </>
   );
 }
@@ -47,4 +52,16 @@ export const StyledHeader = styled.header`
 
 const WelcomeMessage = styled.p`
   margin: 20px auto;
+`;
+
+const StyledAddButton = styled.button`
+  background-color: transparent;
+  border: unset;
+
+  img {
+    &:hover {
+      transform: scale(1.2);
+      cursor: pointer;
+    }
+  }
 `;
