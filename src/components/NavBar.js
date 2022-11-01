@@ -20,7 +20,7 @@ const StyledNavBar = styled.nav`
   background-color: var(--primary-color);
   margin: 0 auto;
   width: 100%;
-  max-width: 450px;
+  max-width: 500px;
   min-width: 320px;
   display: flex;
   justify-content: space-around;
