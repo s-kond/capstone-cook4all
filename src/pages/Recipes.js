@@ -1,13 +1,30 @@
 import { StyledHeader } from "./Home";
-import { useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 import { UserContext } from "../util/UserContext";
 import styled from "styled-components";
 import NavBar from "../components/NavBar";
+import RecipeCard from "../components/RecipeCard";
 
 export default function Recipes() {
   const { guestArray, setGuestArray } = useContext(UserContext);
   const selectedGuests = guestArray.filter((guest) => guest.selected);
   let intolerances = getIntolerances();
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  async function fetchData() {
+    const url = `https://api.edamam.com/api/recipes/v2?type=public&q=pasta&app_id=93fe14fb&app_key=515cbd62c9864645af6de1076420bdb9${intolerances
+      .map((item) => `&health=${item}`)
+      .join("")}`;
+    console.log(url);
+    const response = await fetch(url);
+    const data = await response.json();
+    console.log(data.hits);
+    setData(data.hits);
+  }
 
   function getIntolerances() {
     let intolerancesObjects = [];
@@ -39,6 +56,7 @@ export default function Recipes() {
       )
     );
     intolerances = getIntolerances();
+    fetchData();
   }
 
   return (
@@ -69,6 +87,11 @@ export default function Recipes() {
           <span key={item}> {item}</span>
         ))}
       </StyledSection>
+      <section>
+        {data.map((recipe) => {
+          return <RecipeCard recipeData={recipe} />;
+        })}
+      </section>
       <NavBar />
     </>
   );
