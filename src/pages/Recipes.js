@@ -11,6 +11,7 @@ export default function Recipes() {
   let intolerances = getIntolerances();
   const [data, setData] = useState([]);
   const API_KEY = process.env.REACT_APP_API_KEY;
+  const API_ID = process.env.REACT_APP_API_ID;
 
   useEffect(() => {
     fetchData();
@@ -18,7 +19,7 @@ export default function Recipes() {
 
   async function fetchData() {
     const healthParams = intolerances.map((item) => `&health=${item}`).join("");
-    const url = `https://api.edamam.com/api/recipes/v2?type=public&q=pasta&app_id=93fe14fb&app_key=${API_KEY}${healthParams}`;
+    const url = `https://api.edamam.com/api/recipes/v2?type=public&q=pasta&app_id=${API_ID}&app_key=${API_KEY}${healthParams}`;
     const response = await fetch(url);
     const data = await response.json();
     setData(data.hits);
