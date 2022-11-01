@@ -1,14 +1,29 @@
 import { StyledHeader } from "./Home";
-import { useNavigate } from "react-router-dom";
-import { useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 import { UserContext } from "../util/UserContext";
 import styled from "styled-components";
+import NavBar from "../components/NavBar";
+import RecipeCard from "../components/RecipeCard";
 
 export default function Recipes() {
-  const navigate = useNavigate();
   const { guestArray, setGuestArray } = useContext(UserContext);
   const selectedGuests = guestArray.filter((guest) => guest.selected);
   let intolerances = getIntolerances();
+  const [data, setData] = useState([]);
+  const API_KEY = process.env.REACT_APP_API_KEY;
+  const API_ID = process.env.REACT_APP_API_ID;
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  async function fetchData() {
+    const healthParams = intolerances.map((item) => `&health=${item}`).join("");
+    const url = `https://api.edamam.com/api/recipes/v2?type=public&q=pasta&app_id=${API_ID}&app_key=${API_KEY}${healthParams}`;
+    const response = await fetch(url);
+    const data = await response.json();
+    setData(data.hits);
+  }
 
   function getIntolerances() {
     let intolerancesObjects = [];
@@ -40,6 +55,7 @@ export default function Recipes() {
       )
     );
     intolerances = getIntolerances();
+    fetchData();
   }
 
   return (
@@ -70,7 +86,12 @@ export default function Recipes() {
           <span key={item}> {item}</span>
         ))}
       </StyledSection>
-      <button onClick={() => navigate("/")}>back</button>
+      <section>
+        {data.map((recipe, index) => (
+          <RecipeCard key={index} recipeData={recipe} />
+        ))}
+      </section>
+      <NavBar />
     </>
   );
 }

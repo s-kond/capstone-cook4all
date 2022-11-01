@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { UserContext } from "../util/UserContext";
 import { StyledHeader } from "./Home";
 import styled from "styled-components";
+import editIcon from "../assets/icons/edit-line.svg";
 
 export default function GuestDetails({ onDelete }) {
   const navigate = useNavigate();
@@ -18,7 +19,7 @@ export default function GuestDetails({ onDelete }) {
       </StyledHeader>
       <StyledSection>
         <StyledEditButton onClick={() => navigate(`/edit-guest/${id}`)}>
-          Edit
+          <img src={editIcon} alt="edit guest" />
         </StyledEditButton>
         <StyledName>{name}</StyledName>
         <h3>Food should be:</h3>
@@ -45,6 +46,7 @@ const StyledSection = styled.section`
   text-align: left;
   position: relative;
   margin-bottom: 20px;
+  margin-left: 30px;
 `;
 
 const StyledName = styled.h2`
@@ -56,6 +58,12 @@ const StyledEditButton = styled.button`
   position: absolute;
   top: 0;
   right: 0;
+  background-color: transparent;
+  border: unset;
+  &:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+  }
 `;
 
 const StyledList = styled.ul`
