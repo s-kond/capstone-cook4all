@@ -14,6 +14,7 @@ export default function Layout() {
 const Container = styled.div`
   text-align: center;
   margin: 0 auto;
-  max-width: 450px;
+  width: 100vw;
+  max-width: 500px;
   min-width: 320px;
 `;
