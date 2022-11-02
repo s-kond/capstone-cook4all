@@ -1,25 +1,64 @@
 import styled from "styled-components";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import arrowRightIcon from "../assets/icons/ep_arrow-right.svg";
 import arrowDownIcon from "../assets/icons/ep_arrow-down.svg";
+import emptyHeartIcon from "../assets/icons/heart-outlined.svg";
+import filledHeartIcon from "../assets/icons/heart-filled.svg";
+import { UserContext } from "../util/UserContext";
 
 export default function RecipeCard({ recipeData }) {
-  const { label, image, totalTime, url, healthLabels, ingredients } =
+  const { label, image, totalTime, uri, url, healthLabels, ingredients } =
     recipeData.recipe;
+  const { favoriteArray, setFavoriteArray } = useContext(UserContext);
   const [moreInformation, toggleMoreInformation] = useState(false);
+  const [favorite, setFavorite] = useState();
 
-  function toggleInfo() {
-    toggleMoreInformation(!moreInformation);
+  useEffect(() => {
+    function recipeIsFavorite() {
+      if (
+        favoriteArray.some(
+          (favorite) => favorite.recipe.uri === recipeData.recipe.uri
+        )
+      ) {
+        setFavorite(true);
+      } else {
+        setFavorite(false);
+      }
+    }
+    recipeIsFavorite();
+  }, []);
+
+  function toggleState(state, setState) {
+    setState(!state);
+  }
+
+  function changeFavorite(id) {
+    if (!favorite) {
+      setFavoriteArray([...favoriteArray, recipeData]);
+    } else {
+      setFavoriteArray(
+        favoriteArray.filter((favorite) => favorite.recipe.uri !== id)
+      );
+    }
+    toggleState(favorite, setFavorite);
   }
 
   return (
     <StyledArticle>
       <h4>{label}</h4>
       <StyledImg src={image} height="250px" width="80%" alt="" />
-      <StyledInfoButton onClick={() => toggleInfo()}>
+      <StyledInfoButton
+        onClick={() => toggleState(moreInformation, toggleMoreInformation)}
+      >
         <img src={moreInformation ? arrowDownIcon : arrowRightIcon} alt="" />
         More information
       </StyledInfoButton>
+      <StyledFavoriteButton onClick={() => changeFavorite(uri)}>
+        <img
+          src={favorite ? filledHeartIcon : emptyHeartIcon}
+          alt="favorite button"
+        />
+      </StyledFavoriteButton>
       <StyledInfoSection
         style={moreInformation ? { display: "unset" } : { display: "none" }}
       >
@@ -41,6 +80,7 @@ export default function RecipeCard({ recipeData }) {
 }
 
 const StyledArticle = styled.article`
+  position: relative;
   padding: 20px;
   width: 80%;
   text-align: left;
@@ -68,6 +108,14 @@ const StyledArticle = styled.article`
   summary {
     margin-bottom: 10px;
   }
+`;
+
+const StyledFavoriteButton = styled.button`
+  position: absolute;
+  background-color: transparent;
+  border: unset;
+  top: 10px;
+  right: 10px;
 `;
 
 const StyledTime = styled.p`
