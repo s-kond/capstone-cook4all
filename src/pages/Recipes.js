@@ -1,5 +1,5 @@
 import { StyledHeader } from "./Home";
-import { useState, useEffect, useContext } from "react";
+import { useState, useContext } from "react";
 import { UserContext } from "../util/UserContext";
 import styled from "styled-components";
 import NavBar from "../components/NavBar";
@@ -10,19 +10,17 @@ export default function Recipes() {
   const selectedGuests = guestArray.filter((guest) => guest.selected);
   let intolerances = getIntolerances();
   const [data, setData] = useState([]);
+  const [availableData, setAvailableData] = useState(true);
   const API_KEY = process.env.REACT_APP_API_KEY;
   const API_ID = process.env.REACT_APP_API_ID;
 
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  async function fetchData() {
+  async function fetchData(searchInput) {
     const healthParams = intolerances.map((item) => `&health=${item}`).join("");
-    const url = `https://api.edamam.com/api/recipes/v2?type=public&q=pasta&app_id=${API_ID}&app_key=${API_KEY}${healthParams}`;
+    const url = `https://api.edamam.com/api/recipes/v2?type=public&q=${searchInput}&app_id=${API_ID}&app_key=${API_KEY}${healthParams}`;
     const response = await fetch(url);
     const data = await response.json();
     setData(data.hits);
+    setAvailableData(data.hits.length > 0 ? true : false);
   }
 
   function getIntolerances() {
@@ -55,7 +53,16 @@ export default function Recipes() {
       )
     );
     intolerances = getIntolerances();
-    fetchData();
+  }
+
+  function onSubmit(event) {
+    event.preventDefault();
+    setData([]);
+    const form = event.target;
+    const { recipeSearch } = form.elements;
+    fetchData(recipeSearch.value);
+    recipeSearch.value = "";
+    recipeSearch.focus();
   }
 
   return (
@@ -86,11 +93,28 @@ export default function Recipes() {
           <span key={item}> {item}</span>
         ))}
       </StyledSection>
-      <section>
+      <form onSubmit={(event) => onSubmit(event)}>
+        <RecipeSearchLabel htmlFor="recipeSearch">
+          So, what do you want to eat?
+        </RecipeSearchLabel>
+        <input
+          id="recipeSearch"
+          name="recipeSearch"
+          type="text"
+          placeholder="pasta"
+        />
+        <button type="submit">Search</button>
+      </form>
+      <StyledRecipeSection>
         {data.map((recipe, index) => (
           <RecipeCard key={index} recipeData={recipe} />
         ))}
-      </section>
+        <StyledSorryMessage
+          style={{ display: availableData ? "none" : "block" }}
+        >
+          Sorry, we couldn't find any recipes... <br /> Please try again!
+        </StyledSorryMessage>
+      </StyledRecipeSection>
       <NavBar />
     </>
   );
@@ -110,6 +134,12 @@ const StyledGuestButton = styled.p`
   }
 `;
 
+const RecipeSearchLabel = styled.label`
+  display: block;
+  margin: 20px auto 10px auto;
+  font-weight: bold;
+`;
+
 const StyledSubheader = styled.h3`
   margin: 20px auto;
 
@@ -123,4 +153,12 @@ const StyledSection = styled.section`
   span {
     margin: 10px;
   }
+`;
+
+const StyledRecipeSection = styled.section`
+  margin-bottom: 100px;
+`;
+
+const StyledSorryMessage = styled.p`
+  margin-top: 20px;
 `;
