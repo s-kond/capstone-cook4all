@@ -10,6 +10,7 @@ import GuestDetails from "./pages/GuestDetails";
 import { UserContext } from "./util/UserContext";
 import useLocalStorage from "./hooks/useLocalStorage";
 import Recipes from "./pages/Recipes";
+import FavoriteRecipes from "./pages/FavoriteRecipes";
 
 const testArray = [
   {
@@ -37,6 +38,7 @@ function App() {
     testArray
   );
   const [guestArray, setGuestArray] = useState(storedValue);
+  const [favoriteArray, setFavoriteArray] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -83,12 +85,15 @@ function App() {
       value={{
         guestArray,
         setGuestArray,
+        favoriteArray,
+        setFavoriteArray,
       }}
     >
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="recipes" element={<Recipes />} />
+          <Route path="favorites" element={<FavoriteRecipes />} />
           <Route
             path="create-guest"
             element={<CreateGuest onHandleSubmit={createGuest} />}
