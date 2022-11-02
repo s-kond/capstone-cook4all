@@ -33,17 +33,25 @@ const testArray = [
 ];
 
 function App() {
-  const [storedValue, setStoredValue] = useLocalStorage(
+  const [storedGuests, setStoredGuests] = useLocalStorage(
     "cookingGuestList",
     testArray
   );
-  const [guestArray, setGuestArray] = useState(storedValue);
-  const [favoriteArray, setFavoriteArray] = useState([]);
+  const [storedFavorites, setStoredFavorites] = useLocalStorage(
+    "favoriteRecipeList",
+    []
+  );
+  const [guestArray, setGuestArray] = useState(storedGuests);
+  const [favoriteArray, setFavoriteArray] = useState(storedFavorites);
   const navigate = useNavigate();
 
   useEffect(() => {
-    setStoredValue(guestArray);
+    setStoredGuests(guestArray);
   }, [guestArray]);
+
+  useEffect(() => {
+    setStoredFavorites(favoriteArray);
+  }, [favoriteArray]);
 
   //Basic CRUD-Operations, used on CreateGuest.js and EditGuest.js
   function createGuest(newName, intolerancesArray, newNotes) {
