@@ -26,13 +26,13 @@ export default function RecipeCard({ recipeData }) {
         <StyledTime>{totalTime === 0 ? "" : `~${totalTime}min`}</StyledTime>
         <ul>
           <p>Ingredients:</p>
-          {ingredients.map((ingredient) => (
-            <li>{ingredient.text}</li>
+          {ingredients.map((ingredient, index) => (
+            <li key={index}>{ingredient.text}</li>
           ))}
         </ul>
         <details>
           <summary>All considered intolerances etc.</summary>
-          <p>{healthLabels.map((label) => ` ${label},`)}</p>
+          <p>{healthLabels.map((label) => ` ${label}`).join(", ")}</p>
         </details>
         <a href={url}>See the whole recipe</a>
       </StyledInfoSection>
@@ -64,6 +64,9 @@ const StyledArticle = styled.article`
     &:hover {
       cursor: pointer;
     }
+  }
+  summary {
+    margin-bottom: 10px;
   }
 `;
 
