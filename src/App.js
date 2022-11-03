@@ -6,7 +6,6 @@ import ErrorPage from "./pages/ErrorPage";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import { nanoid } from "nanoid";
 import { useEffect, useState } from "react";
-import GuestDetails from "./pages/GuestDetails";
 import { UserContext } from "./util/UserContext";
 import useLocalStorage from "./hooks/useLocalStorage";
 import Recipes from "./pages/Recipes";
@@ -95,6 +94,7 @@ function App() {
         setGuestArray,
         favoriteArray,
         setFavoriteArray,
+        deleteGuest,
       }}
     >
       <Routes>
@@ -105,10 +105,6 @@ function App() {
           <Route
             path="create-guest"
             element={<CreateGuest onHandleSubmit={createGuest} />}
-          />
-          <Route
-            path="/details/:id"
-            element={<GuestDetails onDelete={deleteGuest} />}
           />
           <Route
             path="edit-guest/:id"

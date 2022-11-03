@@ -50,7 +50,7 @@ export default function EditGuest({ onHandleEditSubmit }) {
         <label htmlFor="newNotes">Notes: </label>
         <textarea name="newNotes" id="newNotes" defaultValue={notes}></textarea>
         <button type="submit">Submit</button>
-        <button onClick={() => navigate(`/details/${id}`)}>Back</button>
+        <button onClick={() => navigate(`/`)}>Back</button>
       </StyledForm>
     </>
   );
