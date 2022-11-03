@@ -45,8 +45,8 @@ export default function RecipeCard({ recipeData }) {
 
   return (
     <StyledArticle>
+      <StyledImg src={image} alt="" />
       <h4>{label}</h4>
-      <StyledImg src={image} height="250px" width="80%" alt="" />
       <StyledInfoButton
         onClick={() => toggleState(moreInformation, toggleMoreInformation)}
       >
@@ -56,6 +56,8 @@ export default function RecipeCard({ recipeData }) {
       <StyledFavoriteButton onClick={() => changeFavorite(uri)}>
         <img
           src={favorite ? filledHeartIcon : emptyHeartIcon}
+          height="50px"
+          width="50px"
           alt="favorite button"
         />
       </StyledFavoriteButton>
@@ -81,16 +83,16 @@ export default function RecipeCard({ recipeData }) {
 
 const StyledArticle = styled.article`
   position: relative;
-  padding: 20px;
   width: 80%;
   text-align: left;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  margin: 20px auto;
-  border: 1px solid black;
-  border-radius: 35px;
-  background-color: lightgrey;
+  margin: 50px auto;
+  padding-bottom: 10px;
+  box-shadow: 1px 2px 3px;
+  border-radius: 20px;
+  background-color: var(--secondary-color);
 
   h4 {
     align-self: left;
@@ -112,10 +114,16 @@ const StyledArticle = styled.article`
 
 const StyledFavoriteButton = styled.button`
   position: absolute;
-  background-color: transparent;
+  background-color: var(--secondary-color);
   border: unset;
+  border-radius: 20px;
+  padding-top: 5px;
   top: 10px;
   right: 10px;
+
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const StyledTime = styled.p`
@@ -138,9 +146,11 @@ const StyledInfoButton = styled.button`
 `;
 
 const StyledImg = styled.img`
-  margin: 10px 0;
+  margin: 0 0 10px 0;
   align-self: center;
   border-radius: 20px;
+  width: 100%;
+  height: 300px;
 `;
 
 const StyledInfoSection = styled.section`

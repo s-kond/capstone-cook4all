@@ -1,4 +1,5 @@
 import { useContext } from "react";
+import styled from "styled-components";
 import NavBar from "../components/NavBar";
 import RecipeCard from "../components/RecipeCard";
 import { UserContext } from "../util/UserContext";
@@ -11,13 +12,16 @@ export default function FavoriteRecipes() {
       <StyledHeader>
         <h2>Favorites</h2>
       </StyledHeader>
-      <h3>Under Construction</h3>
-      <section>
+      <StyledFavoriteSection>
         {favoriteArray.map((favorite) => (
           <RecipeCard key={favorite.recipe.uri} recipeData={favorite} />
         ))}
-      </section>
+      </StyledFavoriteSection>
       <NavBar />
     </>
   );
 }
+
+const StyledFavoriteSection = styled.section`
+  margin-bottom: 100px;
+`;

@@ -36,7 +36,7 @@ const StyledNavBar = styled.nav`
 `;
 
 const StyledNavLink = styled(NavLink)`
-  height: 60px;
+  height: 80px;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -45,7 +45,7 @@ const StyledNavLink = styled(NavLink)`
   text-decoration: none;
 
   &.active {
-    background-color: rgb(192, 218, 241);
+    background-color: var(--secondary-color);
   }
 
   p {
