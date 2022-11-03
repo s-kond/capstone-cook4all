@@ -53,9 +53,7 @@ export default function RecipeCard({ recipeData }) {
           alt="favorite button"
         />
       </StyledFavoriteButton>
-      <StyledInfoSection
-        style={moreInformation ? { display: "unset" } : { display: "none" }}
-      >
+      <StyledInfoSection moreInformation={moreInformation}>
         <StyledTime>{totalTime === 0 ? "" : `~${totalTime}min`}</StyledTime>
         <ul>
           <p>Ingredients:</p>
@@ -147,6 +145,7 @@ const StyledImg = styled.img`
 `;
 
 const StyledInfoSection = styled.section`
+  display: ${({ moreInformation }) => (moreInformation ? "unset" : "none")};
   margin: 10px 0;
   width: 100%;
 

@@ -11,7 +11,7 @@ import deleteIcon from "../assets/icons/delete-icon.svg";
 export default function GuestCard({ personalData }) {
   const { name, intolerances, notes, id, selected } = personalData;
   const { deleteGuest } = useContext(UserContext);
-  const [showGuestInfo, toggleShowGuestInfo] = useState(false);
+  const [showGuestInfo, setShowGuestInfo] = useState(false);
   const navigate = useNavigate();
 
   const { guestArray, setGuestArray } = useContext(UserContext);
@@ -41,27 +41,22 @@ export default function GuestCard({ personalData }) {
         </StyledCheckButton>
         <StyledName>{name}</StyledName>
         <StyledDetailsButton
-          onClick={() => toggleShowGuestInfo(!showGuestInfo)}
+          onClick={() => setShowGuestInfo(!showGuestInfo)}
+          showGuestInfo={showGuestInfo}
         >
-          <img
-            src={detailIcon}
-            alt="details"
-            style={{ transform: showGuestInfo ? "" : "rotate(90deg)" }}
-          />
+          <img src={detailIcon} alt="details" />
         </StyledDetailsButton>
       </StyledBasicSection>
-      <StyledGuestInfoSection
-        style={{ display: showGuestInfo ? "unset" : "none" }}
-      >
+      <StyledGuestInfoSection showGuestInfo={showGuestInfo}>
         <StyledInfoP>
-          {intolerances.length > 0 ? "Food should be:" : ""}
+          {intolerances.length > 0 && "Food should be:"}
         </StyledInfoP>
         <ul>
           {intolerances.map((item) => (
             <li key={item.id}>{item.name}</li>
           ))}
         </ul>
-        <StyledInfoP>{notes.length > 0 ? "Further Notes:" : ""}</StyledInfoP>
+        <StyledInfoP>{notes.length > 0 && "Further Notes:"}</StyledInfoP>
         <StyledNotes>{notes}</StyledNotes>
         <StyledButtonContainer>
           <StyledDeleteButton onClick={() => deleteGuest(id)}>
@@ -119,6 +114,10 @@ const StyledDetailsButton = styled.button`
   &:hover {
     transform: scale(1.2);
   }
+
+  img {
+    transform: ${({ showGuestInfo }) => showGuestInfo && "rotate(90deg)"};
+  }
 `;
 
 const StyledCheckButton = styled.button`
@@ -138,6 +137,7 @@ const StyledCheckButton = styled.button`
 const StyledGuestInfoSection = styled.section`
   padding-bottom: 20px;
   width: 100%;
+  display: ${({ showGuestInfo }) => (showGuestInfo ? "unset" : "none")};
 `;
 
 const StyledInfoP = styled.p`
