@@ -51,7 +51,7 @@ const StyledArticle = styled.article`
   margin: 10px auto;
   max-width: 80%;
   text-align: left;
-  background-color: var(--primary-color);
+  background-color: var(--secondary-color);
   border-radius: 35px;
 
   p {

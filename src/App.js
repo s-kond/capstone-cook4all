@@ -10,6 +10,7 @@ import GuestDetails from "./pages/GuestDetails";
 import { UserContext } from "./util/UserContext";
 import useLocalStorage from "./hooks/useLocalStorage";
 import Recipes from "./pages/Recipes";
+import FavoriteRecipes from "./pages/FavoriteRecipes";
 
 const testArray = [
   {
@@ -32,16 +33,25 @@ const testArray = [
 ];
 
 function App() {
-  const [storedValue, setStoredValue] = useLocalStorage(
+  const [storedGuests, setStoredGuests] = useLocalStorage(
     "cookingGuestList",
     testArray
   );
-  const [guestArray, setGuestArray] = useState(storedValue);
+  const [storedFavorites, setStoredFavorites] = useLocalStorage(
+    "favoriteRecipeList",
+    []
+  );
+  const [guestArray, setGuestArray] = useState(storedGuests);
+  const [favoriteArray, setFavoriteArray] = useState(storedFavorites);
   const navigate = useNavigate();
 
   useEffect(() => {
-    setStoredValue(guestArray);
+    setStoredGuests(guestArray);
   }, [guestArray]);
+
+  useEffect(() => {
+    setStoredFavorites(favoriteArray);
+  }, [favoriteArray]);
 
   //Basic CRUD-Operations, used on CreateGuest.js and EditGuest.js
   function createGuest(newName, intolerancesArray, newNotes) {
@@ -83,12 +93,15 @@ function App() {
       value={{
         guestArray,
         setGuestArray,
+        favoriteArray,
+        setFavoriteArray,
       }}
     >
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="recipes" element={<Recipes />} />
+          <Route path="favorites" element={<FavoriteRecipes />} />
           <Route
             path="create-guest"
             element={<CreateGuest onHandleSubmit={createGuest} />}

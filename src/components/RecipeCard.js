@@ -1,25 +1,58 @@
 import styled from "styled-components";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import arrowRightIcon from "../assets/icons/ep_arrow-right.svg";
 import arrowDownIcon from "../assets/icons/ep_arrow-down.svg";
+import emptyHeartIcon from "../assets/icons/heart-outlined.svg";
+import filledHeartIcon from "../assets/icons/heart-filled.svg";
+import { UserContext } from "../util/UserContext";
 
 export default function RecipeCard({ recipeData }) {
-  const { label, image, totalTime, url, healthLabels, ingredients } =
+  const { label, image, totalTime, uri, url, healthLabels, ingredients } =
     recipeData.recipe;
+  const { favoriteArray, setFavoriteArray } = useContext(UserContext);
   const [moreInformation, toggleMoreInformation] = useState(false);
+  const [favorite, setFavorite] = useState(false);
 
-  function toggleInfo() {
-    toggleMoreInformation(!moreInformation);
+  useEffect(() => {
+    function recipeIsFavorite() {
+      if (
+        favoriteArray.some(
+          (favorite) => favorite.recipe.uri === recipeData.recipe.uri
+        )
+      ) {
+        setFavorite(true);
+      }
+    }
+    recipeIsFavorite();
+  }, []);
+
+  function changeFavorite(id) {
+    if (!favorite) {
+      setFavoriteArray([...favoriteArray, recipeData]);
+    } else {
+      setFavoriteArray(
+        favoriteArray.filter((favorite) => favorite.recipe.uri !== id)
+      );
+    }
+    setFavorite(!favorite);
   }
 
   return (
     <StyledArticle>
+      <StyledImg src={image} alt="" />
       <h4>{label}</h4>
-      <StyledImg src={image} height="250px" width="80%" alt="" />
-      <StyledInfoButton onClick={() => toggleInfo()}>
+      <StyledInfoButton onClick={() => toggleMoreInformation(!moreInformation)}>
         <img src={moreInformation ? arrowDownIcon : arrowRightIcon} alt="" />
         More information
       </StyledInfoButton>
+      <StyledFavoriteButton onClick={() => changeFavorite(uri)}>
+        <img
+          src={favorite ? filledHeartIcon : emptyHeartIcon}
+          height="50px"
+          width="50px"
+          alt="favorite button"
+        />
+      </StyledFavoriteButton>
       <StyledInfoSection
         style={moreInformation ? { display: "unset" } : { display: "none" }}
       >
@@ -41,16 +74,17 @@ export default function RecipeCard({ recipeData }) {
 }
 
 const StyledArticle = styled.article`
-  padding: 20px;
+  position: relative;
   width: 80%;
   text-align: left;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  margin: 20px auto;
-  border: 1px solid black;
-  border-radius: 35px;
-  background-color: lightgrey;
+  margin: 50px auto;
+  padding-bottom: 10px;
+  box-shadow: 1px 2px 3px;
+  border-radius: 20px;
+  background-color: var(--secondary-color);
 
   h4 {
     align-self: left;
@@ -70,6 +104,20 @@ const StyledArticle = styled.article`
   }
 `;
 
+const StyledFavoriteButton = styled.button`
+  position: absolute;
+  background-color: var(--secondary-color);
+  border: unset;
+  border-radius: 20px;
+  padding-top: 5px;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  &:hover {
+    transform: scale(1.1);
+  }
+`;
+
 const StyledTime = styled.p`
   margin: 10px 10%;
   display: block;
@@ -83,16 +131,19 @@ const StyledInfoButton = styled.button`
   border: unset;
   background-color: transparent;
   font-size: 1.1rem;
+  cursor: pointer;
 
   &:hover {
-    cursor: pointer;
+    background-color: lightgrey;
   }
 `;
 
 const StyledImg = styled.img`
-  margin: 10px 0;
+  margin-bottom: 10px;
   align-self: center;
   border-radius: 20px;
+  width: 100%;
+  height: 300px;
 `;
 
 const StyledInfoSection = styled.section`

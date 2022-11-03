@@ -22,7 +22,7 @@ const GlobalStyle = createGlobalStyle`
     box-sizing: border-box;
     margin: 0;
     --primary-color: #dcedc1;
-    --secondary-color: #FFD3B6;
+    --secondary-color: rgba(134, 134, 134, 0.4);
   }
 
   body {

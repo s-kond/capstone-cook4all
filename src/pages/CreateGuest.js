@@ -12,13 +12,8 @@ export default function CreateGuest({ onHandleSubmit }) {
     event.preventDefault();
     const form = event.target;
     const { newName, newNotes } = form.elements;
-    if (newName.value.trim() === "") {
-      newName.value = "";
-      alert("Each name must have one letter at least.");
-    } else {
-      onHandleSubmit(newName.value, activeList, newNotes.value);
-      navigate("/");
-    }
+    onHandleSubmit(newName.value, activeList, newNotes.value);
+    navigate("/");
   }
 
   return (
@@ -32,6 +27,8 @@ export default function CreateGuest({ onHandleSubmit }) {
           name="newName"
           id="newName"
           type="text"
+          //this pattern prevents users from submiting empty whitespace-filled names
+          pattern=".*[^\s]{1,}.*"
           maxLength={40}
           required
         />
