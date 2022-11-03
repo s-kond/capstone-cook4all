@@ -11,7 +11,7 @@ export default function RecipeCard({ recipeData }) {
     recipeData.recipe;
   const { favoriteArray, setFavoriteArray } = useContext(UserContext);
   const [moreInformation, toggleMoreInformation] = useState(false);
-  const [favorite, setFavorite] = useState();
+  const [favorite, setFavorite] = useState(false);
 
   useEffect(() => {
     function recipeIsFavorite() {
@@ -21,16 +21,10 @@ export default function RecipeCard({ recipeData }) {
         )
       ) {
         setFavorite(true);
-      } else {
-        setFavorite(false);
       }
     }
     recipeIsFavorite();
   }, []);
-
-  function toggleState(state, setState) {
-    setState(!state);
-  }
 
   function changeFavorite(id) {
     if (!favorite) {
@@ -40,16 +34,14 @@ export default function RecipeCard({ recipeData }) {
         favoriteArray.filter((favorite) => favorite.recipe.uri !== id)
       );
     }
-    toggleState(favorite, setFavorite);
+    setFavorite(!favorite);
   }
 
   return (
     <StyledArticle>
       <StyledImg src={image} alt="" />
       <h4>{label}</h4>
-      <StyledInfoButton
-        onClick={() => toggleState(moreInformation, toggleMoreInformation)}
-      >
+      <StyledInfoButton onClick={() => toggleMoreInformation(!moreInformation)}>
         <img src={moreInformation ? arrowDownIcon : arrowRightIcon} alt="" />
         More information
       </StyledInfoButton>
@@ -120,9 +112,9 @@ const StyledFavoriteButton = styled.button`
   padding-top: 5px;
   top: 10px;
   right: 10px;
-
+  cursor: pointer;
   &:hover {
-    cursor: pointer;
+    transform: scale(1.1);
   }
 `;
 
@@ -139,14 +131,15 @@ const StyledInfoButton = styled.button`
   border: unset;
   background-color: transparent;
   font-size: 1.1rem;
+  cursor: pointer;
 
   &:hover {
-    cursor: pointer;
+    background-color: lightgrey;
   }
 `;
 
 const StyledImg = styled.img`
-  margin: 0 0 10px 0;
+  margin-bottom: 10px;
   align-self: center;
   border-radius: 20px;
   width: 100%;

@@ -27,6 +27,7 @@ export default function CreateGuest({ onHandleSubmit }) {
           name="newName"
           id="newName"
           type="text"
+          //this pattern prevents users from submiting empty whitespace-filled names
           pattern=".*[^\s]{1,}.*"
           maxLength={40}
           required
