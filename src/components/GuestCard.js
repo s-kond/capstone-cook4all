@@ -5,9 +5,12 @@ import { UserContext } from "../util/UserContext";
 import emptyCircle from "../assets/icons/circle_empty.svg";
 import checkedCircle from "../assets/icons/circle-check.svg";
 import detailIcon from "../assets/icons/more-menu-vertical.svg";
+import editIcon from "../assets/icons/edit-line.svg";
+import deleteIcon from "../assets/icons/delete-icon.svg";
 
 export default function GuestCard({ personalData }) {
   const { name, intolerances, notes, id, selected } = personalData;
+  const { deleteGuest } = useContext(UserContext);
   const [showGuestInfo, toggleShowGuestInfo] = useState(false);
   const navigate = useNavigate();
 
@@ -30,7 +33,7 @@ export default function GuestCard({ personalData }) {
     <StyledArticle>
       <StyledBasicSection>
         <StyledCheckButton type="button" onClick={() => toggleSelected(id)}>
-          {selected === true ? (
+          {selected ? (
             <img src={checkedCircle} alt="selected" />
           ) : (
             <img src={emptyCircle} alt="unselected" />
@@ -40,20 +43,36 @@ export default function GuestCard({ personalData }) {
         <StyledDetailsButton
           onClick={() => toggleShowGuestInfo(!showGuestInfo)}
         >
-          <img src={detailIcon} alt="details" />
+          <img
+            src={detailIcon}
+            alt="details"
+            style={{ transform: showGuestInfo ? "" : "rotate(90deg)" }}
+          />
         </StyledDetailsButton>
       </StyledBasicSection>
       <StyledGuestInfoSection
         style={{ display: showGuestInfo ? "unset" : "none" }}
       >
-        <StyledInfoP>Food should be:</StyledInfoP>
+        <StyledInfoP>
+          {intolerances.length > 0 ? "Food should be:" : ""}
+        </StyledInfoP>
         <ul>
           {intolerances.map((item) => (
             <li key={item.id}>{item.name}</li>
           ))}
         </ul>
-        <StyledInfoP>Further Notes:</StyledInfoP>
+        <StyledInfoP>{notes.length > 0 ? "Further Notes:" : ""}</StyledInfoP>
         <StyledNotes>{notes}</StyledNotes>
+        <StyledButtonContainer>
+          <StyledDeleteButton onClick={() => deleteGuest(id)}>
+            <img src={deleteIcon} alt="delete guest" />
+            <p>delete</p>
+          </StyledDeleteButton>
+          <StyledEditButton onClick={() => navigate(`/edit-guest/${id}`)}>
+            <img src={editIcon} alt="edit guest" />
+            <p>edit</p>
+          </StyledEditButton>
+        </StyledButtonContainer>
       </StyledGuestInfoSection>
     </StyledArticle>
   );
@@ -97,10 +116,8 @@ const StyledDetailsButton = styled.button`
   border: unset;
   cursor: pointer;
 
-  img {
-    &:hover {
-      transform: scale(1.2);
-    }
+  &:hover {
+    transform: scale(1.2);
   }
 `;
 
@@ -120,6 +137,7 @@ const StyledCheckButton = styled.button`
 
 const StyledGuestInfoSection = styled.section`
   padding-bottom: 20px;
+  width: 100%;
 `;
 
 const StyledInfoP = styled.p`
@@ -129,4 +147,30 @@ const StyledInfoP = styled.p`
 
 const StyledNotes = styled.p`
   margin-left: 20px;
+`;
+
+const StyledButtonContainer = styled.div`
+  display: flex;
+  margin-top: 20px;
+  width: 100%;
+  justify-content: space-evenly;
+
+  button {
+    border: unset;
+    border-radius: 10px;
+    background-color: transparent;
+    cursor: pointer;
+
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+`;
+
+const StyledEditButton = styled.button``;
+const StyledDeleteButton = styled.button`
+  padding-top: 3px;
+  p {
+    margin-top: 2px;
+  }
 `;
