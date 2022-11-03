@@ -148,6 +148,7 @@ const StyledImg = styled.img`
 
 const StyledInfoSection = styled.section`
   margin: 10px 0;
+  width: 100%;
 
   ul p {
     text-decoration: underline;

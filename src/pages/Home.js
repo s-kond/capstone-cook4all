@@ -57,6 +57,7 @@ const WelcomeMessage = styled.p`
 const StyledAddButton = styled.button`
   background-color: transparent;
   border: unset;
+  margin-bottom: 100px;
 
   img {
     &:hover {
