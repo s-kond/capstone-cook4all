@@ -33,19 +33,19 @@ export default function FavoriteRecipes() {
       <DisplaySelectedGuests />
       <hr />
       <StyledFavoriteSection>
-        {filteredFavorites.length === 0 ? (
-          <>
-            <p>
-              Unfortunately, there are no favorite recipes <br /> for all of
-              your guests... :(
-            </p>
-            <p>Go to the recipe page and find new favorites!</p>
-          </>
-        ) : null}
         {filteredFavorites.map((favorite) => (
           <RecipeCard key={favorite.recipe.uri} recipeData={favorite} />
         ))}
       </StyledFavoriteSection>
+      {filteredFavorites.length === 0 ? (
+        <>
+          <StyledEmptyMessage>
+            Unfortunately, there are no favorite recipes <br /> for all of your
+            guests... :(
+          </StyledEmptyMessage>
+          <p>Go to the recipe page and find new favorites!</p>
+        </>
+      ) : null}
       <NavBar />
     </>
   );
@@ -53,8 +53,13 @@ export default function FavoriteRecipes() {
 
 const StyledFavoriteSection = styled.section`
   margin-bottom: 100px;
-  p:first-of-type {
-    margin-top: 70px;
-    margin-bottom: 10px;
+  p {
+    margin: 0;
   }
+`;
+
+const StyledEmptyMessage = styled.p`
+  margin-top: 70px;
+  margin-bottom: 10px;
+  font-style: italic;
 `;
