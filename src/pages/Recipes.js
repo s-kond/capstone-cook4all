@@ -5,10 +5,10 @@ import styled from "styled-components";
 import NavBar from "../components/NavBar";
 import RecipeCard from "../components/RecipeCard";
 import getIntolerances from "../util/GetSelectedGuestsIntolerances";
+import DisplaySelectedGuests from "../components/DisplaySelectedGuests";
 
 export default function Recipes() {
-  const { guestArray, setGuestArray } = useContext(UserContext);
-  const selectedGuests = guestArray.filter((guest) => guest.selected);
+  const { guestArray } = useContext(UserContext);
   let intolerances = getIntolerances(guestArray);
   const [data, setData] = useState([]);
   const [availableData, setAvailableData] = useState(true);
@@ -22,20 +22,6 @@ export default function Recipes() {
     const data = await response.json();
     setData(data.hits);
     setAvailableData(data.hits.length > 0 ? true : false);
-  }
-
-  function unselectGuest(id) {
-    setGuestArray(
-      guestArray.map((guest) =>
-        guest.id === id
-          ? {
-              ...guest,
-              selected: false,
-            }
-          : guest
-      )
-    );
-    intolerances = getIntolerances(guestArray);
   }
 
   function onSubmit(event) {
@@ -53,29 +39,8 @@ export default function Recipes() {
       <StyledHeader>
         <h2>Recipes</h2>
       </StyledHeader>
-      <StyledSubheader>
-        {intolerances.length > 0
-          ? "For"
-          : "Go to your guestlist and choose guests you want to cook for!"}
-      </StyledSubheader>
-      <section>
-        {selectedGuests.map((guest) => (
-          <StyledGuestButton
-            key={guest.id}
-            onClick={() => unselectGuest(guest.id)}
-          >
-            x {guest.name}
-          </StyledGuestButton>
-        ))}
-      </section>
-      <StyledSubheader>
-        {intolerances.length > 0 ? "Food should be:" : ""}
-      </StyledSubheader>
-      <StyledSection>
-        {intolerances.map((item) => (
-          <span key={item}> {item}</span>
-        ))}
-      </StyledSection>
+      <DisplaySelectedGuests />
+      <hr />
       <form onSubmit={(event) => onSubmit(event)}>
         <RecipeSearchLabel htmlFor="recipeSearch">
           So, what do you want to eat?
@@ -103,39 +68,10 @@ export default function Recipes() {
   );
 }
 
-const StyledGuestButton = styled.p`
-  display: inline;
-  background-color: transparent;
-  padding: 10px;
-  margin: 10px;
-  border: 1px solid black;
-  border-radius: 15px;
-
-  &:hover {
-    cursor: pointer;
-    background-color: rgba(236, 236, 236, 0.78);
-  }
-`;
-
 const RecipeSearchLabel = styled.label`
   display: block;
   margin: 20px auto 10px auto;
   font-weight: bold;
-`;
-
-const StyledSubheader = styled.h3`
-  margin: 20px auto;
-
-  &:last-of-type {
-    margin: 30px auto 10px auto;
-  }
-`;
-
-const StyledSection = styled.section`
-  margin-bottom: 10px;
-  span {
-    margin: 10px;
-  }
 `;
 
 const StyledRecipeSection = styled.section`
