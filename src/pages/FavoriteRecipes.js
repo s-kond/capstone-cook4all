@@ -41,9 +41,7 @@ export default function FavoriteRecipes() {
             </p>
             <p>Go to the recipe page and find new favorites!</p>
           </>
-        ) : (
-          ""
-        )}
+        ) : null}
         {filteredFavorites.map((favorite) => (
           <RecipeCard key={favorite.recipe.uri} recipeData={favorite} />
         ))}

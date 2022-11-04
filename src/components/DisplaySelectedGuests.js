@@ -21,7 +21,7 @@ export default function DisplaySelectedGuests() {
         ))}
       </section>
       <StyledSubheader>
-        {intolerances.length > 0 ? "Food should be:" : ""}
+        {intolerances.length > 0 ? "Food should be:" : null}
       </StyledSubheader>
       <StyledSection>
         {intolerances.map((item) => (
