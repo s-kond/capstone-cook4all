@@ -4,11 +4,12 @@ import { UserContext } from "../util/UserContext";
 import styled from "styled-components";
 import NavBar from "../components/NavBar";
 import RecipeCard from "../components/RecipeCard";
+import getIntolerances from "../util/GetSelectedGuestsIntolerances";
 
 export default function Recipes() {
   const { guestArray, setGuestArray } = useContext(UserContext);
   const selectedGuests = guestArray.filter((guest) => guest.selected);
-  let intolerances = getIntolerances();
+  let intolerances = getIntolerances(guestArray);
   const [data, setData] = useState([]);
   const [availableData, setAvailableData] = useState(true);
   const API_KEY = process.env.REACT_APP_API_KEY;
@@ -23,24 +24,6 @@ export default function Recipes() {
     setAvailableData(data.hits.length > 0 ? true : false);
   }
 
-  function getIntolerances() {
-    let intolerancesObjects = [];
-    const selectedGuestsIntolerances = guestArray
-      .filter((guest) => guest.selected)
-      .map((guest) => guest.intolerances);
-
-    for (let item of selectedGuestsIntolerances) {
-      intolerancesObjects = [...item, ...intolerancesObjects];
-    }
-    const intolerancesNames = intolerancesObjects
-      .map((item) => item.name)
-      .reduce(function (acc, curr) {
-        if (!acc.includes(curr)) acc.push(curr);
-        return acc;
-      }, []);
-    return intolerancesNames;
-  }
-
   function unselectGuest(id) {
     setGuestArray(
       guestArray.map((guest) =>
@@ -52,7 +35,7 @@ export default function Recipes() {
           : guest
       )
     );
-    intolerances = getIntolerances();
+    intolerances = getIntolerances(guestArray);
   }
 
   function onSubmit(event) {
