@@ -57,9 +57,7 @@ export default function Recipes() {
         {data.map((recipe, index) => (
           <RecipeCard key={index} recipeData={recipe} />
         ))}
-        <StyledSorryMessage
-          style={{ display: availableData ? "none" : "block" }}
-        >
+        <StyledSorryMessage availableData={availableData}>
           Sorry, we couldn't find any recipes... <br /> Please try again!
         </StyledSorryMessage>
       </StyledRecipeSection>
@@ -79,5 +77,6 @@ const StyledRecipeSection = styled.section`
 `;
 
 const StyledSorryMessage = styled.p`
+  display: ${({ availableData }) => (availableData ? "none" : "block")};
   margin-top: 20px;
 `;

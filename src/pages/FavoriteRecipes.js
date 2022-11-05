@@ -23,7 +23,7 @@ export default function FavoriteRecipes() {
         )
       )
     );
-  }, []);
+  }, [favoriteArray]);
 
   return (
     <>
@@ -37,7 +37,12 @@ export default function FavoriteRecipes() {
           <RecipeCard key={favorite.recipe.uri} recipeData={favorite} />
         ))}
       </StyledFavoriteSection>
-      {filteredFavorites.length === 0 ? (
+      {favoriteArray.length === 0 ? (
+        <>
+          <StyledEmptyMessage>You have no favorite recipes.</StyledEmptyMessage>
+          <p>Go to the recipe page and find new favorites!</p>
+        </>
+      ) : filteredFavorites.length === 0 ? (
         <>
           <StyledEmptyMessage>
             Unfortunately, there are no favorite recipes <br /> for all of your
@@ -61,5 +66,4 @@ const StyledFavoriteSection = styled.section`
 const StyledEmptyMessage = styled.p`
   margin-top: 70px;
   margin-bottom: 10px;
-  font-style: italic;
 `;
