@@ -7,6 +7,7 @@ import NavBar from "../components/NavBar";
 import RecipeCard from "../components/RecipeCard";
 import getIntolerances from "../util/GetSelectedGuestsIntolerances";
 import DisplaySelectedGuests from "../components/DisplaySelectedGuests";
+import moreIcon from "../assets/icons/ep_arrow-down.svg";
 
 export default function Recipes() {
   const { guestArray } = useContext(UserContext);
@@ -31,7 +32,7 @@ export default function Recipes() {
     const response = await fetch(url);
     const data = await response.json();
     setNextPage(data._links.next.href);
-    setRecipeData(data.hits);
+    setRecipeData([...recipeData, ...data.hits]);
   }
 
   function onSubmit(event) {
@@ -84,9 +85,14 @@ export default function Recipes() {
           <StyledSorryMessage availableData={availableData}>
             Sorry, we couldn't find any recipes... <br /> Please try again!
           </StyledSorryMessage>
-          <button type="button" onClick={() => fetchDifferentPage(nextPage)}>
-            Next Page
-          </button>
+          <StyledMoreButton
+            type="button"
+            onClick={() => fetchDifferentPage(nextPage)}
+            nextPage={nextPage}
+          >
+            Show more
+            <img src={moreIcon} alt="arrow down" />
+          </StyledMoreButton>
         </StyledRecipeSection>
       </ErrorBoundary>
       <NavBar />
@@ -103,6 +109,12 @@ const RecipeSearchLabel = styled.label`
 const StyledRecipeSection = styled.section`
   margin-top: 20px;
   margin-bottom: 100px;
+
+  @media (min-width: 900px) {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
   pre {
     margin: 10px auto 20px auto;
   }
@@ -111,4 +123,20 @@ const StyledRecipeSection = styled.section`
 const StyledSorryMessage = styled.p`
   display: ${({ availableData }) => (availableData ? "none" : "block")};
   margin-top: 20px;
+`;
+
+const StyledMoreButton = styled.button`
+  display: ${({ nextPage }) => (nextPage ? "flex" : "none")};
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+  font-size: 1.2rem;
+
+  &:hover {
+    transform: scale(1.1);
+  }
 `;
