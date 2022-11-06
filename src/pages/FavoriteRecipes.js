@@ -61,6 +61,11 @@ const StyledFavoriteSection = styled.section`
   p {
     margin: 0;
   }
+
+  @media (min-width: 900px) {
+    display: flex;
+    flex-wrap: wrap;
+  }
 `;
 
 const StyledEmptyMessage = styled.p`

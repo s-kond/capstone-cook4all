@@ -74,6 +74,7 @@ export default function RecipeCard({ recipeData }) {
 const StyledArticle = styled.article`
   position: relative;
   width: 80%;
+  max-width: 400px;
   text-align: left;
   display: flex;
   flex-direction: column;
@@ -83,6 +84,16 @@ const StyledArticle = styled.article`
   box-shadow: 1px 2px 3px;
   border-radius: 20px;
   background-color: var(--secondary-color);
+
+  &:first-of-type {
+    margin-top: 40px;
+  }
+
+  @media (min-width: 900px) {
+    &:first-of-type {
+      margin-top: 50px;
+    }
+  }
 
   h4 {
     align-self: left;

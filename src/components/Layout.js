@@ -15,6 +15,6 @@ const Container = styled.div`
   text-align: center;
   margin: 0 auto;
   width: 100vw;
-  max-width: 500px;
+  max-width: 1080px;
   min-width: 320px;
 `;

@@ -80,6 +80,7 @@ const StyledArticle = styled.article`
   align-items: flex-start;
   padding: 10px;
   margin: 10px auto;
+  min-width: 300px;
   max-width: 80%;
   text-align: left;
   background-color: var(--secondary-color);
@@ -99,7 +100,8 @@ const StyledBasicSection = styled.section`
 const StyledName = styled.p`
   display: inline;
   margin-left: 20px;
-  word-wrap: break-word;
+  word-break: break-all;
+  hyphens: auto;
   font-size: 1.3rem;
 `;
 
@@ -147,6 +149,8 @@ const StyledInfoP = styled.p`
 
 const StyledNotes = styled.p`
   margin-left: 20px;
+  word-break: break-all;
+  hyphens: auto;
 `;
 
 const StyledButtonContainer = styled.div`
