@@ -1,8 +1,8 @@
-import { StyledHeader } from "./Home";
 import { useState, useContext } from "react";
 import { UserContext } from "../util/UserContext";
 import styled from "styled-components";
 import { ErrorBoundary } from "react-error-boundary";
+import Header from "../components/Header";
 import NavBar from "../components/NavBar";
 import RecipeCard from "../components/RecipeCard";
 import getIntolerances from "../util/GetSelectedGuestsIntolerances";
@@ -57,9 +57,7 @@ export default function Recipes() {
 
   return (
     <>
-      <StyledHeader>
-        <h2>Recipes</h2>
-      </StyledHeader>
+      <Header title="Recipes" />
       <DisplaySelectedGuests />
       <hr />
       <form onSubmit={(event) => onSubmit(event)}>
@@ -114,8 +112,9 @@ const StyledRecipeSection = styled.section`
   margin-bottom: 100px;
 
   @media (min-width: 900px) {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
   }
 
   pre {

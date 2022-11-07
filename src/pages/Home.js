@@ -5,6 +5,7 @@ import { useContext } from "react";
 import { UserContext } from "../util/UserContext";
 import NavBar from "../components/NavBar";
 import addIcon from "../assets/icons/add-circle-20-regular.svg";
+import Header from "../components/Header";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -12,9 +13,7 @@ export default function Home() {
 
   return (
     <>
-      <StyledHeader>
-        <h1>cook4all</h1>
-      </StyledHeader>
+      <Header title="cook4all" />
       <main>
         <h2>Welcome!</h2>
         <WelcomeMessage>
@@ -38,17 +37,6 @@ export default function Home() {
     </>
   );
 }
-
-export const StyledHeader = styled.header`
-  background-color: var(--primary-color);
-  font-family: var(--header-font);
-  font-size: 2rem;
-  height: 90px;
-  margin-bottom: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
 
 const WelcomeMessage = styled.p`
   margin: 20px auto;

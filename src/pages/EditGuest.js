@@ -1,9 +1,10 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { StyledHeader } from "./Home";
-import { StyledForm } from "./CreateGuest";
+import InfoModal from "../components/InfoModal";
+import { StyledForm, StyledInfoButton } from "./CreateGuest";
 import SearchIntolerances from "../components/SearchIntolerances";
 import { UserContext } from "../util/UserContext";
 import { useContext, useState } from "react";
+import Header from "../components/Header";
 
 export default function EditGuest({ onHandleEditSubmit }) {
   const navigate = useNavigate();
@@ -11,6 +12,7 @@ export default function EditGuest({ onHandleEditSubmit }) {
   const { id } = useParams();
   const guestDetails = guestArray.filter((guest) => guest.id === id);
   const { name, intolerances, notes } = guestDetails[0];
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeEditList, setActiveEditList] = useState(intolerances);
 
   function onSubmit(event) {
@@ -28,9 +30,7 @@ export default function EditGuest({ onHandleEditSubmit }) {
 
   return (
     <>
-      <StyledHeader>
-        <h2>Edit</h2>
-      </StyledHeader>
+      <Header title="Edit Guest" isInfoButton={true} />
       <StyledForm onSubmit={onSubmit}>
         <label htmlFor="newName">Name: </label>
         <input
@@ -49,6 +49,14 @@ export default function EditGuest({ onHandleEditSubmit }) {
         />
         <label htmlFor="newNotes">Notes: </label>
         <textarea name="newNotes" id="newNotes" defaultValue={notes}></textarea>
+        <StyledInfoButton
+          type="button"
+          title="intolerances, diets, ..."
+          onClick={() => setIsModalOpen(true)}
+        >
+          more info
+        </StyledInfoButton>
+        <InfoModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
         <button type="submit">Submit</button>
         <button onClick={() => navigate(`/`)}>Back</button>
       </StyledForm>
