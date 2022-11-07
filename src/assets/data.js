@@ -1,5 +1,4 @@
 export const possibleIntolerances = [
-  { id: 1, name: "alcohol-cocktail" },
   { id: 2, name: "alcohol-free" },
   { id: 3, name: "celery-free" },
   { id: 4, name: "crustacean-free" },
