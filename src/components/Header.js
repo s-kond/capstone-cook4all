@@ -8,7 +8,7 @@ export default function Header({ title }) {
   );
 }
 
-export const StyledHeader = styled.header`
+const StyledHeader = styled.header`
   background-color: var(--primary-color);
   font-family: var(--header-font);
   font-size: 2rem;
