@@ -128,7 +128,6 @@ const StyledSorryMessage = styled.p`
 `;
 
 const StyledMoreButton = styled.button`
-  /* display: ${({ nextPage }) => (nextPage ? "flex" : "none")}; */
   display: flex;
   width: 100%;
   flex-direction: column;
