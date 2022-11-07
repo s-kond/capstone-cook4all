@@ -2,11 +2,12 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useState } from "react";
 import Header from "../components/Header";
-import ReactModal from "react-modal";
+import InfoModal from "../components/InfoModal";
 import SearchIntolerances from "../components/SearchIntolerances";
 
 export default function CreateGuest({ onHandleSubmit }) {
   const navigate = useNavigate();
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeList, setActiveList] = useState([]);
 
   function onSubmit(event) {
@@ -38,6 +39,14 @@ export default function CreateGuest({ onHandleSubmit }) {
         />
         <label htmlFor="newNotes">Notes: </label>
         <textarea name="newNotes" id="newNotes" />
+        <StyledInfoButton
+          type="button"
+          title="intolerances, diets, ..."
+          onClick={() => setIsModalOpen(true)}
+        >
+          more info
+        </StyledInfoButton>
+        <InfoModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
         <button type="submit">Submit</button>
         <button onClick={() => navigate("/")}>Back</button>
       </StyledForm>
@@ -65,3 +74,5 @@ export const StyledForm = styled.form`
     margin: 10px auto 20px auto;
   }
 `;
+
+export const StyledInfoButton = styled.button``;
