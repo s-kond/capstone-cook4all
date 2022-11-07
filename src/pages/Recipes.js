@@ -8,6 +8,7 @@ import RecipeCard from "../components/RecipeCard";
 import getIntolerances from "../util/GetSelectedGuestsIntolerances";
 import DisplaySelectedGuests from "../components/DisplaySelectedGuests";
 import moreIcon from "../assets/icons/ep_arrow-down.svg";
+import MoreFilters from "../components/MoreFilters";
 
 export default function Recipes() {
   const { guestArray } = useContext(UserContext);
@@ -15,12 +16,20 @@ export default function Recipes() {
   const [recipeData, setRecipeData] = useState([]);
   const [availableData, setAvailableData] = useState(true);
   const [nextPage, setNextPage] = useState();
+  const [selectedMealType, setSelectedMealType] = useState([]);
+  const [selectedDishType, setSelectedDishType] = useState([]);
   const API_KEY = process.env.REACT_APP_API_KEY;
   const API_ID = process.env.REACT_APP_API_ID;
 
   async function fetchData(searchInput) {
     const healthParams = intolerances.map((item) => `&health=${item}`).join("");
-    const url = `https://api.edamam.com/api/recipes/v2?type=public&q=${searchInput}&app_id=${API_ID}&app_key=${API_KEY}${healthParams}`;
+    const mealTypeParams = selectedMealType
+      .map((item) => `&mealType=${item}`)
+      .join("");
+    const dishTypeParams = selectedDishType
+      .map((item) => `&dishType=${item}`)
+      .join("");
+    const url = `https://api.edamam.com/api/recipes/v2?type=public&q=${searchInput}&app_id=${API_ID}&app_key=${API_KEY}${healthParams}${mealTypeParams}${dishTypeParams}`;
     const response = await fetch(url);
     const data = await response.json();
     data.hits.length > 0 && setNextPage(data._links.next.href);
@@ -68,9 +77,15 @@ export default function Recipes() {
           id="recipeSearch"
           name="recipeSearch"
           type="text"
-          placeholder="pasta"
+          placeholder="e.g. pasta"
         />
         <button type="submit">Search</button>
+        <MoreFilters
+          selectedMealType={selectedMealType}
+          setSelectedMealType={setSelectedMealType}
+          selectedDishType={selectedDishType}
+          setSelectedDishType={setSelectedDishType}
+        />
       </form>
       <ErrorBoundary
         FallbackComponent={ErrorCallback}
