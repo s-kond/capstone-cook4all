@@ -22,11 +22,11 @@ export default function Home() {
             ? "Who do you want to cook for today?"
             : "Nobody here... Start by clicking + and add new guests!"}
         </WelcomeMessage>
-        <section>
+        <StyledGuestList>
           {guestArray.map((guest) => {
             return <GuestCard key={guest.id} personalData={guest} />;
           })}
-        </section>
+        </StyledGuestList>
         <StyledAddButton
           type="button"
           onClick={() => navigate("/create-guest")}
@@ -52,6 +52,13 @@ export const StyledHeader = styled.header`
 
 const WelcomeMessage = styled.p`
   margin: 20px auto;
+`;
+
+const StyledGuestList = styled.section`
+  @media (min-width: 700px) {
+    display: flex;
+    flex-wrap: wrap;
+  }
 `;
 
 const StyledAddButton = styled.button`

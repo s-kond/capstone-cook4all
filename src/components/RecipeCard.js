@@ -53,20 +53,22 @@ export default function RecipeCard({ recipeData }) {
           alt="favorite button"
         />
       </StyledFavoriteButton>
-      <StyledInfoSection moreInformation={moreInformation}>
-        <StyledTime>{totalTime === 0 ? "" : `~${totalTime}min`}</StyledTime>
-        <ul>
-          <p>Ingredients:</p>
-          {ingredients.map((ingredient, index) => (
-            <li key={index}>{ingredient.text}</li>
-          ))}
-        </ul>
-        <details>
-          <summary>All considered intolerances etc.</summary>
-          <p>{healthLabels.map((label) => ` ${label}`).join(", ")}</p>
-        </details>
-        <a href={url}>See the whole recipe</a>
-      </StyledInfoSection>
+      {moreInformation && (
+        <StyledInfoSection moreInformation={moreInformation}>
+          <StyledTime>{totalTime !== 0 && `~${totalTime}min`}</StyledTime>
+          <ul>
+            <p>Ingredients:</p>
+            {ingredients.map((ingredient, index) => (
+              <li key={index}>{ingredient.text}</li>
+            ))}
+          </ul>
+          <details>
+            <summary>All considered intolerances etc.</summary>
+            <p>{healthLabels.map((label) => ` ${label}`).join(", ")}</p>
+          </details>
+          <a href={url}>See the whole recipe</a>
+        </StyledInfoSection>
+      )}
     </StyledArticle>
   );
 }
@@ -74,6 +76,7 @@ export default function RecipeCard({ recipeData }) {
 const StyledArticle = styled.article`
   position: relative;
   width: 80%;
+  max-width: 400px;
   text-align: left;
   display: flex;
   flex-direction: column;
@@ -83,6 +86,16 @@ const StyledArticle = styled.article`
   box-shadow: 1px 2px 3px;
   border-radius: 20px;
   background-color: var(--secondary-color);
+
+  &:first-of-type {
+    margin-top: 40px;
+  }
+
+  @media (min-width: 900px) {
+    &:first-of-type {
+      margin-top: 50px;
+    }
+  }
 
   h4 {
     align-self: left;
@@ -117,7 +130,8 @@ const StyledFavoriteButton = styled.button`
 `;
 
 const StyledTime = styled.p`
-  margin: 10px 10%;
+  margin: 10px 0;
+  padding-right: 20px;
   display: block;
   text-align: right;
 `;
@@ -145,7 +159,6 @@ const StyledImg = styled.img`
 `;
 
 const StyledInfoSection = styled.section`
-  display: ${({ moreInformation }) => (moreInformation ? "unset" : "none")};
   margin: 10px 0;
   width: 100%;
 
