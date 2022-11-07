@@ -5,27 +5,23 @@ import IntoleranceFilterInformation from "./IntoleranceFilterTable";
 export default function InfoModal({ isModalOpen, setIsModalOpen }) {
   return (
     <ReactModal isOpen={isModalOpen}>
-      <StyledCloseButton onClick={() => setIsModalOpen(false)}>
-        close
-      </StyledCloseButton>
       <h2>Intolerance filters</h2>
       <StyledIntro>
         Find out what all the available filters for intolerances, diets, etc.
         mean exactly:
       </StyledIntro>
       <IntoleranceFilterInformation />
+      <StyledCloseButton onClick={() => setIsModalOpen(false)}>
+        Close
+      </StyledCloseButton>
     </ReactModal>
   );
 }
 
 const StyledCloseButton = styled.button`
-  position: absolute;
-  right: 20px;
+  margin-top: 20px;
+  margin-left: 45%;
   font-size: 1.2rem;
-  text-decoration: underline;
-  text-underline-offset: 3px;
-  border: none;
-  background-color: transparent;
   cursor: pointer;
 
   &:hover {

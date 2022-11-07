@@ -112,8 +112,9 @@ const StyledRecipeSection = styled.section`
   margin-bottom: 100px;
 
   @media (min-width: 900px) {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
   }
 
   pre {

@@ -6,6 +6,7 @@ import favoritesIcon from "../assets/icons/heart-outlined.svg";
 import upArrow from "../assets/icons/arrow-up-circle.svg";
 import { useEffect, useState } from "react";
 import InfoModal from "./InfoModal";
+import infoIcon from "../assets/icons/info-regular.svg";
 
 export default function NavBar() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -53,7 +54,7 @@ export default function NavBar() {
           title="intolerances, diets, ..."
           onClick={() => setIsModalOpen(true)}
         >
-          i
+          <img src={infoIcon} alt="info" />
         </StyledInfoButton>
         <InfoModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
       </StyledNavBar>
@@ -95,13 +96,13 @@ const StyledNavLink = styled(NavLink)`
 
 const StyledInfoButton = styled.button`
   position: absolute;
-  font-size: 1.1rem;
-  font-weight: bold;
-  padding: 5px 16px;
   top: -50px;
-  right: 20px;
+  right: 25px;
+  height: 35px;
+  width: 35px;
+  padding: 0;
   border-radius: 100%;
-  border: 2px solid black;
+  border: unset;
   background-color: white;
   cursor: pointer;
   &:hover {
