@@ -23,7 +23,6 @@ const StyledCloseButton = styled.button`
   margin-left: 45%;
   font-size: 1.2rem;
   cursor: pointer;
-
   &:hover {
     transform: scale(1.1);
   }

@@ -179,6 +179,10 @@ const TableRow = styled.article`
   &:nth-of-type(2n) {
     background-color: var(--secondary-color);
   }
+  @media (max-width: 400px) {
+    display: flex;
+    flex-direction: column;
+  }
 `;
 
 const TableCell = styled.div`
@@ -189,5 +193,8 @@ const TableCell = styled.div`
   }
   &:nth-of-type(2) {
     padding-left: 10px;
+    @media (max-width: 400px) {
+      padding-left: unset;
+    }
   }
 `;
