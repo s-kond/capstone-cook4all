@@ -23,7 +23,7 @@ export default function Recipes() {
     const url = `https://api.edamam.com/api/recipes/v2?type=public&q=${searchInput}&app_id=${API_ID}&app_key=${API_KEY}${healthParams}`;
     const response = await fetch(url);
     const data = await response.json();
-    setNextPage(data._links.next.href);
+    data.hits.length > 0 && setNextPage(data._links.next.href);
     setRecipeData(data.hits);
     setAvailableData(data.hits.length > 0 ? true : false);
   }
@@ -82,17 +82,20 @@ export default function Recipes() {
           {recipeData.map((recipe, index) => (
             <RecipeCard key={index} recipeData={recipe} />
           ))}
-          <StyledSorryMessage availableData={availableData}>
-            Sorry, we couldn't find any recipes... <br /> Please try again!
-          </StyledSorryMessage>
-          <StyledMoreButton
-            type="button"
-            onClick={() => fetchDifferentPage(nextPage)}
-            nextPage={nextPage}
-          >
-            Show more
-            <img src={moreIcon} alt="arrow down" />
-          </StyledMoreButton>
+          {!availableData && (
+            <StyledSorryMessage>
+              Sorry, we couldn't find any recipes... <br /> Please try again!
+            </StyledSorryMessage>
+          )}
+          {availableData && nextPage && (
+            <StyledMoreButton
+              type="button"
+              onClick={() => fetchDifferentPage(nextPage)}
+            >
+              Show more
+              <img src={moreIcon} alt="arrow down" />
+            </StyledMoreButton>
+          )}
         </StyledRecipeSection>
       </ErrorBoundary>
       <NavBar />
@@ -121,12 +124,12 @@ const StyledRecipeSection = styled.section`
 `;
 
 const StyledSorryMessage = styled.p`
-  display: ${({ availableData }) => (availableData ? "none" : "block")};
   margin-top: 20px;
 `;
 
 const StyledMoreButton = styled.button`
-  display: ${({ nextPage }) => (nextPage ? "flex" : "none")};
+  /* display: ${({ nextPage }) => (nextPage ? "flex" : "none")}; */
+  display: flex;
   width: 100%;
   flex-direction: column;
   align-items: center;

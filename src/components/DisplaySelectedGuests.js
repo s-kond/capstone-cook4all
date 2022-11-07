@@ -48,7 +48,7 @@ const StyledGuestButton = styled.p`
 
 const StyledSubheader = styled.h3`
   margin: 20px auto;
-
+  padding: 0 20px;
   &:last-of-type {
     margin: 30px auto 10px auto;
   }
