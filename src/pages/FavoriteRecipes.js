@@ -1,11 +1,11 @@
 import { useState, useContext, useEffect } from "react";
 import styled from "styled-components";
 import DisplaySelectedGuests from "../components/DisplaySelectedGuests";
+import Header from "../components/Header";
 import NavBar from "../components/NavBar";
 import RecipeCard from "../components/RecipeCard";
 import getIntolerances from "../util/GetSelectedGuestsIntolerances";
 import { UserContext } from "../util/UserContext";
-import { StyledHeader } from "./Home";
 
 export default function FavoriteRecipes() {
   const { favoriteArray, guestArray } = useContext(UserContext);
@@ -27,9 +27,7 @@ export default function FavoriteRecipes() {
 
   return (
     <>
-      <StyledHeader>
-        <h2>Favorites</h2>
-      </StyledHeader>
+      <Header title="Favorites" />
       <DisplaySelectedGuests />
       <hr />
       <StyledFavoriteSection>

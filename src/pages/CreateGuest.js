@@ -1,7 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useState } from "react";
-import { StyledHeader } from "./Home";
+import Header from "../components/Header";
+import ReactModal from "react-modal";
 import SearchIntolerances from "../components/SearchIntolerances";
 
 export default function CreateGuest({ onHandleSubmit }) {
@@ -18,9 +19,7 @@ export default function CreateGuest({ onHandleSubmit }) {
 
   return (
     <>
-      <StyledHeader>
-        <h2>Add a guest</h2>
-      </StyledHeader>
+      <Header title="New Guest" />
       <StyledForm onSubmit={onSubmit}>
         <label htmlFor="newName">Name: </label>
         <input

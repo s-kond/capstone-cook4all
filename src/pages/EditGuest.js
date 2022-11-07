@@ -4,6 +4,7 @@ import { StyledForm } from "./CreateGuest";
 import SearchIntolerances from "../components/SearchIntolerances";
 import { UserContext } from "../util/UserContext";
 import { useContext, useState } from "react";
+import Header from "../components/Header";
 
 export default function EditGuest({ onHandleEditSubmit }) {
   const navigate = useNavigate();
@@ -28,9 +29,7 @@ export default function EditGuest({ onHandleEditSubmit }) {
 
   return (
     <>
-      <StyledHeader>
-        <h2>Edit</h2>
-      </StyledHeader>
+      <Header title="Edit Guest" />
       <StyledForm onSubmit={onSubmit}>
         <label htmlFor="newName">Name: </label>
         <input
