@@ -11,14 +11,11 @@ export default function FavoriteRecipes() {
   const { favoriteArray, guestArray } = useContext(UserContext);
   const [filteredFavorites, setFilteredFavorites] = useState(favoriteArray);
   const intolerances = getIntolerances(guestArray);
-  const upperCaseIntolerances = intolerances.map(
-    (item) => item[0].toUpperCase() + item.slice(1)
-  );
 
   useEffect(() => {
     setFilteredFavorites(
       favoriteArray.filter((item) =>
-        upperCaseIntolerances.every((intolerance) =>
+        intolerances.every((intolerance) =>
           item.recipe.healthLabels.includes(intolerance)
         )
       )

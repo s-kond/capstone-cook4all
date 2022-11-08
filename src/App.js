@@ -16,8 +16,8 @@ const testArray = [
     id: nanoid(),
     name: "John",
     intolerances: [
-      { id: 5, name: "dairy-free" },
-      { id: 10, name: "gluten-free" },
+      { id: 5, name: "Dairy-Free" },
+      { id: 10, name: "Gluten-Free" },
     ],
     notes: "Likes his coffee black",
     selected: false,
@@ -25,7 +25,7 @@ const testArray = [
   {
     id: nanoid(),
     name: "Anna",
-    intolerances: [{ id: 14, name: "kosher" }],
+    intolerances: [{ id: 14, name: "Kosher" }],
     notes: "Doesn't like cucumber.",
     selected: false,
   },

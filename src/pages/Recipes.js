@@ -13,6 +13,14 @@ import MoreFilters from "../components/MoreFilters";
 export default function Recipes() {
   const { guestArray } = useContext(UserContext);
   let intolerances = getIntolerances(guestArray);
+  let modifiedIntolerances = intolerances.map((intolerance) => {
+    if (intolerance === "DASH" || intolerance === "Mediterranean") {
+      return intolerance;
+    } else {
+      return intolerance.replaceAll(" ", "-").toLowerCase();
+    }
+  });
+
   const [recipeData, setRecipeData] = useState([]);
   const [availableData, setAvailableData] = useState(true);
   const [nextPage, setNextPage] = useState();
@@ -23,7 +31,9 @@ export default function Recipes() {
   const API_ID = process.env.REACT_APP_API_ID;
 
   async function fetchData(searchInput) {
-    const healthParams = intolerances.map((item) => `&health=${item}`).join("");
+    const healthParams = modifiedIntolerances
+      .map((item) => `&health=${item}`)
+      .join("");
     const mealTypeParams = selectedMealType
       .map((item) => `&mealType=${item}`)
       .join("");
