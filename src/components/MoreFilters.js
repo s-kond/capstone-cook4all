@@ -12,20 +12,34 @@ export default function MoreFilters({
 }) {
   const [isMoreFilter, setIsMoreFilter] = useState(false);
 
+  console.log(selectedMealType);
+
   function handleSelect(event, type) {
     if (type === "mealTypes") {
       if (!selectedMealType.includes(event.target.value)) {
         setSelectedMealType([...selectedMealType, event.target.value]);
+      } else if (selectedMealType.includes(event.target.value)) {
+        setSelectedMealType(
+          selectedMealType.filter((item) => item !== event.target.value)
+        );
       }
     }
     if (type === "dishTypes") {
       if (!selectedDishType.includes(event.target.value)) {
         setSelectedDishType([...selectedDishType, event.target.value]);
+      } else if (selectedDishType.includes(event.target.value)) {
+        setSelectedDishType(
+          selectedDishType.filter((item) => item !== event.target.value)
+        );
       }
     }
     if (type === "cuisineTypes") {
       if (!selectedCuisineType.includes(event.target.value)) {
         setSelectedCuisineType([...selectedCuisineType, event.target.value]);
+      } else if (selectedCuisineType.includes(event.target.value)) {
+        setSelectedCuisineType(
+          selectedCuisineType.filter((item) => item !== event.target.value)
+        );
       }
     }
   }
