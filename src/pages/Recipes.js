@@ -51,14 +51,14 @@ export default function Recipes() {
     setAvailableData(data.hits.length > 0 ? true : false);
   }
 
-  async function fetchDifferentPage(url) {
+  async function fetchNextPage(url) {
     const response = await fetch(url);
     const data = await response.json();
     setNextPage(data._links.next.href);
     setRecipeData([...recipeData, ...data.hits]);
   }
 
-  function onSubmit(event) {
+  function handleRecipeSearch(event) {
     event.preventDefault();
     setRecipeData([]);
     const form = event.target;
@@ -82,7 +82,7 @@ export default function Recipes() {
     <>
       <Header title="Recipes" />
       <DisplaySelectedGuests />
-      <StyledForm onSubmit={(event) => onSubmit(event)}>
+      <StyledForm onSubmit={(event) => handleRecipeSearch(event)}>
         <MoreFilters
           selectedMealType={selectedMealType}
           setSelectedMealType={setSelectedMealType}
@@ -119,7 +119,7 @@ export default function Recipes() {
           {availableData && nextPage && (
             <StyledMoreButton
               type="button"
-              onClick={() => fetchDifferentPage(nextPage)}
+              onClick={() => fetchNextPage(nextPage)}
             >
               Show more
               <img src={moreIcon} alt="arrow down" />

@@ -49,73 +49,71 @@ export default function MoreFilters({
   }
 
   return (
-    <>
-      <StyledFilterSection>
+    <StyledFilterSection>
+      <StyledSubSection>
+        {selectedMealType.map((item) => (
+          <StyledFilterButton
+            key={item}
+            type="button"
+            value={item}
+            onClick={(event) => handleDelete(event, "meal")}
+          >
+            {item} x
+          </StyledFilterButton>
+        ))}
+        {selectedDishType.map((item) => (
+          <StyledFilterButton
+            key={item}
+            type="button"
+            value={item}
+            onClick={(event) => handleDelete(event, "dish")}
+          >
+            {item} x
+          </StyledFilterButton>
+        ))}
+        {selectedCuisineType.map((item) => (
+          <StyledFilterButton
+            key={item}
+            type="button"
+            value={item}
+            onClick={(event) => handleDelete(event, "cuisine")}
+          >
+            {item} x
+          </StyledFilterButton>
+        ))}
+      </StyledSubSection>
+      <StyledMoreFilterButton
+        type="button"
+        onClick={() => setIsMoreFilter(!isMoreFilter)}
+      >
+        <p>{isMoreFilter ? "-" : "+"} Add more filter</p>
+      </StyledMoreFilterButton>
+      {isMoreFilter && (
         <StyledSubSection>
-          {selectedMealType.map((item) => (
-            <StyledFilterButton
-              key={item}
-              type="button"
-              value={item}
-              onClick={(event) => handleDelete(event, "meal")}
-            >
-              {item} x
-            </StyledFilterButton>
-          ))}
-          {selectedDishType.map((item) => (
-            <StyledFilterButton
-              key={item}
-              type="button"
-              value={item}
-              onClick={(event) => handleDelete(event, "dish")}
-            >
-              {item} x
-            </StyledFilterButton>
-          ))}
-          {selectedCuisineType.map((item) => (
-            <StyledFilterButton
-              key={item}
-              type="button"
-              value={item}
-              onClick={(event) => handleDelete(event, "cuisine")}
-            >
-              {item} x
-            </StyledFilterButton>
-          ))}
+          {filterData.map((data) => {
+            const { name } = data;
+            return (
+              <article key={name}>
+                <StyledLabel htmlFor={name}>{name}</StyledLabel>
+                <select
+                  id={name}
+                  name={name}
+                  onChange={(event) => handleSelect(event, name)}
+                  multiple
+                  size="4"
+                >
+                  {data.labels.map((type) => (
+                    <option key={type.label} value={type.value}>
+                      {type.label}
+                    </option>
+                  ))}
+                </select>
+              </article>
+            );
+          })}
         </StyledSubSection>
-        <StyledMoreFilterButton
-          type="button"
-          onClick={() => setIsMoreFilter(!isMoreFilter)}
-        >
-          <p>{isMoreFilter ? "-" : "+"} Add more filter</p>
-        </StyledMoreFilterButton>
-        {isMoreFilter && (
-          <StyledSubSection>
-            {filterData.map((data) => {
-              const { name } = data;
-              return (
-                <article key={name}>
-                  <StyledLabel htmlFor={name}>{name}</StyledLabel>
-                  <select
-                    id={name}
-                    name={name}
-                    onChange={(event) => handleSelect(event, name)}
-                    multiple
-                    size="4"
-                  >
-                    {data.labels.map((type) => (
-                      <option key={type.label} value={type.value}>
-                        {type.label}
-                      </option>
-                    ))}
-                  </select>
-                </article>
-              );
-            })}
-          </StyledSubSection>
-        )}
-      </StyledFilterSection>
-    </>
+      )}
+    </StyledFilterSection>
   );
 }
 
