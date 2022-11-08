@@ -18,6 +18,7 @@ export default function Recipes() {
   const [nextPage, setNextPage] = useState();
   const [selectedMealType, setSelectedMealType] = useState([]);
   const [selectedDishType, setSelectedDishType] = useState([]);
+  const [selectedCuisineType, setSelectedCuisineType] = useState([]);
   const API_KEY = process.env.REACT_APP_API_KEY;
   const API_ID = process.env.REACT_APP_API_ID;
 
@@ -29,7 +30,10 @@ export default function Recipes() {
     const dishTypeParams = selectedDishType
       .map((item) => `&dishType=${item}`)
       .join("");
-    const url = `https://api.edamam.com/api/recipes/v2?type=public&q=${searchInput}&app_id=${API_ID}&app_key=${API_KEY}${healthParams}${mealTypeParams}${dishTypeParams}`;
+    const cuisineTypeParams = selectedCuisineType
+      .map((item) => `&cuisineType=${item}`)
+      .join("");
+    const url = `https://api.edamam.com/api/recipes/v2?type=public&q=${searchInput}&app_id=${API_ID}&app_key=${API_KEY}${healthParams}${mealTypeParams}${dishTypeParams}${cuisineTypeParams}`;
     const response = await fetch(url);
     const data = await response.json();
     data.hits.length > 0 && setNextPage(data._links.next.href);
@@ -68,8 +72,15 @@ export default function Recipes() {
     <>
       <Header title="Recipes" />
       <DisplaySelectedGuests />
-      <hr />
-      <form onSubmit={(event) => onSubmit(event)}>
+      <StyledForm onSubmit={(event) => onSubmit(event)}>
+        <MoreFilters
+          selectedMealType={selectedMealType}
+          setSelectedMealType={setSelectedMealType}
+          selectedDishType={selectedDishType}
+          setSelectedDishType={setSelectedDishType}
+          selectedCuisineType={selectedCuisineType}
+          setSelectedCuisineType={setSelectedCuisineType}
+        />
         <RecipeSearchLabel htmlFor="recipeSearch">
           So, what do you want to eat?
         </RecipeSearchLabel>
@@ -80,13 +91,8 @@ export default function Recipes() {
           placeholder="e.g. pasta"
         />
         <button type="submit">Search</button>
-        <MoreFilters
-          selectedMealType={selectedMealType}
-          setSelectedMealType={setSelectedMealType}
-          selectedDishType={selectedDishType}
-          setSelectedDishType={setSelectedDishType}
-        />
-      </form>
+      </StyledForm>
+      <hr />
       <ErrorBoundary
         FallbackComponent={ErrorCallback}
         onReset={() => setRecipeData([])}
@@ -116,9 +122,16 @@ export default function Recipes() {
   );
 }
 
+const StyledForm = styled.form`
+  text-align: left;
+  padding-left: 20px;
+  margin-bottom: 20px;
+`;
+
 const RecipeSearchLabel = styled.label`
   display: block;
-  margin: 20px auto 10px auto;
+  text-align: left;
+  margin: 20px 0 10px 0;
   font-weight: bold;
 `;
 
