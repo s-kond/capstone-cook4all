@@ -34,3 +34,56 @@ export const possibleIntolerances = [
   { id: 34, name: "vegetarian" },
   { id: 35, name: "wheat-free" },
 ];
+
+export const filterData = [
+  {
+    name: "mealTypes",
+    labels: [
+      { label: "breakfast", value: "Breakfast" },
+      { label: "brunch", value: "Brunch" },
+      { label: "snack", value: "Snack" },
+      { label: "lunch", value: "Lunch" },
+      { label: "dinner", value: "Dinner" },
+    ],
+  },
+  {
+    name: "dishTypes",
+    labels: [
+      { label: "starter", value: "Starter" },
+      { label: "main course", value: "Main course" },
+      { label: "side dish", value: "Side dish" },
+      { label: "soup", value: "Soup" },
+      { label: "desserts", value: "Desserts" },
+      { label: "biscuits", value: "Biscuits and cookies" },
+      { label: "sweets", value: "Sweets" },
+      { label: "condiments and sauces", value: "Condiments and sauces" },
+      { label: "drinks", value: "Drinks" },
+      { label: "cereals", value: "Cereals" },
+      { label: "sandwiches", value: "Sandwiches" },
+      { label: "salad", value: "Salad" },
+    ],
+  },
+
+  {
+    name: "cuisineTypes",
+    labels: [
+      { label: "American", value: "American" },
+      { label: "Asian", value: "Asian" },
+      { label: "British", value: "British" },
+      { label: "Caribbean", value: "Caribbean" },
+      { label: "Central Europe", value: "Central Europe" },
+      { label: "Chinese", value: "Chinese" },
+      { label: "Eastern Europe", value: "Eastern Europe" },
+      { label: "French", value: "French" },
+      { label: "Indian", value: "Indian" },
+      { label: "Italian", value: "Italian" },
+      { label: "Japanese", value: "Japanese" },
+      { label: "Mediterranean", value: "Mediterranean" },
+      { label: "Mexican", value: "Mexican" },
+      { label: "Middle Eastern", value: "Middle Eastern" },
+      { label: "Nordic", value: "Nordic" },
+      { label: "South American", value: "South American" },
+      { label: "South East Asian", value: "South East Asian" },
+    ],
+  },
+];
