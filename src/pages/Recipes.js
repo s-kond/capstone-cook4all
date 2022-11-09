@@ -8,19 +8,42 @@ import RecipeCard from "../components/RecipeCard";
 import getIntolerances from "../util/GetSelectedGuestsIntolerances";
 import DisplaySelectedGuests from "../components/DisplaySelectedGuests";
 import moreIcon from "../assets/icons/ep_arrow-down.svg";
+import MoreFilters from "../components/MoreFilters";
 
 export default function Recipes() {
   const { guestArray } = useContext(UserContext);
   let intolerances = getIntolerances(guestArray);
+  let modifiedIntolerances = intolerances.map((intolerance) => {
+    if (intolerance === "DASH" || intolerance === "Mediterranean") {
+      return intolerance;
+    } else {
+      return intolerance.replaceAll(" ", "-").toLowerCase();
+    }
+  });
+
   const [recipeData, setRecipeData] = useState([]);
   const [availableData, setAvailableData] = useState(true);
   const [nextPage, setNextPage] = useState();
+  const [selectedMealType, setSelectedMealType] = useState([]);
+  const [selectedDishType, setSelectedDishType] = useState([]);
+  const [selectedCuisineType, setSelectedCuisineType] = useState([]);
   const API_KEY = process.env.REACT_APP_API_KEY;
   const API_ID = process.env.REACT_APP_API_ID;
 
   async function fetchData(searchInput) {
-    const healthParams = intolerances.map((item) => `&health=${item}`).join("");
-    const url = `https://api.edamam.com/api/recipes/v2?type=public&q=${searchInput}&app_id=${API_ID}&app_key=${API_KEY}${healthParams}`;
+    const healthParams = modifiedIntolerances
+      .map((item) => `&health=${item}`)
+      .join("");
+    const mealTypeParams = selectedMealType
+      .map((item) => `&mealType=${item}`)
+      .join("");
+    const dishTypeParams = selectedDishType
+      .map((item) => `&dishType=${item}`)
+      .join("");
+    const cuisineTypeParams = selectedCuisineType
+      .map((item) => `&cuisineType=${item}`)
+      .join("");
+    const url = `https://api.edamam.com/api/recipes/v2?type=public&q=${searchInput}&app_id=${API_ID}&app_key=${API_KEY}${healthParams}${mealTypeParams}${dishTypeParams}${cuisineTypeParams}`;
     const response = await fetch(url);
     const data = await response.json();
     data.hits.length > 0 && setNextPage(data._links.next.href);
@@ -28,14 +51,14 @@ export default function Recipes() {
     setAvailableData(data.hits.length > 0 ? true : false);
   }
 
-  async function fetchDifferentPage(url) {
+  async function fetchNextPage(url) {
     const response = await fetch(url);
     const data = await response.json();
     setNextPage(data._links.next.href);
     setRecipeData([...recipeData, ...data.hits]);
   }
 
-  function onSubmit(event) {
+  function handleRecipeSearch(event) {
     event.preventDefault();
     setRecipeData([]);
     const form = event.target;
@@ -59,8 +82,15 @@ export default function Recipes() {
     <>
       <Header title="Recipes" />
       <DisplaySelectedGuests />
-      <hr />
-      <form onSubmit={(event) => onSubmit(event)}>
+      <StyledForm onSubmit={(event) => handleRecipeSearch(event)}>
+        <MoreFilters
+          selectedMealType={selectedMealType}
+          setSelectedMealType={setSelectedMealType}
+          selectedDishType={selectedDishType}
+          setSelectedDishType={setSelectedDishType}
+          selectedCuisineType={selectedCuisineType}
+          setSelectedCuisineType={setSelectedCuisineType}
+        />
         <RecipeSearchLabel htmlFor="recipeSearch">
           So, what do you want to eat?
         </RecipeSearchLabel>
@@ -68,10 +98,11 @@ export default function Recipes() {
           id="recipeSearch"
           name="recipeSearch"
           type="text"
-          placeholder="pasta"
+          placeholder="e.g. pasta"
         />
         <button type="submit">Search</button>
-      </form>
+      </StyledForm>
+      <hr />
       <ErrorBoundary
         FallbackComponent={ErrorCallback}
         onReset={() => setRecipeData([])}
@@ -88,7 +119,7 @@ export default function Recipes() {
           {availableData && nextPage && (
             <StyledMoreButton
               type="button"
-              onClick={() => fetchDifferentPage(nextPage)}
+              onClick={() => fetchNextPage(nextPage)}
             >
               Show more
               <img src={moreIcon} alt="arrow down" />
@@ -101,9 +132,16 @@ export default function Recipes() {
   );
 }
 
+const StyledForm = styled.form`
+  text-align: left;
+  padding-left: 20px;
+  margin-bottom: 20px;
+`;
+
 const RecipeSearchLabel = styled.label`
   display: block;
-  margin: 20px auto 10px auto;
+  text-align: left;
+  margin: 20px 0 10px 0;
   font-weight: bold;
 `;
 

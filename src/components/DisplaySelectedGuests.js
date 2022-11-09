@@ -9,54 +9,37 @@ export default function DisplaySelectedGuests() {
   let intolerances = getIntolerances(guestArray);
 
   return (
-    <>
+    <StyledSection>
       <StyledSubheader>
         {intolerances.length > 0
-          ? "For"
+          ? "Selected guests:"
           : "Go to your guestlist and choose guests you want to cook for!"}
       </StyledSubheader>
-      <section>
-        {selectedGuests.map((guest) => (
-          <StyledGuestButton key={guest.id}>{guest.name}</StyledGuestButton>
-        ))}
-      </section>
+      <p>{selectedGuests.map((guest) => guest.name).join(", ")}</p>
       <StyledSubheader>
-        {intolerances.length > 0 ? "Food should be:" : null}
+        {intolerances.length > 0 ? "Active search filter:" : null}
       </StyledSubheader>
-      <StyledSection>
+      <StyledSubSection>
         {intolerances.map((item) => (
           <span key={item}> {item}</span>
         ))}
-      </StyledSection>
-    </>
+      </StyledSubSection>
+    </StyledSection>
   );
 }
 
-const StyledGuestButton = styled.p`
-  display: inline;
-  background-color: transparent;
-  padding: 10px;
-  margin: 10px;
-  border: 1px solid black;
-  border-radius: 15px;
-
-  &:hover {
-    cursor: pointer;
-    background-color: rgba(236, 236, 236, 0.78);
-  }
+const StyledSection = styled.section`
+  text-align: left;
+  padding-left: 20px;
 `;
 
 const StyledSubheader = styled.h3`
-  margin: 20px auto;
-  padding: 0 20px;
-  &:last-of-type {
-    margin: 30px auto 10px auto;
-  }
+  margin: 20px 0 5px 0;
 `;
 
-const StyledSection = styled.section`
+const StyledSubSection = styled.section`
   margin-bottom: 10px;
   span {
-    margin: 10px;
+    margin-right: 10px;
   }
 `;
