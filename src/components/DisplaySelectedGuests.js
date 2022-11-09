@@ -12,12 +12,12 @@ export default function DisplaySelectedGuests() {
     <StyledSection>
       <StyledSubheader>
         {intolerances.length > 0
-          ? "Selected guests"
+          ? "Selected guests:"
           : "Go to your guestlist and choose guests you want to cook for!"}
       </StyledSubheader>
       <p>{selectedGuests.map((guest) => guest.name).join(", ")}</p>
       <StyledSubheader>
-        {intolerances.length > 0 ? "Search filter:" : null}
+        {intolerances.length > 0 ? "Active search filter:" : null}
       </StyledSubheader>
       <StyledSubSection>
         {intolerances.map((item) => (

@@ -10,9 +10,9 @@ export default function MoreFilters({
   selectedCuisineType,
   setSelectedCuisineType,
 }) {
-  const [isMoreFilter, setIsMoreFilter] = useState(false);
-
-  console.log(selectedMealType);
+  const [isMealTypeOpen, setIsMealTypeOpen] = useState(false);
+  const [isDishTypeOpen, setIsDishTypeOpen] = useState(false);
+  const [isCuisineTypeOpen, setIsCuisineTypeOpen] = useState(false);
 
   function handleSelect(event, type) {
     if (type === "mealTypes") {
@@ -62,96 +62,185 @@ export default function MoreFilters({
     }
   }
 
+  function toggleTypeSelect(identifier) {
+    if (identifier === "mealTypes") {
+      setIsMealTypeOpen(!isMealTypeOpen);
+    }
+    if (identifier === "dishTypes") {
+      setIsDishTypeOpen(!isDishTypeOpen);
+    }
+    if (identifier === "cuisineTypes") {
+      setIsCuisineTypeOpen(!isCuisineTypeOpen);
+    }
+  }
+
   return (
-    <StyledFilterSection>
+    <section>
       <StyledSubSection>
         {selectedMealType.map((item) => (
-          <StyledFilterButton
+          <StyledSelectedFilterButton
             key={item}
             type="button"
             value={item}
             onClick={(event) => handleDelete(event, "meal")}
           >
             {item} x
-          </StyledFilterButton>
+          </StyledSelectedFilterButton>
         ))}
         {selectedDishType.map((item) => (
-          <StyledFilterButton
+          <StyledSelectedFilterButton
             key={item}
             type="button"
             value={item}
             onClick={(event) => handleDelete(event, "dish")}
           >
             {item} x
-          </StyledFilterButton>
+          </StyledSelectedFilterButton>
         ))}
         {selectedCuisineType.map((item) => (
-          <StyledFilterButton
+          <StyledSelectedFilterButton
             key={item}
             type="button"
             value={item}
             onClick={(event) => handleDelete(event, "cuisine")}
           >
             {item} x
-          </StyledFilterButton>
+          </StyledSelectedFilterButton>
         ))}
       </StyledSubSection>
-      <StyledMoreFilterButton
-        type="button"
-        onClick={() => setIsMoreFilter(!isMoreFilter)}
-      >
-        <p>{isMoreFilter ? "-" : "+"} Add more filter</p>
-      </StyledMoreFilterButton>
-      {isMoreFilter && (
-        <StyledSubSection>
-          {filterData.map((data) => {
-            const { name } = data;
-            return (
-              <article key={name}>
-                <StyledLabel htmlFor={name}>{name}</StyledLabel>
-                <select
-                  id={name}
-                  name={name}
-                  onChange={(event) => handleSelect(event, name)}
-                  multiple
-                  size="4"
-                >
-                  {data.labels.map((type) => (
-                    <option key={type.label} value={type.value}>
-                      {type.label}
-                    </option>
-                  ))}
-                </select>
-              </article>
-            );
-          })}
-        </StyledSubSection>
-      )}
-    </StyledFilterSection>
+      <StyledMoreFilterHeader>Add more filter:</StyledMoreFilterHeader>
+      <StyledSubSection>
+        {filterData.map((data) => {
+          const { name } = data;
+          return (
+            <article key={name}>
+              <StyledTypeSelect
+                type="button"
+                onClick={() => toggleTypeSelect(name)}
+              >
+                {name} &#8964;
+                <StyledOptions>
+                  {isMealTypeOpen &&
+                    name === "mealTypes" &&
+                    data.labels.map((type, index) => (
+                      <>
+                        <label
+                          htmlFor={type.label}
+                          onClick={(event) => event.stopPropagation()}
+                        >
+                          <input
+                            key={index}
+                            type="checkbox"
+                            id={type.label}
+                            name={type.label}
+                            value={type.value}
+                            onChange={(event) => handleSelect(event, name)}
+                            checked={
+                              selectedMealType.includes(type.value)
+                                ? true
+                                : false
+                            }
+                          />
+                          {type.label}
+                        </label>
+                      </>
+                    ))}
+                  {isDishTypeOpen &&
+                    name === "dishTypes" &&
+                    data.labels.map((type, index) => (
+                      <>
+                        <label
+                          htmlFor={type.label}
+                          onClick={(event) => event.stopPropagation()}
+                        >
+                          <input
+                            key={index}
+                            type="checkbox"
+                            id={type.label}
+                            name={type.label}
+                            value={type.value}
+                            onChange={(event) => handleSelect(event, name)}
+                            checked={
+                              selectedDishType.includes(type.value)
+                                ? true
+                                : false
+                            }
+                          />
+                          {type.label}
+                        </label>
+                      </>
+                    ))}
+                  {isCuisineTypeOpen &&
+                    name === "cuisineTypes" &&
+                    data.labels.map((type, index) => (
+                      <>
+                        <label
+                          htmlFor={type.label}
+                          onClick={(event) => event.stopPropagation()}
+                        >
+                          <input
+                            key={index}
+                            type="checkbox"
+                            id={type.label}
+                            name={type.label}
+                            value={type.value}
+                            onChange={(event) => handleSelect(event, name)}
+                            checked={
+                              selectedCuisineType.includes(type.value)
+                                ? true
+                                : false
+                            }
+                          />
+                          {type.label}
+                        </label>
+                      </>
+                    ))}
+                </StyledOptions>
+              </StyledTypeSelect>
+            </article>
+          );
+        })}
+      </StyledSubSection>
+    </section>
   );
 }
 
-const StyledLabel = styled.label`
-  display: block;
-  text-align: center;
-  margin-bottom: 5px;
-`;
-
-const StyledFilterSection = styled.section``;
-
-const StyledMoreFilterButton = styled.button`
-  margin: 15px 20px 5px 0;
-  width: 90%;
-  padding: 5px 0;
-  border: unset;
-  background-color: transparent;
+const StyledTypeSelect = styled.button`
   text-align: left;
+  padding: 3px 5px 5px 5px;
+  font-size: 0.9rem;
+  border-radius: 5px;
+  border: 1px solid black;
   cursor: pointer;
-  font-weight: bold;
-  font-size: 1rem;
+
+  &:hover {
+    transform: scale(1.05);
+  }
 `;
 
-const StyledFilterButton = styled.button`
+const StyledMoreFilterHeader = styled.h3`
+  margin: 8px 0;
+`;
+
+const StyledOptions = styled.article`
+  display: flex;
+  flex-direction: column;
+  label {
+    margin: 2px 0;
+    padding: 2px 0;
+    border-radius: 5px;
+    cursor: pointer;
+    &:hover {
+      background-color: var(--secondary-color);
+    }
+
+    input {
+      margin-right: 5px;
+    }
+  }
+`;
+
+const StyledSelectedFilterButton = styled.button`
   border: unset;
   background-color: transparent;
   padding: 3px 0;
@@ -169,4 +258,9 @@ const StyledSubSection = styled.section`
   justify-content: flex-start;
   flex-wrap: wrap;
   gap: 15px;
+
+  &:last-of-type {
+    justify-content: flex-start;
+    gap: 20px;
+  }
 `;
