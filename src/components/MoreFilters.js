@@ -84,7 +84,7 @@ export default function MoreFilters({
             value={item}
             onClick={(event) => handleDelete(event, "meal")}
           >
-            {item} x
+            {item}
           </StyledSelectedFilterButton>
         ))}
         {selectedDishType.map((item) => (
@@ -94,7 +94,7 @@ export default function MoreFilters({
             value={item}
             onClick={(event) => handleDelete(event, "dish")}
           >
-            {item} x
+            {item}
           </StyledSelectedFilterButton>
         ))}
         {selectedCuisineType.map((item) => (
@@ -104,7 +104,7 @@ export default function MoreFilters({
             value={item}
             onClick={(event) => handleDelete(event, "cuisine")}
           >
-            {item} x
+            {item}
           </StyledSelectedFilterButton>
         ))}
       </StyledSubSection>
@@ -119,77 +119,77 @@ export default function MoreFilters({
                 onClick={() => toggleTypeSelect(name)}
               >
                 {name} &#8964;
-                <StyledOptions>
-                  {isMealTypeOpen &&
-                    name === "mealTypes" &&
-                    data.labels.map((type, index) => (
-                      <label
-                        key={type.label}
-                        htmlFor={type.label}
-                        onClick={(event) => event.stopPropagation()}
-                      >
-                        <input
-                          key={index}
-                          type="checkbox"
-                          id={type.label}
-                          name={type.label}
-                          value={type.value}
-                          onChange={(event) => handleSelect(event, name)}
-                          checked={
-                            selectedMealType.includes(type.value) ? true : false
-                          }
-                        />
-                        {type.label}
-                      </label>
-                    ))}
-                  {isDishTypeOpen &&
-                    name === "dishTypes" &&
-                    data.labels.map((type, index) => (
-                      <label
-                        key={type.label}
-                        htmlFor={type.label}
-                        onClick={(event) => event.stopPropagation()}
-                      >
-                        <input
-                          key={index}
-                          type="checkbox"
-                          id={type.label}
-                          name={type.label}
-                          value={type.value}
-                          onChange={(event) => handleSelect(event, name)}
-                          checked={
-                            selectedDishType.includes(type.value) ? true : false
-                          }
-                        />
-                        {type.label}
-                      </label>
-                    ))}
-                  {isCuisineTypeOpen &&
-                    name === "cuisineTypes" &&
-                    data.labels.map((type, index) => (
-                      <label
-                        key={type.label}
-                        htmlFor={type.label}
-                        onClick={(event) => event.stopPropagation()}
-                      >
-                        <input
-                          key={index}
-                          type="checkbox"
-                          id={type.label}
-                          name={type.label}
-                          value={type.value}
-                          onChange={(event) => handleSelect(event, name)}
-                          checked={
-                            selectedCuisineType.includes(type.value)
-                              ? true
-                              : false
-                          }
-                        />
-                        {type.label}
-                      </label>
-                    ))}
-                </StyledOptions>
               </StyledTypeSelect>
+              <StyledOptions>
+                {isMealTypeOpen &&
+                  name === "mealTypes" &&
+                  data.labels.map((type, index) => (
+                    <label
+                      key={type.label}
+                      htmlFor={type.label}
+                      onClick={(event) => event.stopPropagation()}
+                    >
+                      <input
+                        key={index}
+                        type="checkbox"
+                        id={type.label}
+                        name={type.label}
+                        value={type.value}
+                        onChange={(event) => handleSelect(event, name)}
+                        checked={
+                          selectedMealType.includes(type.value) ? true : false
+                        }
+                      />
+                      {type.label}
+                    </label>
+                  ))}
+                {isDishTypeOpen &&
+                  name === "dishTypes" &&
+                  data.labels.map((type, index) => (
+                    <label
+                      key={type.label}
+                      htmlFor={type.label}
+                      onClick={(event) => event.stopPropagation()}
+                    >
+                      <input
+                        key={index}
+                        type="checkbox"
+                        id={type.label}
+                        name={type.label}
+                        value={type.value}
+                        onChange={(event) => handleSelect(event, name)}
+                        checked={
+                          selectedDishType.includes(type.value) ? true : false
+                        }
+                      />
+                      {type.label}
+                    </label>
+                  ))}
+                {isCuisineTypeOpen &&
+                  name === "cuisineTypes" &&
+                  data.labels.map((type, index) => (
+                    <label
+                      key={type.label}
+                      htmlFor={type.label}
+                      onClick={(event) => event.stopPropagation()}
+                    >
+                      <input
+                        key={index}
+                        type="checkbox"
+                        id={type.label}
+                        name={type.label}
+                        value={type.value}
+                        onChange={(event) => handleSelect(event, name)}
+                        checked={
+                          selectedCuisineType.includes(type.value)
+                            ? true
+                            : false
+                        }
+                      />
+                      {type.label}
+                    </label>
+                  ))}
+              </StyledOptions>
             </article>
           );
         })}
@@ -202,8 +202,9 @@ const StyledTypeSelect = styled.button`
   text-align: left;
   padding: 3px 5px 5px 5px;
   font-size: 0.9rem;
+  background-color: transparent;
   border-radius: 5px;
-  border: 1px solid black;
+  border: 1px solid grey;
   cursor: pointer;
 
   &:hover {
@@ -235,8 +236,9 @@ const StyledOptions = styled.article`
 
 const StyledSelectedFilterButton = styled.button`
   border: unset;
-  background-color: transparent;
-  padding: 3px 0;
+  background-color: lightgrey;
+  padding: 5px;
+  border-radius: 5px;
   font-size: 1rem;
   cursor: pointer;
 
