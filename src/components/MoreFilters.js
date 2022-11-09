@@ -123,77 +123,70 @@ export default function MoreFilters({
                   {isMealTypeOpen &&
                     name === "mealTypes" &&
                     data.labels.map((type, index) => (
-                      <>
-                        <label
-                          htmlFor={type.label}
-                          onClick={(event) => event.stopPropagation()}
-                        >
-                          <input
-                            key={index}
-                            type="checkbox"
-                            id={type.label}
-                            name={type.label}
-                            value={type.value}
-                            onChange={(event) => handleSelect(event, name)}
-                            checked={
-                              selectedMealType.includes(type.value)
-                                ? true
-                                : false
-                            }
-                          />
-                          {type.label}
-                        </label>
-                      </>
+                      <label
+                        key={type.label}
+                        htmlFor={type.label}
+                        onClick={(event) => event.stopPropagation()}
+                      >
+                        <input
+                          key={index}
+                          type="checkbox"
+                          id={type.label}
+                          name={type.label}
+                          value={type.value}
+                          onChange={(event) => handleSelect(event, name)}
+                          checked={
+                            selectedMealType.includes(type.value) ? true : false
+                          }
+                        />
+                        {type.label}
+                      </label>
                     ))}
                   {isDishTypeOpen &&
                     name === "dishTypes" &&
                     data.labels.map((type, index) => (
-                      <>
-                        <label
-                          htmlFor={type.label}
-                          onClick={(event) => event.stopPropagation()}
-                        >
-                          <input
-                            key={index}
-                            type="checkbox"
-                            id={type.label}
-                            name={type.label}
-                            value={type.value}
-                            onChange={(event) => handleSelect(event, name)}
-                            checked={
-                              selectedDishType.includes(type.value)
-                                ? true
-                                : false
-                            }
-                          />
-                          {type.label}
-                        </label>
-                      </>
+                      <label
+                        key={type.label}
+                        htmlFor={type.label}
+                        onClick={(event) => event.stopPropagation()}
+                      >
+                        <input
+                          key={index}
+                          type="checkbox"
+                          id={type.label}
+                          name={type.label}
+                          value={type.value}
+                          onChange={(event) => handleSelect(event, name)}
+                          checked={
+                            selectedDishType.includes(type.value) ? true : false
+                          }
+                        />
+                        {type.label}
+                      </label>
                     ))}
                   {isCuisineTypeOpen &&
                     name === "cuisineTypes" &&
                     data.labels.map((type, index) => (
-                      <>
-                        <label
-                          htmlFor={type.label}
-                          onClick={(event) => event.stopPropagation()}
-                        >
-                          <input
-                            key={index}
-                            type="checkbox"
-                            id={type.label}
-                            name={type.label}
-                            value={type.value}
-                            onChange={(event) => handleSelect(event, name)}
-                            checked={
-                              selectedCuisineType.includes(type.value)
-                                ? true
-                                : false
-                            }
-                          />
-                          {type.label}
-                        </label>
-                      </>
+                      <label
+                        key={type.label}
+                        htmlFor={type.label}
+                        onClick={(event) => event.stopPropagation()}
+                      >
+                        <input
+                          key={index}
+                          type="checkbox"
+                          id={type.label}
+                          name={type.label}
+                          value={type.value}
+                          onChange={(event) => handleSelect(event, name)}
+                          checked={
+                            selectedCuisineType.includes(type.value)
+                              ? true
+                              : false
+                          }
+                        />
+                        {type.label}
+                      </label>
                     ))}
                 </StyledOptions>
               </StyledTypeSelect>
