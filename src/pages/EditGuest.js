@@ -5,6 +5,7 @@ import SearchIntolerances from "../components/SearchIntolerances";
 import { UserContext } from "../util/UserContext";
 import { useContext, useState } from "react";
 import Header from "../components/Header";
+import GuestNameInput from "../components/GuestNameInput";
 
 export default function EditGuest({ onHandleEditSubmit }) {
   const navigate = useNavigate();
@@ -33,15 +34,7 @@ export default function EditGuest({ onHandleEditSubmit }) {
       <Header title="Edit Guest" isInfoButton={true} />
       <StyledForm onSubmit={onSubmit}>
         <label htmlFor="newName">Name: </label>
-        <input
-          name="newName"
-          id="newName"
-          type="text"
-          minLength={1}
-          maxLength={40}
-          defaultValue={name}
-          required
-        />
+        <GuestNameInput defaultName={name} />
         <SearchIntolerances
           completelyNewSearch={false}
           activeList={activeEditList}

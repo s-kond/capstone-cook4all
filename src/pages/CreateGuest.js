@@ -4,6 +4,7 @@ import { useState } from "react";
 import Header from "../components/Header";
 import InfoModal from "../components/InfoModal";
 import SearchIntolerances from "../components/SearchIntolerances";
+import GuestNameInput from "../components/GuestNameInput";
 
 export default function CreateGuest({ onHandleSubmit }) {
   const navigate = useNavigate();
@@ -23,15 +24,7 @@ export default function CreateGuest({ onHandleSubmit }) {
       <Header title="New Guest" />
       <StyledForm onSubmit={onSubmit}>
         <label htmlFor="newName">Name: </label>
-        <input
-          name="newName"
-          id="newName"
-          type="text"
-          //this pattern prevents users from submiting empty whitespace-filled names
-          pattern=".*[^\s]{1,}.*"
-          maxLength={40}
-          required
-        />
+        <GuestNameInput />
         <SearchIntolerances
           completelyNewSearch={true}
           activeList={activeList}
