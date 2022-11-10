@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom";
 import GetSelectedGuestsIntolerances from "../util/GetSelectedGuestsIntolerances.js";
 
-test("regular data", async () => {
+test("return intolerances from all selected guests - no double intolerances", async () => {
   const testArray = [
     {
       id: 1,
@@ -33,7 +33,7 @@ test("regular data", async () => {
   expect(result).toEqual(["Kosher", "Dairy-Free", "Gluten-Free"]);
 });
 
-test("doubled intolerances", async () => {
+test("return intolerances from all selected guests - double intolerances", async () => {
   const testArray = [
     {
       id: 1,

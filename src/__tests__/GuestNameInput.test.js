@@ -51,9 +51,6 @@ describe("input field requires valid usernames", () => {
       inputfield,
       "asdfubsafubasdfiusabfiusdffsufbisaudfbsf asiudfbasdufbaisdufbaisudfbaisubfiusabdf"
     );
-    //the expected value below is exactly 40 letters:
-    expect(inputfield).toHaveDisplayValue(
-      "asdfubsafubasdfiusabfiusdffsufbisaudfbsf"
-    );
+    expect(inputfield.value).toHaveLength(40);
   });
 });
