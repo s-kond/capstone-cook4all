@@ -1,11 +1,12 @@
-import fetch from "node-fetch";
 import express from "express";
 import bodyParser from "body-parser";
+import userDataRoutes from "./routes/Userdata.js";
 
 const app = express();
 
 app.set("port", 8080);
 
+//middleware
 app.use(bodyParser.json());
 app.use(
   bodyParser.urlencoded({
@@ -13,17 +14,13 @@ app.use(
   })
 );
 
-app.get("/api", async (req, res) => {
-  const response = await fetch("https://api.github.com/users/github");
-  const data = await response.json();
-  res.json(data);
+app.use((req, res, next) => {
+  console.log(req.path, req.method);
+  next();
 });
 
-app.get("/api/data-for-react", async (req, res) => {
-  res.json({ topic: "& Express" });
-});
+app.use("/api/users", userDataRoutes);
 
 app.listen(app.get("port"), () => {
   console.log(`Node app listening on port ${app.get("port")}`);
 });
-
