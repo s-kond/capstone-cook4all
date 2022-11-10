@@ -1,5 +1,5 @@
 import "@testing-library/jest-dom";
-import CompareArrays from "./CompareArrays";
+import CompareArrays from "../util/CompareArrays";
 
 test("Function to compare two arrays works", async () => {
   const array1 = [
@@ -14,7 +14,7 @@ test("Function to compare two arrays works", async () => {
   ];
 
   const result = CompareArrays(array1, array2);
-  expect(result).toEqual([
+  expect(result).toStrictEqual([
     { id: 3, name: "di" },
     { id: 4, name: "dum" },
   ]);
@@ -32,7 +32,7 @@ test("Edge case 1 comparing two arrays", async () => {
   ];
 
   const result = CompareArrays(array1, array2);
-  expect(result).toEqual([
+  expect(result).toStrictEqual([
     { id: 3, name: "di" },
     { id: 4, name: "dum" },
   ]);
@@ -49,7 +49,7 @@ test("Edge case 2 comparing two arrays", async () => {
   ];
 
   const result = CompareArrays(array1, array2);
-  expect(result).toEqual([
+  expect(result).toStrictEqual([
     { id: 3, name: "di" },
     { id: 4, name: "dum" },
   ]);
