@@ -4,6 +4,15 @@ const User = require("../models/UserModel");
 
 const router = express.Router();
 
+router.get("/all", async (req, res) => {
+  const userData = await User.find({});
+
+  if (!userData) {
+    return res.status(404).json({ error: "Cannot find any users." });
+  }
+  res.status(200).json(userData);
+});
+
 router.get("/:id", async (req, res) => {
   const { id } = req.params;
 

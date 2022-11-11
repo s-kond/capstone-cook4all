@@ -45,6 +45,22 @@ function App() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    const fetchGuestList = async () => {
+      try {
+        const response = await fetch("/api/users/636e0f416f9bb50da6915796");
+        const data = await response.json();
+
+        if (response.ok) {
+          console.log(data);
+        }
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+    fetchGuestList();
+  }, []);
+
+  useEffect(() => {
     setStoredGuests(guestArray);
   }, [guestArray]);
 
