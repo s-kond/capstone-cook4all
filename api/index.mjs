@@ -1,7 +1,10 @@
+import * as dotenv from "dotenv";
 import express from "express";
+import mongoose from "mongoose";
 import bodyParser from "body-parser";
 import userDataRoutes from "./routes/Userdata.js";
 
+dotenv.config();
 const app = express();
 
 app.set("port", 8080);
@@ -19,8 +22,17 @@ app.use((req, res, next) => {
   next();
 });
 
+// routes
 app.use("/api/users", userDataRoutes);
 
-app.listen(app.get("port"), () => {
-  console.log(`Node app listening on port ${app.get("port")}`);
-});
+// connect to db
+mongoose
+  .connect(process.env.MONGO_URI)
+  .then(() => {
+    app.listen(app.get("port"), () => {
+      console.log(`connected to DB & listening on port ${app.get("port")}`);
+    });
+  })
+  .catch((error) => {
+    console.log(error);
+  });
