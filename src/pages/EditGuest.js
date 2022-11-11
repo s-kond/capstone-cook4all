@@ -11,8 +11,8 @@ export default function EditGuest({ onHandleEditSubmit }) {
   const navigate = useNavigate();
   const { guestArray } = useContext(UserContext);
   const { id } = useParams();
-  const guestDetails = guestArray.filter((guest) => guest.id === id);
-  const { name, intolerances, notes } = guestDetails[0];
+  const guestDetails = guestArray.filter((guest) => guest._id === id);
+  const { name, intolerances, notes, _id } = guestDetails[0];
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeEditList, setActiveEditList] = useState(intolerances);
 
@@ -24,7 +24,7 @@ export default function EditGuest({ onHandleEditSubmit }) {
       newName.value = "";
       alert("Each name must have one letter at least.");
     } else {
-      onHandleEditSubmit(id, newName.value, activeEditList, newNotes.value);
+      onHandleEditSubmit(_id, newName.value, activeEditList, newNotes.value);
       navigate("/");
     }
   }

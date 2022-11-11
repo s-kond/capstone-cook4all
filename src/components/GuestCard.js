@@ -9,7 +9,7 @@ import editIcon from "../assets/icons/edit-line.svg";
 import deleteIcon from "../assets/icons/delete-icon.svg";
 
 export default function GuestCard({ personalData }) {
-  const { name, intolerances, notes, id, selected } = personalData;
+  const { name, intolerances, notes, _id, selected } = personalData;
   const { deleteGuest } = useContext(UserContext);
   const [showGuestInfo, setShowGuestInfo] = useState(false);
   const navigate = useNavigate();
@@ -19,7 +19,7 @@ export default function GuestCard({ personalData }) {
   function toggleSelected(guestId) {
     setGuestArray(
       guestArray.map((guest) =>
-        guest.id === guestId
+        guest._id === guestId
           ? {
               ...guest,
               selected: !guest.selected,
@@ -32,7 +32,7 @@ export default function GuestCard({ personalData }) {
   return (
     <StyledArticle>
       <StyledBasicSection>
-        <StyledCheckButton type="button" onClick={() => toggleSelected(id)}>
+        <StyledCheckButton type="button" onClick={() => toggleSelected(_id)}>
           {selected ? (
             <img src={checkedCircle} alt="selected" />
           ) : (
@@ -59,11 +59,11 @@ export default function GuestCard({ personalData }) {
         <StyledInfoP>{notes.length > 0 && "Further Notes:"}</StyledInfoP>
         <StyledNotes>{notes}</StyledNotes>
         <StyledButtonContainer>
-          <StyledDeleteButton onClick={() => deleteGuest(id)}>
+          <StyledDeleteButton onClick={() => deleteGuest(_id)}>
             <img src={deleteIcon} alt="delete guest" />
             <p>delete</p>
           </StyledDeleteButton>
-          <StyledEditButton onClick={() => navigate(`/edit-guest/${id}`)}>
+          <StyledEditButton onClick={() => navigate(`/edit-guest/${_id}`)}>
             <img src={editIcon} alt="edit guest" />
             <p>edit</p>
           </StyledEditButton>
