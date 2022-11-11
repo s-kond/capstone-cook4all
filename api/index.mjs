@@ -1,11 +1,15 @@
-import fetch from "node-fetch";
+import * as dotenv from "dotenv";
 import express from "express";
+import mongoose from "mongoose";
 import bodyParser from "body-parser";
+import userDataRoutes from "./routes/Userdata.js";
 
+dotenv.config();
 const app = express();
 
 app.set("port", 8080);
 
+//middleware
 app.use(bodyParser.json());
 app.use(
   bodyParser.urlencoded({
@@ -13,17 +17,22 @@ app.use(
   })
 );
 
-app.get("/api", async (req, res) => {
-  const response = await fetch("https://api.github.com/users/github");
-  const data = await response.json();
-  res.json(data);
+app.use((req, res, next) => {
+  console.log(req.path, req.method);
+  next();
 });
 
-app.get("/api/data-for-react", async (req, res) => {
-  res.json({ topic: "& Express" });
-});
+// routes
+app.use("/api/users", userDataRoutes);
 
-app.listen(app.get("port"), () => {
-  console.log(`Node app listening on port ${app.get("port")}`);
-});
-
+// connect to db
+mongoose
+  .connect(process.env.MONGO_URI)
+  .then(() => {
+    app.listen(app.get("port"), () => {
+      console.log(`connected to DB & listening on port ${app.get("port")}`);
+    });
+  })
+  .catch((error) => {
+    console.log(error);
+  });
