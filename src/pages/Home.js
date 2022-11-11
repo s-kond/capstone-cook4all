@@ -7,7 +7,7 @@ import NavBar from "../components/NavBar";
 import addIcon from "../assets/icons/add-circle-20-regular.svg";
 import Header from "../components/Header";
 
-export default function Home() {
+export default function Home({ fetchGuests }) {
   const navigate = useNavigate();
   const { guestArray } = useContext(UserContext);
 
@@ -19,11 +19,18 @@ export default function Home() {
         <WelcomeMessage>
           {guestArray.length > 0
             ? "Who do you want to cook for today?"
-            : "Nobody here... Start by clicking + and add new guests!"}
+            : "Nobody here... Fetch some example guests or add new guests!"}
         </WelcomeMessage>
+
+        {guestArray.length === 0 && (
+          <button type="button" onClick={() => fetchGuests()}>
+            Fetch some guests
+          </button>
+        )}
+
         <StyledGuestList>
           {guestArray.map((guest) => {
-            return <GuestCard key={guest.id} personalData={guest} />;
+            return <GuestCard key={guest._id} personalData={guest} />;
           })}
         </StyledGuestList>
         <StyledAddButton
@@ -52,6 +59,7 @@ const StyledGuestList = styled.section`
 const StyledAddButton = styled.button`
   background-color: transparent;
   border: unset;
+  margin-top: 20px;
   margin-bottom: 100px;
 
   img {
