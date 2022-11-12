@@ -13,17 +13,11 @@ router.get("/all", async (req, res) => {
   res.status(200).json(userData);
 });
 
-router.get("/:id", async (req, res) => {
-  const { id } = req.params;
-
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).json({ error: "No user found under this id." });
-  }
-
-  const userData = await User.findById(id);
-
+router.get("/:username", async (req, res) => {
+  const { username } = req.params;
+  const userData = await User.find({ name: username });
   if (!userData) {
-    return res.status(404).json({ error: "Cannot find user." });
+    return res.status(404).json({ error: "No such user." });
   }
   res.status(200).json(userData);
 });
