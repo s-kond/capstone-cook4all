@@ -6,8 +6,9 @@ import { UserContext } from "../util/UserContext";
 import NavBar from "../components/NavBar";
 import addIcon from "../assets/icons/add-circle-20-regular.svg";
 import Header from "../components/Header";
+import LoginSection from "../components/LoginSection";
 
-export default function Home({ fetchGuests }) {
+export default function Home() {
   const navigate = useNavigate();
   const { guestArray } = useContext(UserContext);
 
@@ -19,15 +20,10 @@ export default function Home({ fetchGuests }) {
         <WelcomeMessage>
           {guestArray.length > 0
             ? "Who do you want to cook for today?"
-            : "Nobody here... Fetch some example guests or add new guests!"}
+            : "Nobody here... Login or add new guests!"}
         </WelcomeMessage>
-
-        {guestArray.length === 0 && (
-          <button type="button" onClick={() => fetchGuests()}>
-            Fetch some guests
-          </button>
-        )}
-
+        <LoginSection />
+        <hr />
         <StyledGuestList>
           {guestArray.map((guest) => {
             return <GuestCard key={guest._id} personalData={guest} />;
