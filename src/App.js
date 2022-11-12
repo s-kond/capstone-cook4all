@@ -22,20 +22,28 @@ function App() {
   );
   const [guestArray, setGuestArray] = useState(storedGuests);
   const [favoriteArray, setFavoriteArray] = useState(storedFavorites);
+  const [username, setUsername] = useState();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
 
   async function fetchGuestList() {
     try {
-      const response = await fetch("/api/users/all");
+      const response = await fetch(`/api/users/${username}`);
       const data = await response.json();
 
       if (response.ok) {
-        const guestList = data.map((user) => user.guestList);
-        setGuestArray([...guestArray, ...guestList[0]]);
+        setGuestArray([...guestArray, ...data[0].guestList]);
+        setIsLoggedIn(true);
       }
     } catch (error) {
+      alert(`Sorry, username "${username}" doesn't exist.`);
       console.log(error.message);
     }
+  }
+
+  function handleLogout() {
+    setIsLoggedIn(false);
+    setGuestArray([]);
   }
 
   useEffect(() => {
@@ -89,11 +97,16 @@ function App() {
         favoriteArray,
         setFavoriteArray,
         deleteGuest,
+        fetchGuestList,
+        username,
+        setUsername,
+        isLoggedIn,
+        handleLogout,
       }}
     >
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route index element={<Home fetchGuests={fetchGuestList} />} />
+          <Route index element={<Home />} />
           <Route path="recipes" element={<Recipes />} />
           <Route path="favorites" element={<FavoriteRecipes />} />
           <Route
