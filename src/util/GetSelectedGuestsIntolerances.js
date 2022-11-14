@@ -7,21 +7,19 @@
  */
 
 export function GetSelectedGuestsIntolerances(guestArray) {
-  let intolerancesObjects = [];
-  const selectedGuestsIntolerances = guestArray
-    .filter((guest) => guest.selected)
-    .map((guest) => guest.intolerances);
-
-  for (let item of selectedGuestsIntolerances) {
-    intolerancesObjects = [...item, ...intolerancesObjects];
-  }
-  const intolerancesNames = intolerancesObjects
-    .map((item) => item.name)
-    .reduce(function (acc, curr) {
-      if (!acc.includes(curr)) acc.push(curr);
-      return acc;
-    }, []);
-  return intolerancesNames;
+  return [
+    ...new Set(
+      guestArray
+        .filter((guest) => guest.selected)
+        .reduce(
+          (acc, curr) => [
+            ...acc,
+            ...curr.intolerances.map((intolerance) => intolerance.name),
+          ],
+          []
+        )
+    ),
+  ];
 }
 
 export default GetSelectedGuestsIntolerances;

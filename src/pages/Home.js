@@ -6,8 +6,9 @@ import { UserContext } from "../util/UserContext";
 import NavBar from "../components/NavBar";
 import addIcon from "../assets/icons/add-circle-20-regular.svg";
 import Header from "../components/Header";
+import LoginSection from "../components/LoginSection";
 
-export default function Home({ fetchGuests }) {
+export default function Home() {
   const navigate = useNavigate();
   const { guestArray } = useContext(UserContext);
 
@@ -19,18 +20,22 @@ export default function Home({ fetchGuests }) {
         <WelcomeMessage>
           {guestArray.length > 0
             ? "Who do you want to cook for today?"
-            : "Nobody here... Fetch some example guests or add new guests!"}
+            : "Nobody here... Login or add new guests!"}
         </WelcomeMessage>
-
-        {guestArray.length === 0 && (
-          <button type="button" onClick={() => fetchGuests()}>
-            Fetch some guests
-          </button>
-        )}
-
+        <LoginSection />
+        <hr />
         <StyledGuestList>
           {guestArray.map((guest) => {
-            return <GuestCard key={guest._id} personalData={guest} />;
+            //when you create a new guest, there is no guest.id that you could use as a key
+            //every guest gets an id when you save the guestArray to the dataBase
+            //(to prevent one guest having two ids)
+            //that's the reason for this (temporary) math.random()-key:
+            return (
+              <GuestCard
+                key={guest._id ?? Math.random().toString(36).substring(2)}
+                personalData={guest}
+              />
+            );
           })}
         </StyledGuestList>
         <StyledAddButton
@@ -51,8 +56,9 @@ const WelcomeMessage = styled.p`
 
 const StyledGuestList = styled.section`
   @media (min-width: 700px) {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
   }
 `;
 

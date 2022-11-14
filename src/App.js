@@ -4,53 +4,66 @@ import EditGuest from "./pages/EditGuest";
 import Layout from "./components/Layout";
 import ErrorPage from "./pages/ErrorPage";
 import { Routes, Route, useNavigate } from "react-router-dom";
-import { nanoid } from "nanoid";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { UserContext } from "./util/UserContext";
-import useLocalStorage from "./hooks/useLocalStorage";
 import Recipes from "./pages/Recipes";
 import FavoriteRecipes from "./pages/FavoriteRecipes";
+import { useEffect } from "react";
 
 function App() {
-  const [storedGuests, setStoredGuests] = useLocalStorage(
-    "cookingGuestList",
-    []
-  );
-  const [storedFavorites, setStoredFavorites] = useLocalStorage(
-    "favoriteRecipeList",
-    []
-  );
-  const [guestArray, setGuestArray] = useState(storedGuests);
-  const [favoriteArray, setFavoriteArray] = useState(storedFavorites);
+  const [guestArray, setGuestArray] = useState([]);
+  const [favoriteArray, setFavoriteArray] = useState([]);
+  const [username, setUsername] = useState();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isChanges, setIsChanges] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    setIsChanges(true);
+  }, [guestArray]);
 
   async function fetchGuestList() {
     try {
-      const response = await fetch("/api/users/all");
+      const response = await fetch(`/api/users/${username}`);
       const data = await response.json();
 
       if (response.ok) {
-        const guestList = data.map((user) => user.guestList);
-        setGuestArray([...guestArray, ...guestList[0]]);
+        setGuestArray([...guestArray, ...data[0].guestList]);
+        setIsLoggedIn(true);
       }
     } catch (error) {
-      console.log(error.message);
+      alert(`Sorry, username "${username}" doesn't exist.`);
+      console.error(error.message);
     }
   }
 
-  useEffect(() => {
-    setStoredGuests(guestArray);
-  }, [guestArray]);
+  function handleLogout() {
+    setIsLoggedIn(false);
+    setGuestArray([]);
+  }
 
-  useEffect(() => {
-    setStoredFavorites(favoriteArray);
-  }, [favoriteArray]);
+  async function handleUserDataUpdate() {
+    const response = await fetch(`/api/users/${username}`, {
+      method: "PUT",
+      body: JSON.stringify(guestArray),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const json = await response.json();
+
+    if (!response.ok) {
+      console.error(json.error);
+    }
+    if (response.ok) {
+      setIsChanges(false);
+    }
+  }
 
   //Basic CRUD-Operations, used on CreateGuest.js and EditGuest.js
   function createGuest(newName, intolerancesArray, newNotes) {
     setGuestArray([
       {
-        _id: nanoid(),
         name: newName,
         intolerances: intolerancesArray,
         notes: newNotes,
@@ -89,11 +102,19 @@ function App() {
         favoriteArray,
         setFavoriteArray,
         deleteGuest,
+        fetchGuestList,
+        username,
+        setUsername,
+        isLoggedIn,
+        isChanges,
+        setIsChanges,
+        handleLogout,
+        handleUserDataUpdate,
       }}
     >
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route index element={<Home fetchGuests={fetchGuestList} />} />
+          <Route index element={<Home />} />
           <Route path="recipes" element={<Recipes />} />
           <Route path="favorites" element={<FavoriteRecipes />} />
           <Route
