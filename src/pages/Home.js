@@ -47,8 +47,9 @@ const WelcomeMessage = styled.p`
 
 const StyledGuestList = styled.section`
   @media (min-width: 700px) {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
   }
 `;
 
