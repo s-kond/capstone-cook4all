@@ -30,7 +30,7 @@ test("return intolerances from all selected guests - no double intolerances", as
   ];
 
   const result = GetSelectedGuestsIntolerances(testArray);
-  expect(result).toEqual(["Kosher", "Dairy-Free", "Gluten-Free"]);
+  expect(result).toEqual(["Dairy-Free", "Gluten-Free", "Kosher"]);
 });
 
 test("return intolerances from all selected guests - double intolerances", async () => {
@@ -69,5 +69,5 @@ test("return intolerances from all selected guests - double intolerances", async
   ];
 
   const result = GetSelectedGuestsIntolerances(testArray);
-  expect(result).toEqual(["Kosher", "Fish-Free", "DASH", "Egg-Free"]);
+  expect(result).toEqual(["DASH", "Egg-Free", "Fish-Free", "Kosher"]);
 });
