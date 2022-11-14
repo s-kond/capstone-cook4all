@@ -43,8 +43,21 @@ const updateUser = async (req, res) => {
   }
 };
 
+//add guest to list
+const updateUserGuestList = async (req, res) => {
+  const { guestList } = req.body;
+  const { username } = req.params;
+  try {
+    const user = await User.findOneAndUpdate({ name: username }, { guestList });
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
 module.exports = {
   getUser,
   addUser,
   updateUser,
+  updateUserGuestList,
 };

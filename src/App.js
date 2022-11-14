@@ -8,7 +8,6 @@ import { useState } from "react";
 import { UserContext } from "./util/UserContext";
 import Recipes from "./pages/Recipes";
 import FavoriteRecipes from "./pages/FavoriteRecipes";
-import { useEffect } from "react";
 
 function App() {
   const [guestArray, setGuestArray] = useState([]);
@@ -18,19 +17,15 @@ function App() {
   const [isChanges, setIsChanges] = useState(false);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    setIsChanges(true);
-  }, [guestArray]);
-
   //handling GET-/POST-/PUT-Requests
-  async function fetchGuestList() {
+  async function fetchUserData() {
     try {
       const response = await fetch(`/api/users/${username}`);
       const data = await response.json();
 
       if (response.ok) {
-        setFavoriteArray([...favoriteArray, ...data[0].favoriteRecipes]);
-        setGuestArray([...guestArray, ...data[0].guestList]);
+        setFavoriteArray([...data[0].favoriteRecipes]);
+        setGuestArray([...data[0].guestList]);
         setIsLoggedIn(true);
       }
     } catch (error) {
@@ -93,8 +88,8 @@ function App() {
   }
 
   //Basic CRUD-Operations, used on CreateGuest.js and EditGuest.js
-  function createGuest(newName, intolerancesArray, newNotes) {
-    setGuestArray([
+  async function createGuest(newName, intolerancesArray, newNotes) {
+    const newGuestArray = [
       {
         name: newName,
         intolerances: intolerancesArray,
@@ -102,7 +97,34 @@ function App() {
         selected: false,
       },
       ...guestArray,
-    ]);
+    ];
+    //it's necessary to save the new guest to the db, so that an _id is generated directly:
+    const response = await fetch(`/api/users/addGuest/${username}`, {
+      method: "PUT",
+      body: JSON.stringify({ guestList: newGuestArray }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const json = await response.json();
+
+    if (!response.ok) {
+      console.error(json.error);
+    }
+    if (response.ok) {
+      setIsChanges(false);
+    }
+    //fetch the newly created guest from db and save him in guestArray:
+    try {
+      const response = await fetch(`/api/users/${username}`);
+      const data = await response.json();
+
+      if (response.ok) {
+        setGuestArray([...data[0].guestList]);
+      }
+    } catch (error) {
+      console.error(error.message);
+    }
   }
 
   function deleteGuest(guestId) {
@@ -124,6 +146,7 @@ function App() {
           : guest
       )
     );
+    setIsChanges(true);
   }
 
   return (
@@ -134,7 +157,7 @@ function App() {
         favoriteArray,
         setFavoriteArray,
         deleteGuest,
-        fetchGuestList,
+        fetchUserData,
         username,
         setUsername,
         isLoggedIn,
@@ -152,7 +175,7 @@ function App() {
           <Route path="favorites" element={<FavoriteRecipes />} />
           <Route
             path="create-guest"
-            element={<CreateGuest onHandleSubmit={createGuest} />}
+            element={<CreateGuest createGuest={createGuest} />}
           />
           <Route
             path="edit-guest/:id"

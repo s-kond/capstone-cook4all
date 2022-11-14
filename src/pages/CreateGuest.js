@@ -6,23 +6,23 @@ import InfoModal from "../components/InfoModal";
 import SearchIntolerances from "../components/SearchIntolerances";
 import GuestNameInput from "../components/GuestNameInput";
 
-export default function CreateGuest({ onHandleSubmit }) {
+export default function CreateGuest({ createGuest }) {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeList, setActiveList] = useState([]);
 
-  function onSubmit(event) {
+  function handleSubmit(event) {
     event.preventDefault();
     const form = event.target;
     const { newName, newNotes } = form.elements;
-    onHandleSubmit(newName.value, activeList, newNotes.value);
+    createGuest(newName.value, activeList, newNotes.value);
     navigate("/");
   }
 
   return (
     <>
       <Header title="New Guest" />
-      <StyledForm onSubmit={onSubmit}>
+      <StyledForm onSubmit={handleSubmit}>
         <label htmlFor="newName">Name: </label>
         <GuestNameInput />
         <SearchIntolerances

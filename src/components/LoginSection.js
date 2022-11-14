@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 export default function LoginSection() {
   const {
-    fetchGuestList,
+    fetchUserData,
     username,
     setUsername,
     isLoggedIn,
@@ -41,7 +41,7 @@ export default function LoginSection() {
         />
       )}
       {!isLoggedIn && (
-        <button type="button" onClick={fetchGuestList}>
+        <button type="button" onClick={fetchUserData}>
           Login
         </button>
       )}
