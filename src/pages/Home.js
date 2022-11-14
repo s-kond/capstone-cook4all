@@ -27,12 +27,12 @@ export default function Home() {
         <StyledGuestList>
           {guestArray.map((guest) => {
             //when you create a new guest, there is no guest.id that you could use as a key
-            //every guest gets an id when you save
-            //the guestArray to the dataBase (to prevent one guest having two ids)
-            //I know Math.random() can't be the correct solution here
+            //every guest gets an id when you save the guestArray to the dataBase
+            //(to prevent one guest having two ids)
+            //that's the reason for this (temporary) math.random()-key:
             return (
               <GuestCard
-                key={guest._id ?? Math.random()}
+                key={guest._id ?? Math.random().toString(36).substring(2)}
                 personalData={guest}
               />
             );
