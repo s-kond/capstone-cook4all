@@ -15,7 +15,7 @@ router.get("/all", async (req, res) => {
 router.get("/:username", async (req, res) => {
   const { username } = req.params;
   const userData = await User.find({ name: username });
-  if (!userData) {
+  if (userData.length === 0) {
     return res.status(404).json({ error: "No such user." });
   }
   res.status(200).json(userData);

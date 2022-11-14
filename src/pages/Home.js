@@ -25,8 +25,17 @@ export default function Home() {
         <LoginSection />
         <hr />
         <StyledGuestList>
-          {guestArray.map((guest, index) => {
-            return <GuestCard key={index} personalData={guest} />;
+          {guestArray.map((guest) => {
+            //when you create a new guest, there is no guest.id that you could use as a key
+            //every guest gets an id when you save
+            //the guestArray to the dataBase (to prevent one guest having two ids)
+            //I know Math.random() can't be the correct solution here
+            return (
+              <GuestCard
+                key={guest._id ?? Math.random()}
+                personalData={guest}
+              />
+            );
           })}
         </StyledGuestList>
         <StyledAddButton

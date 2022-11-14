@@ -33,7 +33,7 @@ function App() {
       }
     } catch (error) {
       alert(`Sorry, username "${username}" doesn't exist.`);
-      console.log(error.message);
+      console.error(error.message);
     }
   }
 
@@ -53,7 +53,7 @@ function App() {
     const json = await response.json();
 
     if (!response.ok) {
-      console.log(json.error);
+      console.error(json.error);
     }
     if (response.ok) {
       setIsChanges(false);

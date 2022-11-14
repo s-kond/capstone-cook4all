@@ -15,12 +15,12 @@ export default function LoginSection() {
     <>
       {isLoggedIn && <p>Hello {username}!</p>}
       {isLoggedIn && (
-        <button type="button" onClick={() => handleLogout()}>
+        <button type="button" onClick={handleLogout}>
           Logout
         </button>
       )}
       {isLoggedIn && isChanges && (
-        <button type="button" onClick={() => handleUserDataUpdate()}>
+        <button type="button" onClick={handleUserDataUpdate}>
           Save changes
         </button>
       )}
@@ -36,7 +36,7 @@ export default function LoginSection() {
         />
       )}
       {!isLoggedIn && (
-        <button type="button" onClick={() => fetchGuestList()}>
+        <button type="button" onClick={fetchGuestList}>
           Login
         </button>
       )}
