@@ -14,6 +14,7 @@ const userSchema = new Schema(
         selected: Boolean,
       },
     ],
+    favoriteRecipes: Array,
   },
   { timestamps: true }
 );

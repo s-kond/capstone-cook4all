@@ -22,12 +22,14 @@ function App() {
     setIsChanges(true);
   }, [guestArray]);
 
+  //handling GET-/POST-/PUT-Requests
   async function fetchGuestList() {
     try {
       const response = await fetch(`/api/users/${username}`);
       const data = await response.json();
 
       if (response.ok) {
+        setFavoriteArray([...favoriteArray, ...data[0].favoriteRecipes]);
         setGuestArray([...guestArray, ...data[0].guestList]);
         setIsLoggedIn(true);
       }
@@ -37,15 +39,45 @@ function App() {
     }
   }
 
+  async function handleNewUser() {
+    const newUser = {
+      name: username,
+      guestList: guestArray,
+      favoriteRecipes: favoriteArray,
+    };
+    const response = await fetch(`/api/users/addNew`, {
+      method: "POST",
+      body: JSON.stringify(newUser),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const json = await response.json();
+
+    if (!response.ok) {
+      alert("This user already exists.");
+      console.error(json.error);
+    }
+    if (response.ok) {
+      console.log(json);
+      setIsLoggedIn(true);
+    }
+  }
+
   function handleLogout() {
     setIsLoggedIn(false);
     setGuestArray([]);
+    setFavoriteArray([]);
   }
 
   async function handleUserDataUpdate() {
+    const updates = {
+      guestList: guestArray,
+      favoriteRecipes: favoriteArray,
+    };
     const response = await fetch(`/api/users/${username}`, {
       method: "PUT",
-      body: JSON.stringify(guestArray),
+      body: JSON.stringify(updates),
       headers: {
         "Content-Type": "application/json",
       },
@@ -110,6 +142,7 @@ function App() {
         setIsChanges,
         handleLogout,
         handleUserDataUpdate,
+        handleNewUser,
       }}
     >
       <Routes>
