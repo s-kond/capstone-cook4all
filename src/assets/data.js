@@ -55,7 +55,6 @@ export const filterData = [
       { label: "soup", value: "Soup" },
       { label: "desserts", value: "Desserts" },
       { label: "biscuits", value: "Biscuits and cookies" },
-      { label: "sweets", value: "Sweets" },
       { label: "sauces", value: "Condiments and sauces" },
       { label: "drinks", value: "Drinks" },
       { label: "cereals", value: "Cereals" },
