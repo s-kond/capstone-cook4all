@@ -2,14 +2,26 @@ import { useContext } from "react";
 import { UserContext } from "../util/UserContext";
 
 export default function LoginSection() {
-  const { fetchGuestList, username, setUsername, isLoggedIn, handleLogout } =
-    useContext(UserContext);
+  const {
+    fetchGuestList,
+    username,
+    setUsername,
+    isLoggedIn,
+    isChanges,
+    handleLogout,
+    handleUserDataUpdate,
+  } = useContext(UserContext);
   return (
     <>
       {isLoggedIn && <p>Hello {username}!</p>}
       {isLoggedIn && (
         <button type="button" onClick={() => handleLogout()}>
           Logout
+        </button>
+      )}
+      {isLoggedIn && isChanges && (
+        <button type="button" onClick={() => handleUserDataUpdate()}>
+          Save changes
         </button>
       )}
       {!isLoggedIn && (

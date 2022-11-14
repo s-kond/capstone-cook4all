@@ -25,8 +25,8 @@ export default function Home() {
         <LoginSection />
         <hr />
         <StyledGuestList>
-          {guestArray.map((guest) => {
-            return <GuestCard key={guest._id} personalData={guest} />;
+          {guestArray.map((guest, index) => {
+            return <GuestCard key={index} personalData={guest} />;
           })}
         </StyledGuestList>
         <StyledAddButton

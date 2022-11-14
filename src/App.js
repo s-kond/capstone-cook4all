@@ -4,27 +4,23 @@ import EditGuest from "./pages/EditGuest";
 import Layout from "./components/Layout";
 import ErrorPage from "./pages/ErrorPage";
 import { Routes, Route, useNavigate } from "react-router-dom";
-import { nanoid } from "nanoid";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { UserContext } from "./util/UserContext";
-import useLocalStorage from "./hooks/useLocalStorage";
 import Recipes from "./pages/Recipes";
 import FavoriteRecipes from "./pages/FavoriteRecipes";
+import { useEffect } from "react";
 
 function App() {
-  const [storedGuests, setStoredGuests] = useLocalStorage(
-    "cookingGuestList",
-    []
-  );
-  const [storedFavorites, setStoredFavorites] = useLocalStorage(
-    "favoriteRecipeList",
-    []
-  );
-  const [guestArray, setGuestArray] = useState(storedGuests);
-  const [favoriteArray, setFavoriteArray] = useState(storedFavorites);
+  const [guestArray, setGuestArray] = useState([]);
+  const [favoriteArray, setFavoriteArray] = useState([]);
   const [username, setUsername] = useState();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isChanges, setIsChanges] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    setIsChanges(true);
+  }, [guestArray]);
 
   async function fetchGuestList() {
     try {
@@ -46,19 +42,28 @@ function App() {
     setGuestArray([]);
   }
 
-  useEffect(() => {
-    setStoredGuests(guestArray);
-  }, [guestArray]);
+  async function handleUserDataUpdate() {
+    const response = await fetch(`/api/users/${username}`, {
+      method: "PUT",
+      body: JSON.stringify(guestArray),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const json = await response.json();
 
-  useEffect(() => {
-    setStoredFavorites(favoriteArray);
-  }, [favoriteArray]);
+    if (!response.ok) {
+      console.log(json.error);
+    }
+    if (response.ok) {
+      setIsChanges(false);
+    }
+  }
 
   //Basic CRUD-Operations, used on CreateGuest.js and EditGuest.js
   function createGuest(newName, intolerancesArray, newNotes) {
     setGuestArray([
       {
-        _id: nanoid(),
         name: newName,
         intolerances: intolerancesArray,
         notes: newNotes,
@@ -101,7 +106,10 @@ function App() {
         username,
         setUsername,
         isLoggedIn,
+        isChanges,
+        setIsChanges,
         handleLogout,
+        handleUserDataUpdate,
       }}
     >
       <Routes>
