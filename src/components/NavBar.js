@@ -6,9 +6,11 @@ import favoritesIcon from "../assets/icons/heart-outlined.svg";
 import upArrow from "../assets/icons/arrow-up-circle.svg";
 import { useEffect, useState } from "react";
 import InfoModal from "./InfoModal";
-import infoIcon from "../assets/icons/info-regular.svg";
+import ProfileMenu from "./ProfileMenu";
+import userIcon from "../assets/icons/user-profile-outline.svg";
 
-export default function NavBar() {
+export default function NavBar({ setIsOpen }) {
+  const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showTopBtn, setShowTopBtn] = useState(false);
 
@@ -44,19 +46,27 @@ export default function NavBar() {
           <img src={favoritesIcon} alt="Go to favorite recipes" />
           <p>Favorites</p>
         </StyledNavLink>
+        <StyledProfileButton
+          onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
+        >
+          <img src={userIcon} alt="user" />
+          <p>Account</p>
+        </StyledProfileButton>
+        <ProfileMenu
+          isProfileMenuOpen={isProfileMenuOpen}
+          setIsProfileMenuOpen={setIsProfileMenuOpen}
+          setIsModalOpen={setIsModalOpen}
+        />
+        <InfoModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
         {showTopBtn && (
-          <StyledToTopButton type="button" onClick={() => goToTop()}>
+          <StyledToTopButton
+            type="button"
+            onClick={goToTop}
+            isProfileMenuOpen={isProfileMenuOpen}
+          >
             <img src={upArrow} alt="arrow up" />
           </StyledToTopButton>
         )}
-        <StyledInfoButton
-          type="button"
-          title="intolerances, diets, ..."
-          onClick={() => setIsModalOpen(true)}
-        >
-          <img src={infoIcon} alt="info" />
-        </StyledInfoButton>
-        <InfoModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
       </StyledNavBar>
     </>
   );
@@ -94,32 +104,38 @@ const StyledNavLink = styled(NavLink)`
   }
 `;
 
-const StyledInfoButton = styled.button`
-  position: absolute;
-  top: -50px;
-  right: 25px;
-  height: 35px;
-  width: 35px;
-  padding: 0;
-  border-radius: 100%;
+const StyledProfileButton = styled.button`
+  height: 80px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  background-color: var(--primary-color);
   border: unset;
-  background-color: white;
   cursor: pointer;
-  &:hover {
-    transform: scale(1.1);
+
+  &.active {
+    background-color: var(--secondary-color);
+  }
+
+  p {
+    margin-top: 2px;
+    font-size: 0.9rem;
+    color: black;
   }
 `;
 
 const StyledToTopButton = styled.button`
+  display: ${({ isProfileMenuOpen }) => isProfileMenuOpen && "none"};
   position: absolute;
+  top: -50px;
   right: 20px;
-  top: -100px;
-  height: 40px;
-  width: 40px;
   border-radius: 100%;
   padding: 0;
   border: unset;
-  background-color: white;
+  background-color: transparent;
   cursor: pointer;
   &:hover {
     transform: scale(1.1);

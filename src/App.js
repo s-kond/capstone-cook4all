@@ -8,7 +8,6 @@ import { useState } from "react";
 import { UserContext } from "./util/UserContext";
 import Recipes from "./pages/Recipes";
 import FavoriteRecipes from "./pages/FavoriteRecipes";
-import { useEffect } from "react";
 
 function App() {
   const [guestArray, setGuestArray] = useState([]);
@@ -16,19 +15,18 @@ function App() {
   const [username, setUsername] = useState();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isChanges, setIsChanges] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    setIsChanges(true);
-  }, [guestArray]);
-
-  async function fetchGuestList() {
+  //handling GET-/POST-/PUT-Requests
+  async function fetchUserData() {
     try {
       const response = await fetch(`/api/users/${username}`);
       const data = await response.json();
 
       if (response.ok) {
-        setGuestArray([...guestArray, ...data[0].guestList]);
+        setFavoriteArray(data.favoriteRecipes);
+        setGuestArray(data.guestList);
         setIsLoggedIn(true);
       }
     } catch (error) {
@@ -37,15 +35,65 @@ function App() {
     }
   }
 
-  function handleLogout() {
-    setIsLoggedIn(false);
-    setGuestArray([]);
+  async function handleNewUser() {
+    const newUser = {
+      name: username,
+      guestList: guestArray,
+      favoriteRecipes: favoriteArray,
+    };
+    const response = await fetch(`/api/users/addNew`, {
+      method: "POST",
+      body: JSON.stringify(newUser),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const json = await response.json();
+
+    if (!response.ok) {
+      alert(
+        "This user already exists or you submitted an empty username. Please try again!"
+      );
+      console.error(json.error);
+    }
+    if (response.ok) {
+      setIsLoggedIn(true);
+    }
+  }
+
+  function handleLogout(saveChanges) {
+    if (isChanges) {
+      setIsModalOpen(true);
+    }
+    if (saveChanges === "save") {
+      setIsModalOpen(false);
+      handleUserDataUpdate();
+      setIsLoggedIn(false);
+      setGuestArray([]);
+      setFavoriteArray([]);
+    }
+    if (saveChanges === "noSave") {
+      setIsModalOpen(false);
+      setIsChanges(false);
+      setGuestArray([]);
+      setFavoriteArray([]);
+      setIsLoggedIn(false);
+    }
+    if (!isChanges) {
+      setIsLoggedIn(false);
+      setGuestArray([]);
+      setFavoriteArray([]);
+    }
   }
 
   async function handleUserDataUpdate() {
+    const updates = {
+      guestList: guestArray,
+      favoriteRecipes: favoriteArray,
+    };
     const response = await fetch(`/api/users/${username}`, {
       method: "PUT",
-      body: JSON.stringify(guestArray),
+      body: JSON.stringify(updates),
       headers: {
         "Content-Type": "application/json",
       },
@@ -61,8 +109,8 @@ function App() {
   }
 
   //Basic CRUD-Operations, used on CreateGuest.js and EditGuest.js
-  function createGuest(newName, intolerancesArray, newNotes) {
-    setGuestArray([
+  async function createGuest(newName, intolerancesArray, newNotes) {
+    const newGuestArray = [
       {
         name: newName,
         intolerances: intolerancesArray,
@@ -70,7 +118,34 @@ function App() {
         selected: false,
       },
       ...guestArray,
-    ]);
+    ];
+    //it's necessary to save the new guest to the db, so that an _id is generated directly:
+    const response = await fetch(`/api/users/addGuest/${username}`, {
+      method: "PUT",
+      body: JSON.stringify({ guestList: newGuestArray }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const json = await response.json();
+
+    if (!response.ok) {
+      console.error(json.error);
+    }
+    if (response.ok) {
+      setIsChanges(false);
+    }
+    //fetch the newly created guest from db and save him in guestArray:
+    try {
+      const response = await fetch(`/api/users/${username}`);
+      const data = await response.json();
+
+      if (response.ok) {
+        setGuestArray(data.guestList);
+      }
+    } catch (error) {
+      console.error(error.message);
+    }
   }
 
   function deleteGuest(guestId) {
@@ -92,6 +167,7 @@ function App() {
           : guest
       )
     );
+    setIsChanges(true);
   }
 
   return (
@@ -102,7 +178,7 @@ function App() {
         favoriteArray,
         setFavoriteArray,
         deleteGuest,
-        fetchGuestList,
+        fetchUserData,
         username,
         setUsername,
         isLoggedIn,
@@ -110,6 +186,9 @@ function App() {
         setIsChanges,
         handleLogout,
         handleUserDataUpdate,
+        handleNewUser,
+        isModalOpen,
+        setIsModalOpen,
       }}
     >
       <Routes>
@@ -119,7 +198,7 @@ function App() {
           <Route path="favorites" element={<FavoriteRecipes />} />
           <Route
             path="create-guest"
-            element={<CreateGuest onHandleSubmit={createGuest} />}
+            element={<CreateGuest createGuest={createGuest} />}
           />
           <Route
             path="edit-guest/:id"

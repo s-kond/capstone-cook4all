@@ -6,46 +6,42 @@ import { UserContext } from "../util/UserContext";
 import NavBar from "../components/NavBar";
 import addIcon from "../assets/icons/add-circle-20-regular.svg";
 import Header from "../components/Header";
+import UserModal from "../components/UserModal";
 import LoginSection from "../components/LoginSection";
+import { useState } from "react";
 
 export default function Home() {
+  const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
-  const { guestArray } = useContext(UserContext);
+  const { guestArray, isLoggedIn, username } = useContext(UserContext);
 
   return (
     <>
       <Header title="cook4all" />
       <main>
-        <h2>Welcome!</h2>
+        {isOpen && <UserModal isOpen={isOpen} setIsOpen={setIsOpen} />}
+        {isLoggedIn ? <h2>Welcome {username}!</h2> : <h2>Welcome!</h2>}
         <WelcomeMessage>
           {guestArray.length > 0
             ? "Who do you want to cook for today?"
-            : "Nobody here... Login or add new guests!"}
+            : "Nobody here... Login to add new guests!"}
         </WelcomeMessage>
-        <LoginSection />
-        <hr />
+        {!isLoggedIn && <LoginSection />}
         <StyledGuestList>
           {guestArray.map((guest) => {
-            //when you create a new guest, there is no guest.id that you could use as a key
-            //every guest gets an id when you save the guestArray to the dataBase
-            //(to prevent one guest having two ids)
-            //that's the reason for this (temporary) math.random()-key:
-            return (
-              <GuestCard
-                key={guest._id ?? Math.random().toString(36).substring(2)}
-                personalData={guest}
-              />
-            );
+            return <GuestCard key={guest._id} personalData={guest} />;
           })}
         </StyledGuestList>
-        <StyledAddButton
-          type="button"
-          onClick={() => navigate("/create-guest")}
-        >
-          <img src={addIcon} alt="Add guest" />
-        </StyledAddButton>
+        {isLoggedIn && (
+          <StyledAddButton
+            type="button"
+            onClick={() => navigate("/create-guest")}
+          >
+            <img src={addIcon} alt="Add guest" />
+          </StyledAddButton>
+        )}
       </main>
-      <NavBar />
+      <NavBar setIsOpen={setIsOpen} />
     </>
   );
 }

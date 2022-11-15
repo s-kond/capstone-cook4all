@@ -1,10 +1,12 @@
 import styled from "styled-components";
+import UserModal from "./UserModal";
 import { Outlet } from "react-router-dom";
 
 export default function Layout() {
   return (
     <>
       <Container>
+        <UserModal />
         <Outlet />
       </Container>
     </>

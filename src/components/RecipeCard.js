@@ -9,7 +9,8 @@ import { UserContext } from "../util/UserContext";
 export default function RecipeCard({ recipeData }) {
   const { label, image, totalTime, uri, url, healthLabels, ingredients } =
     recipeData.recipe;
-  const { favoriteArray, setFavoriteArray } = useContext(UserContext);
+  const { favoriteArray, setFavoriteArray, setIsChanges } =
+    useContext(UserContext);
   const [moreInformation, toggleMoreInformation] = useState(false);
   const [favorite, setFavorite] = useState(false);
 
@@ -35,6 +36,7 @@ export default function RecipeCard({ recipeData }) {
       );
     }
     setFavorite(!favorite);
+    setIsChanges(true);
   }
 
   return (
