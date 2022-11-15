@@ -15,6 +15,7 @@ function App() {
   const [username, setUsername] = useState();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isChanges, setIsChanges] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
 
   //handling GET-/POST-/PUT-Requests
@@ -50,7 +51,9 @@ function App() {
     const json = await response.json();
 
     if (!response.ok) {
-      alert("This user already exists.");
+      alert(
+        "This user already exists or you submitted an empty username. Please try again!"
+      );
       console.error(json.error);
     }
     if (response.ok) {
@@ -59,10 +62,29 @@ function App() {
     }
   }
 
-  function handleLogout() {
-    setIsLoggedIn(false);
-    setGuestArray([]);
-    setFavoriteArray([]);
+  function handleLogout(saveChanges) {
+    if (isChanges) {
+      setIsModalOpen(true);
+    }
+    if (saveChanges === "save") {
+      setIsModalOpen(false);
+      handleUserDataUpdate();
+      setIsLoggedIn(false);
+      setGuestArray([]);
+      setFavoriteArray([]);
+    }
+    if (saveChanges === "noSave") {
+      setIsModalOpen(false);
+      setIsChanges(false);
+      setGuestArray([]);
+      setFavoriteArray([]);
+      setIsLoggedIn(false);
+    }
+    if (!isChanges) {
+      setIsLoggedIn(false);
+      setGuestArray([]);
+      setFavoriteArray([]);
+    }
   }
 
   async function handleUserDataUpdate() {
@@ -166,6 +188,8 @@ function App() {
         handleLogout,
         handleUserDataUpdate,
         handleNewUser,
+        isModalOpen,
+        setIsModalOpen,
       }}
     >
       <Routes>
