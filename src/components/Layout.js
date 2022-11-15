@@ -1,12 +1,12 @@
 import styled from "styled-components";
-import UserModal from "./UserModal";
+import LogoutModal from "./LogoutModal";
 import { Outlet } from "react-router-dom";
 
 export default function Layout() {
   return (
     <>
       <Container>
-        <UserModal />
+        <LogoutModal />
         <Outlet />
       </Container>
     </>

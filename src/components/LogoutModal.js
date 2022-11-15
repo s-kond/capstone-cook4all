@@ -3,17 +3,20 @@ import styled from "styled-components";
 import { UserContext } from "../util/UserContext";
 
 export default function UserModal() {
-  const { isModalOpen, setIsModalOpen, handleLogout } = useContext(UserContext);
+  const { isLogoutModalOpen, setIsLogoutModalOpen, handleLogout } =
+    useContext(UserContext);
   return (
     <>
-      {isModalOpen && <StyledContainer onClick={() => setIsModalOpen(false)} />}
-      {isModalOpen && (
+      {isLogoutModalOpen && (
+        <StyledContainer onClick={() => setIsLogoutModalOpen(false)} />
+      )}
+      {isLogoutModalOpen && (
         <DivCentered>
           <DivModal>
             <DivModalHeader>
               <StyledModalHeader>Before you go</StyledModalHeader>
             </DivModalHeader>
-            <StyledCloseButton onClick={() => setIsModalOpen(false)}>
+            <StyledCloseButton onClick={() => setIsLogoutModalOpen(false)}>
               X
             </StyledCloseButton>
             <DivModalContent>

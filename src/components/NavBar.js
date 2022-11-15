@@ -9,9 +9,9 @@ import InfoModal from "./InfoModal";
 import ProfileMenu from "./ProfileMenu";
 import userIcon from "../assets/icons/user-profile-outline.svg";
 
-export default function NavBar({ setIsOpen }) {
+export default function NavBar() {
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
   const [showTopBtn, setShowTopBtn] = useState(false);
 
   useEffect(() => {
@@ -55,9 +55,12 @@ export default function NavBar({ setIsOpen }) {
         <ProfileMenu
           isProfileMenuOpen={isProfileMenuOpen}
           setIsProfileMenuOpen={setIsProfileMenuOpen}
-          setIsModalOpen={setIsModalOpen}
+          setIsInfoModalOpen={setIsInfoModalOpen}
         />
-        <InfoModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
+        <InfoModal
+          isInfoModalOpen={isInfoModalOpen}
+          setIsInfoModalOpen={setIsInfoModalOpen}
+        />
         {showTopBtn && (
           <StyledToTopButton
             type="button"

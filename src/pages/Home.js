@@ -6,12 +6,9 @@ import { UserContext } from "../util/UserContext";
 import NavBar from "../components/NavBar";
 import addIcon from "../assets/icons/add-circle-20-regular.svg";
 import Header from "../components/Header";
-import UserModal from "../components/UserModal";
 import LoginSection from "../components/LoginSection";
-import { useState } from "react";
 
 export default function Home() {
-  const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
   const { guestArray, isLoggedIn, username } = useContext(UserContext);
 
@@ -19,7 +16,6 @@ export default function Home() {
     <>
       <Header title="cook4all" />
       <main>
-        {isOpen && <UserModal isOpen={isOpen} setIsOpen={setIsOpen} />}
         {isLoggedIn ? <h2>Welcome {username}!</h2> : <h2>Welcome!</h2>}
         <WelcomeMessage>
           {guestArray.length > 0
@@ -41,7 +37,7 @@ export default function Home() {
           </StyledAddButton>
         )}
       </main>
-      <NavBar setIsOpen={setIsOpen} />
+      <NavBar />
     </>
   );
 }
