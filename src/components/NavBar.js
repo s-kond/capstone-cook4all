@@ -4,15 +4,16 @@ import homeIcon from "../assets/icons/home-line.svg";
 import recipesIcon from "../assets/icons/hot-meal-outline.svg";
 import favoritesIcon from "../assets/icons/heart-outlined.svg";
 import upArrow from "../assets/icons/arrow-up-circle.svg";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import InfoModal from "./InfoModal";
 import ProfileMenu from "./ProfileMenu";
 import userIcon from "../assets/icons/user-profile-outline.svg";
+import { UserContext } from "../util/UserContext";
 
 export default function NavBar() {
-  const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
   const [showTopBtn, setShowTopBtn] = useState(false);
+  const { isProfileMenuOpen, setIsProfileMenuOpen } = useContext(UserContext);
 
   useEffect(() => {
     window.addEventListener("scroll", () => {

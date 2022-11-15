@@ -17,6 +17,7 @@ function App() {
   const [isChanges, setIsChanges] = useState(false);
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const navigate = useNavigate();
 
   //handling GET-/POST-/PUT-Requests
@@ -62,17 +63,21 @@ function App() {
     }
   }
 
-  async function handleDeleteUser() {
-    const response = await fetch(`/api/users/${username}`, {
-      method: "DELETE",
-    });
-    const json = await response.json();
-    if (response.ok) {
-      alert("AAAA!!! deleted.");
-      handleLogout();
-    }
-    if (!response.ok) {
-      console.error(json.error);
+  async function handleDeleteUser(confirmation) {
+    setIsDeleteModalOpen(true);
+    if (confirmation === true) {
+      const response = await fetch(`/api/users/${username}`, {
+        method: "DELETE",
+      });
+      const json = await response.json();
+      if (response.ok) {
+        setIsDeleteModalOpen(false);
+        setIsProfileMenuOpen(false);
+        handleLogout();
+      }
+      if (!response.ok) {
+        console.error(json.error);
+      }
     }
   }
 
@@ -207,6 +212,8 @@ function App() {
         setIsLogoutModalOpen,
         isProfileMenuOpen,
         setIsProfileMenuOpen,
+        isDeleteModalOpen,
+        setIsDeleteModalOpen,
       }}
     >
       <Routes>

@@ -1,12 +1,12 @@
 import styled from "styled-components";
-import LogoutModal from "./LogoutModal";
+import WarningModal from "./WarningModal";
 import { Outlet } from "react-router-dom";
 
 export default function Layout() {
   return (
     <>
       <Container>
-        <LogoutModal />
+        <WarningModal />
         <Outlet />
       </Container>
     </>
