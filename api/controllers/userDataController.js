@@ -27,6 +27,15 @@ const addUser = async (req, res) => {
 };
 
 //delete a user
+const deleteUser = async (req, res) => {
+  const { username } = req.params;
+  try {
+    await User.deleteOne({ name: username });
+    res.status(200).json({ msg: username + " was deleted succefully." });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
 
 //update user data
 const updateUser = async (req, res) => {
@@ -58,6 +67,7 @@ const updateUserGuestList = async (req, res) => {
 module.exports = {
   getUser,
   addUser,
+  deleteUser,
   updateUser,
   updateUserGuestList,
 };
