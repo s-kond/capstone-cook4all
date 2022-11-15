@@ -17,13 +17,19 @@ export default function ProfileMenu({
     navigate("/");
   }
 
+  function handleLogoutAndClose() {
+    setIsProfileMenuOpen(false);
+    navigate("/");
+    handleLogout();
+  }
+
   return (
     <>
       {isProfileMenuOpen && (
         <ButtonContainer>
           {!isLoggedIn && <button onClick={goToLogin}>Login</button>}
           {isLoggedIn && (
-            <LogoutButton type="button" onClick={handleLogout}>
+            <LogoutButton type="button" onClick={handleLogoutAndClose}>
               Logout
             </LogoutButton>
           )}
