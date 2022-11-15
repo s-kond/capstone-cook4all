@@ -2,35 +2,78 @@ import { useContext } from "react";
 import styled from "styled-components";
 import { UserContext } from "../util/UserContext";
 
-export default function UserModal() {
-  const { isModalOpen, setIsModalOpen, handleLogout } = useContext(UserContext);
+export default function WarningModal() {
+  const {
+    isLogoutModalOpen,
+    setIsLogoutModalOpen,
+    handleLogout,
+    isDeleteModalOpen,
+    setIsDeleteModalOpen,
+    handleDeleteUser,
+  } = useContext(UserContext);
+
   return (
     <>
-      {isModalOpen && <StyledContainer onClick={() => setIsModalOpen(false)} />}
-      {isModalOpen && (
+      {(isLogoutModalOpen || isDeleteModalOpen) && (
+        <StyledContainer onClick={() => setIsLogoutModalOpen(false)} />
+      )}
+      {(isLogoutModalOpen || isDeleteModalOpen) && (
         <DivCentered>
           <DivModal>
             <DivModalHeader>
-              <StyledModalHeader>Before you go</StyledModalHeader>
+              {isLogoutModalOpen && (
+                <StyledModalHeader>Before you go</StyledModalHeader>
+              )}
+              {isDeleteModalOpen && (
+                <StyledModalHeader>Deleting account</StyledModalHeader>
+              )}
             </DivModalHeader>
-            <StyledCloseButton onClick={() => setIsModalOpen(false)}>
+            <StyledCloseButton
+              onClick={() =>
+                isLogoutModalOpen
+                  ? setIsLogoutModalOpen(false)
+                  : setIsDeleteModalOpen(false)
+              }
+            >
               X
             </StyledCloseButton>
             <DivModalContent>
-              <p>
-                There are unsaved changes. They will be lost when you logout
-                now. Do you want to save those changes?
-              </p>
+              {isLogoutModalOpen && (
+                <p>
+                  There are unsaved changes. They will be lost when you logout
+                  now. Do you want to save those changes?
+                </p>
+              )}
+              {isDeleteModalOpen && (
+                <p>
+                  Are you sure you want to delete this user? This cannot be
+                  undone.
+                </p>
+              )}
             </DivModalContent>
             <DivModalActions>
-              <DivModalActionsContainer>
-                <StyledSaveButton onClick={() => handleLogout("save")}>
-                  Save changes and logout
-                </StyledSaveButton>
-                <StyledLogoutButton onClick={() => handleLogout("noSave")}>
-                  Logout
-                </StyledLogoutButton>
-              </DivModalActionsContainer>
+              {isLogoutModalOpen && (
+                <DivModalActionsContainer>
+                  <StyledSaveButton onClick={() => handleLogout("save")}>
+                    Save changes and logout
+                  </StyledSaveButton>
+                  <StyledLogoutButton onClick={() => handleLogout("noSave")}>
+                    Logout
+                  </StyledLogoutButton>
+                </DivModalActionsContainer>
+              )}
+              {isDeleteModalOpen && (
+                <DivModalActionsContainer>
+                  <StyledSaveButton onClick={() => handleDeleteUser(true)}>
+                    Delete
+                  </StyledSaveButton>
+                  <StyledLogoutButton
+                    onClick={() => setIsDeleteModalOpen(false)}
+                  >
+                    Back
+                  </StyledLogoutButton>
+                </DivModalActionsContainer>
+              )}
             </DivModalActions>
           </DivModal>
         </DivCentered>

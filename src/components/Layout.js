@@ -1,12 +1,12 @@
 import styled from "styled-components";
-import UserModal from "./UserModal";
+import WarningModal from "./WarningModal";
 import { Outlet } from "react-router-dom";
 
 export default function Layout() {
   return (
     <>
       <Container>
-        <UserModal />
+        <WarningModal />
         <Outlet />
       </Container>
     </>

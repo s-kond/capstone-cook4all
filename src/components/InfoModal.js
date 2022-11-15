@@ -2,16 +2,19 @@ import ReactModal from "react-modal";
 import styled from "styled-components";
 import IntoleranceFilterInformation from "./IntoleranceFilterTable";
 
-export default function InfoModal({ isModalOpen, setIsModalOpen }) {
+export default function InfoModal({ isInfoModalOpen, setIsInfoModalOpen }) {
   return (
-    <ReactModal isOpen={isModalOpen} onClick={() => setIsModalOpen(false)}>
+    <ReactModal
+      isOpen={isInfoModalOpen}
+      onClick={() => setIsInfoModalOpen(false)}
+    >
       <h2>Intolerance filters</h2>
       <StyledIntro>
         Find out what all the available filters for intolerances, diets, etc.
         mean exactly:
       </StyledIntro>
       <IntoleranceFilterInformation />
-      <StyledCloseButton onClick={() => setIsModalOpen(false)}>
+      <StyledCloseButton onClick={() => setIsInfoModalOpen(false)}>
         X
       </StyledCloseButton>
     </ReactModal>

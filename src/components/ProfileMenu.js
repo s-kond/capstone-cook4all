@@ -6,10 +6,15 @@ import { useNavigate } from "react-router-dom";
 export default function ProfileMenu({
   isProfileMenuOpen,
   setIsProfileMenuOpen,
-  setIsModalOpen,
+  setIsInfoModalOpen,
 }) {
-  const { isLoggedIn, isChanges, handleUserDataUpdate, handleLogout } =
-    useContext(UserContext);
+  const {
+    isLoggedIn,
+    isChanges,
+    handleUserDataUpdate,
+    handleDeleteUser,
+    handleLogout,
+  } = useContext(UserContext);
   const navigate = useNavigate();
 
   function goToLogin() {
@@ -33,10 +38,15 @@ export default function ProfileMenu({
               Logout
             </LogoutButton>
           )}
+          {isLoggedIn && (
+            <LogoutButton type="button" onClick={handleDeleteUser}>
+              Delete this account
+            </LogoutButton>
+          )}
           <button
             type="button"
             title="intolerances, diets, ..."
-            onClick={() => setIsModalOpen(true)}
+            onClick={() => setIsInfoModalOpen(true)}
           >
             Information
           </button>
