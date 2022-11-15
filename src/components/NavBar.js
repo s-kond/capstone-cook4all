@@ -61,7 +61,7 @@ export default function NavBar({ setIsOpen }) {
         {showTopBtn && (
           <StyledToTopButton
             type="button"
-            onClick={() => goToTop()}
+            onClick={goToTop}
             isProfileMenuOpen={isProfileMenuOpen}
           >
             <img src={upArrow} alt="arrow up" />

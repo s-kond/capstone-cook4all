@@ -25,8 +25,8 @@ function App() {
       const data = await response.json();
 
       if (response.ok) {
-        setFavoriteArray([...data[0].favoriteRecipes]);
-        setGuestArray([...data[0].guestList]);
+        setFavoriteArray(data.favoriteRecipes);
+        setGuestArray(data.guestList);
         setIsLoggedIn(true);
       }
     } catch (error) {
@@ -57,7 +57,6 @@ function App() {
       console.error(json.error);
     }
     if (response.ok) {
-      console.log(json);
       setIsLoggedIn(true);
     }
   }
@@ -142,7 +141,7 @@ function App() {
       const data = await response.json();
 
       if (response.ok) {
-        setGuestArray([...data[0].guestList]);
+        setGuestArray(data.guestList);
       }
     } catch (error) {
       console.error(error.message);

@@ -7,7 +7,7 @@ const getUser = async (req, res) => {
   if (userData.length === 0) {
     return res.status(404).json({ error: "No such user." });
   }
-  res.status(200).json(userData);
+  res.status(200).json(...userData);
 };
 
 //add a new user
