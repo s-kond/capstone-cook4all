@@ -4,8 +4,7 @@ import { useState } from "react";
 import Header from "../components/Header";
 import SearchIntolerances from "../components/SearchIntolerances";
 import GuestNameInput from "../components/GuestNameInput";
-import SubmitButton from "../components/Buttons/SubmitButton";
-import BackButton from "../components/Buttons/BackButton";
+import BasicButton from "../components/BasicButton";
 
 export default function CreateGuest({ createGuest }) {
   const navigate = useNavigate();
@@ -33,8 +32,8 @@ export default function CreateGuest({ createGuest }) {
         <label htmlFor="newNotes">Notes</label>
         <textarea name="newNotes" id="newNotes" />
         <ButtonContainer>
-          <BackButton handleClick={() => navigate("/")} />
-          <SubmitButton type="submit" />
+          <BasicButton description="back" handleClick={() => navigate("/")} />
+          <BasicButton description="submit" />
         </ButtonContainer>
       </StyledForm>
     </>
@@ -81,6 +80,7 @@ export const StyledForm = styled.form`
 
 export const ButtonContainer = styled.section`
   width: 80%;
+  height: 80px;
   margin: 20px auto;
   display: flex;
   justify-content: space-around;

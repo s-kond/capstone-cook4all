@@ -5,8 +5,7 @@ import { UserContext } from "../util/UserContext";
 import { useContext, useState } from "react";
 import Header from "../components/Header";
 import GuestNameInput from "../components/GuestNameInput";
-import BackButton from "../components/Buttons/BackButton";
-import SubmitButton from "../components/Buttons/SubmitButton";
+import BasicButton from "../components/BasicButton";
 
 export default function EditGuest({ onHandleEditSubmit }) {
   const navigate = useNavigate();
@@ -43,8 +42,8 @@ export default function EditGuest({ onHandleEditSubmit }) {
         <label htmlFor="newNotes">Notes</label>
         <textarea name="newNotes" id="newNotes" defaultValue={notes}></textarea>
         <ButtonContainer>
-          <BackButton handleClick={() => navigate("/")} />
-          <SubmitButton type="submit" />
+          <BasicButton description="back" handleClick={() => navigate("/")} />
+          <BasicButton description="submit" />
         </ButtonContainer>
       </StyledForm>
     </>
