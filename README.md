@@ -16,3 +16,6 @@ You can also filter the recipes for the type of meal, dish or cuisine you are lo
 
 ### Technologies I used
 React (+ styled components), JavaScript, Express, node, MongoDB
+
+
+<img src="https://user-images.githubusercontent.com/79710919/202211861-9a638cbb-5e67-48a3-9725-dd4f49fa1073.svg" width=200 />
