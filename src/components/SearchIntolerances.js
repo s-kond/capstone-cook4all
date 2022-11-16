@@ -66,12 +66,8 @@ export default function SearchIntolerances({
       <label htmlFor="newIntolerances">Food should be</label>
       <StyledUl>
         {activeList.map((item) => (
-          <li>
-            <StyledActiveIntolerance
-              key={item.id}
-              type="button"
-              onClick={() => removeFromActive(item)}
-            >
+          <li onClick={() => removeFromActive(item)}>
+            <StyledActiveIntolerance key={item.id} type="button">
               {item.name}
             </StyledActiveIntolerance>
           </li>
