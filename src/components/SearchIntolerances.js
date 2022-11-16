@@ -2,13 +2,16 @@ import { useState, useRef } from "react";
 import styled from "styled-components";
 import { search } from "fast-fuzzy";
 import { possibleIntolerances } from "../assets/data";
+import infoIcon from "../assets/icons/info-regular.svg";
 import compareArrays from "../util/CompareArrays";
+import InfoModal from "./InfoModal";
 
 export default function SearchIntolerances({
   completelyNewSearch,
   activeList,
   setActiveList,
 }) {
+  const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
   const [filteredIntolerance, setFilteredIntolerance] = useState([]);
   const [editedIntolerances, setEditedIntolerances] = useState([]);
   const intolerancesRef = useRef();
@@ -37,6 +40,7 @@ export default function SearchIntolerances({
         editedIntolerances.filter((item) => item.id !== intolerance.id)
       );
     }
+    setFilteredIntolerance([]);
     intolerancesRef.current.value = "";
     intolerancesRef.current.focus();
   }
@@ -55,26 +59,37 @@ export default function SearchIntolerances({
 
   return (
     <>
-      <label htmlFor="newIntolerances">Food should be:</label>
-      <input
-        name="newIntolerances"
-        id="newIntolerances"
-        type="text"
-        placeholder="e.g. fish-free"
-        ref={intolerancesRef}
-        onChange={(event) => searchIntolerance(event.target.value)}
+      <InfoModal
+        isInfoModalOpen={isInfoModalOpen}
+        setIsInfoModalOpen={setIsInfoModalOpen}
       />
-      <section>
+      <label htmlFor="newIntolerances">Food should be</label>
+      <StyledUl>
         {activeList.map((item) => (
-          <StyledActiveIntolerance
-            key={item.id}
-            type="button"
-            onClick={() => removeFromActive(item)}
-          >
-            {item.name} x
-          </StyledActiveIntolerance>
+          <li onClick={() => removeFromActive(item)}>
+            <StyledActiveIntolerance key={item.id} type="button">
+              {item.name}
+            </StyledActiveIntolerance>
+          </li>
         ))}
-      </section>
+      </StyledUl>
+      <StyledInputSection>
+        <input
+          name="newIntolerances"
+          id="newIntolerances"
+          type="text"
+          placeholder="e.g. fish-free"
+          ref={intolerancesRef}
+          onChange={(event) => searchIntolerance(event.target.value)}
+        />
+        <StyledInfoButton
+          type="button"
+          title="intolerances, diets, ..."
+          onClick={() => setIsInfoModalOpen(true)}
+        >
+          <img src={infoIcon} alt="more information" />
+        </StyledInfoButton>
+      </StyledInputSection>
       <section>
         {filteredIntolerance.map((item) => (
           <StyledSearchResult
@@ -91,16 +106,16 @@ export default function SearchIntolerances({
 }
 
 const StyledActiveIntolerance = styled.button`
-  background-color: var(--primary-color);
+  background-color: transparent;
   margin-bottom: 5px;
-  margin-right: 5px;
-  padding: 8px;
+  width: 150px;
+  text-align: left;
   border: unset;
-  border-radius: 35px;
+  cursor: pointer;
+`;
 
-  &:hover {
-    cursor: pointer;
-  }
+const StyledUl = styled.ul`
+  list-style: "x";
 `;
 
 const StyledSearchResult = styled.button`
@@ -110,8 +125,29 @@ const StyledSearchResult = styled.button`
   padding: 8px;
   border: unset;
   border-radius: 35px;
+  cursor: pointer;
+`;
 
-  &:hover {
-    cursor: pointer;
+const StyledInputSection = styled.section`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+
+  input {
+    margin-left: 0;
+  }
+`;
+
+const StyledInfoButton = styled.button`
+  background-color: transparent;
+  margin: auto auto auto 15px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: unset;
+  img {
+    height: 25px;
+    width: 25px;
   }
 `;

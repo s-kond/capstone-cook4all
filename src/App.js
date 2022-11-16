@@ -171,6 +171,7 @@ function App() {
   function deleteGuest(guestId) {
     setGuestArray(guestArray.filter((guest) => guest._id !== guestId));
     navigate("/");
+    setIsChanges(true);
   }
 
   function editGuest(guestId, newName, newIntolerances, newNotes) {
