@@ -2,13 +2,13 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useState } from "react";
 import Header from "../components/Header";
-import InfoModal from "../components/InfoModal";
 import SearchIntolerances from "../components/SearchIntolerances";
 import GuestNameInput from "../components/GuestNameInput";
+import SubmitButton from "../components/Buttons/SubmitButton";
+import BackButton from "../components/Buttons/BackButton";
 
 export default function CreateGuest({ createGuest }) {
   const navigate = useNavigate();
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeList, setActiveList] = useState([]);
 
   function handleSubmit(event) {
@@ -23,34 +23,41 @@ export default function CreateGuest({ createGuest }) {
     <>
       <Header title="New Guest" />
       <StyledForm onSubmit={handleSubmit}>
-        <label htmlFor="newName">Name: </label>
+        <label htmlFor="newName">Name</label>
         <GuestNameInput />
         <SearchIntolerances
           completelyNewSearch={true}
           activeList={activeList}
           setActiveList={setActiveList}
         />
-        <label htmlFor="newNotes">Notes: </label>
+        <label htmlFor="newNotes">Notes</label>
         <textarea name="newNotes" id="newNotes" />
-        <StyledInfoButton
-          type="button"
-          title="intolerances, diets, ..."
-          onClick={() => setIsModalOpen(true)}
-        >
-          more info
-        </StyledInfoButton>
-        <InfoModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
-        <button type="submit">Submit</button>
-        <button onClick={() => navigate("/")}>Back</button>
+        <ButtonContainer>
+          <BackButton handleClick={() => navigate("/")} />
+          <SubmitButton type="submit" />
+        </ButtonContainer>
       </StyledForm>
     </>
   );
 }
 
 export const StyledForm = styled.form`
+  text-align: left;
+  height: 100vh;
+  width: 80vw;
+  margin: 20px auto 0 auto;
+  font-size: 1.3rem;
   input {
-    display: block;
-    margin: 10px auto;
+    margin: 10px 0;
+    border-radius: 10px;
+    border: 1px solid black;
+    padding: 8px;
+    width: 100%;
+    min-width: 200px;
+
+    &:last-of-type {
+      width: 70%;
+    }
   }
 
   label {
@@ -63,9 +70,22 @@ export const StyledForm = styled.form`
   }
 
   textarea {
-    display: block;
     margin: 10px auto 20px auto;
+    border-radius: 10px;
+    border: 1px solid black;
+    width: 100%;
+    max-width: 100%;
+    height: 80px;
   }
 `;
 
-export const StyledInfoButton = styled.button``;
+export const ButtonContainer = styled.section`
+  width: 80%;
+  margin: 20px auto;
+  display: flex;
+  justify-content: space-around;
+  button {
+    background-color: transparent;
+    border: unset;
+  }
+`;
