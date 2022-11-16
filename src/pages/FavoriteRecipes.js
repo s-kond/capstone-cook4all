@@ -5,6 +5,7 @@ import Header from "../components/Header";
 import NavBar from "../components/NavBar";
 import RecipeCard from "../components/RecipeCard";
 import getIntolerances from "../util/GetSelectedGuestsIntolerances";
+import edamamBadge from "../assets/Edamam_Badge_Transparent.svg";
 import { UserContext } from "../util/UserContext";
 
 export default function FavoriteRecipes() {
@@ -32,6 +33,7 @@ export default function FavoriteRecipes() {
           <RecipeCard key={favorite.recipe.uri} recipeData={favorite} />
         ))}
       </StyledFavoriteSection>
+      <EdamamBadge src={edamamBadge} alt="powered by Edamam" />
       {favoriteArray.length === 0 ? (
         <>
           <StyledEmptyMessage>You have no favorite recipes.</StyledEmptyMessage>
@@ -52,11 +54,7 @@ export default function FavoriteRecipes() {
 }
 
 const StyledFavoriteSection = styled.section`
-  margin-bottom: 100px;
-  p {
-    margin: 0;
-  }
-
+  margin-bottom: 20px;
   @media (min-width: 900px) {
     display: flex;
     flex-wrap: wrap;
@@ -64,6 +62,11 @@ const StyledFavoriteSection = styled.section`
 `;
 
 const StyledEmptyMessage = styled.p`
-  margin-top: 70px;
+  margin-top: 30px;
   margin-bottom: 10px;
+`;
+
+const EdamamBadge = styled.img`
+  width: 150px;
+  margin-bottom: 100px;
 `;

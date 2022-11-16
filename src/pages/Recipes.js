@@ -9,6 +9,7 @@ import getIntolerances from "../util/GetSelectedGuestsIntolerances";
 import DisplaySelectedGuests from "../components/DisplaySelectedGuests";
 import moreIcon from "../assets/icons/ep_arrow-down.svg";
 import MoreFilters from "../components/MoreFilters";
+import edamamBadge from "../assets/Edamam_Badge_Transparent.svg";
 
 export default function Recipes() {
   const { guestArray } = useContext(UserContext);
@@ -116,6 +117,7 @@ export default function Recipes() {
               Sorry, we couldn't find any recipes... <br /> Please try again!
             </StyledSorryMessage>
           )}
+          <EdamamBadge src={edamamBadge} alt="powered by Edamam" />
           {availableData && nextPage && (
             <StyledMoreButton
               type="button"
@@ -178,4 +180,9 @@ const StyledMoreButton = styled.button`
   &:hover {
     transform: scale(1.1);
   }
+`;
+
+const EdamamBadge = styled.img`
+  width: 150px;
+  margin-bottom: 20px;
 `;
