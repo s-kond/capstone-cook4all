@@ -161,6 +161,16 @@ const ChangeIcon = styled.p`
   border-radius: 50px;
   background-color: lightcoral;
   color: white;
+
+  @media (min-width: 600px) {
+    right: 50px;
+  }
+  @media (min-width: 800px) {
+    right: 70px;
+  }
+  @media (min-width: 1000px) {
+    right: 90px;
+  }
 `;
 
 const MenuModal = styled.div`

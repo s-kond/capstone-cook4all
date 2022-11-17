@@ -81,6 +81,7 @@ const ButtonContainer = styled.div`
   height: 200px;
   background-color: transparent;
   width: 50%;
+  max-width: 350px;
 
   button {
     font-size: 1.1rem;
