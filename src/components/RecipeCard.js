@@ -9,8 +9,13 @@ import { UserContext } from "../util/UserContext";
 export default function RecipeCard({ recipeData }) {
   const { label, image, totalTime, uri, url, healthLabels, ingredients } =
     recipeData.recipe;
-  const { favoriteArray, setFavoriteArray, setIsChanges } =
-    useContext(UserContext);
+  const {
+    favoriteArray,
+    setFavoriteArray,
+    changesCounter,
+    setChangesCounter,
+    initialFavoriteRecipes,
+  } = useContext(UserContext);
   const [moreInformation, toggleMoreInformation] = useState(false);
   const [favorite, setFavorite] = useState(false);
 
@@ -28,15 +33,23 @@ export default function RecipeCard({ recipeData }) {
   }, []);
 
   function changeFavorite(id) {
+    const isInitialFavoriteRecipe = initialFavoriteRecipes
+      .map((favorite) => favorite.recipe.uri)
+      .includes(id);
     if (!favorite) {
       setFavoriteArray([...favoriteArray, recipeData]);
+      setChangesCounter(changesCounter + 1);
     } else {
       setFavoriteArray(
         favoriteArray.filter((favorite) => favorite.recipe.uri !== id)
       );
+      if (isInitialFavoriteRecipe) {
+        setChangesCounter(changesCounter + 1);
+      } else {
+        setChangesCounter(changesCounter - 1);
+      }
     }
     setFavorite(!favorite);
-    setIsChanges(true);
   }
 
   return (

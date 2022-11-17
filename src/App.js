@@ -18,6 +18,7 @@ function App() {
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   let [changesCounter, setChangesCounter] = useState(0);
+  const [initialFavoriteRecipes, setInitialFavoritesRecipes] = useState(0);
   const navigate = useNavigate();
 
   //handling GET-/POST-/PUT-Requests
@@ -28,6 +29,7 @@ function App() {
 
       if (response.ok) {
         setFavoriteArray(data.favoriteRecipes);
+        setInitialFavoritesRecipes(data.favoriteRecipes);
         setGuestArray(data.guestList);
         setIsLoggedIn(true);
       }
@@ -212,6 +214,7 @@ function App() {
         setIsProfileMenuOpen,
         isDeleteModalOpen,
         setIsDeleteModalOpen,
+        initialFavoriteRecipes,
       }}
     >
       <Routes>
