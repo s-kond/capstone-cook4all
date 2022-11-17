@@ -6,6 +6,7 @@ import deleteIcon from "../assets/icons/ei_trash.svg";
 import saveIcon from "../assets/icons/ic_round-save-alt.svg";
 import infoIcon from "../assets/icons/info-regular.svg";
 import logoutIcon from "../assets/icons/logout-outlined.svg";
+import loginIcon from "../assets/icons/uiw_login.svg";
 
 export default function ProfileMenu({
   isProfileMenuOpen,
@@ -36,7 +37,12 @@ export default function ProfileMenu({
     <>
       {isProfileMenuOpen && (
         <ButtonContainer>
-          {!isLoggedIn && <button onClick={goToLogin}>Login</button>}
+          {!isLoggedIn && (
+            <button onClick={goToLogin}>
+              <p>Login</p>
+              <img src={loginIcon} alt="go to login" />
+            </button>
+          )}
           {isLoggedIn && (
             <LogoutButton type="button" onClick={handleLogoutAndClose}>
               <p>Logout</p>

@@ -13,8 +13,12 @@ import { UserContext } from "../util/UserContext";
 export default function NavBar() {
   const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
   const [showTopBtn, setShowTopBtn] = useState(false);
-  const { isProfileMenuOpen, setIsProfileMenuOpen, changesCounter } =
-    useContext(UserContext);
+  const {
+    isLoggedIn,
+    isProfileMenuOpen,
+    setIsProfileMenuOpen,
+    changesCounter,
+  } = useContext(UserContext);
 
   useEffect(() => {
     window.addEventListener("scroll", () => {
@@ -55,7 +59,7 @@ export default function NavBar() {
           onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
         >
           <img src={userIcon} alt="user" />
-          {changesCounter > 0 && !isProfileMenuOpen && (
+          {changesCounter > 0 && !isProfileMenuOpen && isLoggedIn && (
             <ChangeIcon>{changesCounter}</ChangeIcon>
           )}
           <p>Account</p>
