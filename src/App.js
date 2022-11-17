@@ -17,7 +17,7 @@ function App() {
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  let [changesCounter, setChangesCounter] = useState(0);
+  const [changesCounter, setChangesCounter] = useState(0);
   const [initialFavoriteRecipes, setInitialFavoritesRecipes] = useState(0);
   const navigate = useNavigate();
 

@@ -66,7 +66,6 @@ export default function Recipes() {
     const { recipeSearch } = form.elements;
     fetchData(recipeSearch.value);
     recipeSearch.value = "";
-    recipeSearch.focus();
   }
 
   function ErrorCallback({ error, resetErrorBoundary }) {

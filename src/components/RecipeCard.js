@@ -38,16 +38,16 @@ export default function RecipeCard({ recipeData }) {
       .includes(id);
     if (!favorite) {
       setFavoriteArray([...favoriteArray, recipeData]);
-      setChangesCounter(changesCounter + 1);
+      setChangesCounter(
+        isInitialFavoriteRecipe ? changesCounter - 1 : changesCounter + 1
+      );
     } else {
       setFavoriteArray(
         favoriteArray.filter((favorite) => favorite.recipe.uri !== id)
       );
-      if (isInitialFavoriteRecipe) {
-        setChangesCounter(changesCounter + 1);
-      } else {
-        setChangesCounter(changesCounter - 1);
-      }
+      setChangesCounter(
+        isInitialFavoriteRecipe ? changesCounter + 1 : changesCounter - 1
+      );
     }
     setFavorite(!favorite);
   }
