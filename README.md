@@ -4,6 +4,8 @@ I designed and coded this App in 4 weeks to show and practice my newly acquired 
 
 [Try it out!](https://capstone-cook4all.vercel.app/)
 
+<img src="https://user-images.githubusercontent.com/79710919/202211861-9a638cbb-5e67-48a3-9725-dd4f49fa1073.svg" width=200 />
+
 ## About the app
 Cook4All helps you to cook a single meal for all of your friends, relatives and anyone else - considering their possible intolerances and diets.
 
@@ -14,8 +16,10 @@ Then, you select guests you want to cook for and start searching for recipes tha
 For each guest you can save up to 34 different intolerances and diets.
 You can also filter the recipes for the type of meal, dish or cuisine you are looking for and you can save your favorite recipes.
 
-### Technologies I used
-React (+ styled components), JavaScript, Express, node, MongoDB
-
-
-<img src="https://user-images.githubusercontent.com/79710919/202211861-9a638cbb-5e67-48a3-9725-dd4f49fa1073.svg" width=200 />
+## Technologies I used
+Basically the MERN-Stack, so:
+- React 
+- styled components
+- Express
+- node
+- MongoDB
