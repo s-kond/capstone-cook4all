@@ -14,10 +14,10 @@ function App() {
   const [favoriteArray, setFavoriteArray] = useState([]);
   const [username, setUsername] = useState();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isChanges, setIsChanges] = useState(false);
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  let [changesCounter, setChangesCounter] = useState(0);
   const navigate = useNavigate();
 
   //handling GET-/POST-/PUT-Requests
@@ -82,7 +82,7 @@ function App() {
   }
 
   function handleLogout(saveChanges) {
-    if (isChanges) {
+    if (changesCounter > 0) {
       setIsLogoutModalOpen(true);
     }
     if (saveChanges === "save") {
@@ -94,12 +94,12 @@ function App() {
     }
     if (saveChanges === "noSave") {
       setIsLogoutModalOpen(false);
-      setIsChanges(false);
+      setChangesCounter(0);
       setGuestArray([]);
       setFavoriteArray([]);
       setIsLoggedIn(false);
     }
-    if (!isChanges) {
+    if (changesCounter === 0) {
       setIsLoggedIn(false);
       setGuestArray([]);
       setFavoriteArray([]);
@@ -124,7 +124,7 @@ function App() {
       console.error(json.error);
     }
     if (response.ok) {
-      setIsChanges(false);
+      setChangesCounter(0);
     }
   }
 
@@ -152,9 +152,6 @@ function App() {
     if (!response.ok) {
       console.error(json.error);
     }
-    if (response.ok) {
-      setIsChanges(false);
-    }
     //fetch the newly created guest from db and save him in guestArray:
     try {
       const response = await fetch(`/api/users/${username}`);
@@ -171,7 +168,7 @@ function App() {
   function deleteGuest(guestId) {
     setGuestArray(guestArray.filter((guest) => guest._id !== guestId));
     navigate("/");
-    setIsChanges(true);
+    setChangesCounter(changesCounter + 1);
   }
 
   function editGuest(guestId, newName, newIntolerances, newNotes) {
@@ -188,7 +185,7 @@ function App() {
           : guest
       )
     );
-    setIsChanges(true);
+    setChangesCounter(changesCounter + 1);
   }
 
   return (
@@ -203,8 +200,8 @@ function App() {
         username,
         setUsername,
         isLoggedIn,
-        isChanges,
-        setIsChanges,
+        changesCounter,
+        setChangesCounter,
         handleLogout,
         handleUserDataUpdate,
         handleNewUser,
