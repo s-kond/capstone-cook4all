@@ -1,10 +1,8 @@
-# Cook4All
+# Cook4All 
 In this repo you find the code from my capstone-project 'cook4all'. It's the final product of an intensive 3-month-bootcamp at neuefische. 
 I designed and coded this App in 4 weeks to show and practice my newly acquired skills.
 
 [Try it out!](https://capstone-cook4all.vercel.app/)
-
-<img src="https://user-images.githubusercontent.com/79710919/202211861-9a638cbb-5e67-48a3-9725-dd4f49fa1073.svg" width=200 />
 
 ## About the app
 Cook4All helps you to cook a single meal for all of your friends, relatives and anyone else - considering their possible intolerances and diets.
@@ -23,3 +21,5 @@ Basically the MERN-Stack, so:
 - Express
 - node
 - MongoDB
+
+<img src="https://user-images.githubusercontent.com/79710919/202211861-9a638cbb-5e67-48a3-9725-dd4f49fa1073.svg" width=200 align="right"/>
