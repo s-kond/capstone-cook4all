@@ -50,22 +50,25 @@ export default function WarningModal() {
             </DivModalContent>
             {isLogoutModalOpen && (
               <DivModalActionsContainer>
-                <StyledSaveButton onClick={() => handleLogout("save")}>
+                <StyledPrimaryButton onClick={() => handleLogout("save")}>
                   Save & Logout
-                </StyledSaveButton>
-                <StyledLogoutButton onClick={() => handleLogout("noSave")}>
+                </StyledPrimaryButton>
+                <StyledSecondaryButton onClick={() => handleLogout("noSave")}>
                   Logout
-                </StyledLogoutButton>
+                </StyledSecondaryButton>
               </DivModalActionsContainer>
             )}
             {isDeleteModalOpen && (
               <DivModalActionsContainer>
-                <StyledSaveButton onClick={() => handleDeleteUser(true)}>
+                <StyledPrimaryButton onClick={() => handleDeleteUser(true)}>
                   Delete
-                </StyledSaveButton>
-                <StyledLogoutButton onClick={() => setIsDeleteModalOpen(false)}>
+                </StyledPrimaryButton>
+                <StyledSecondaryButton
+                  isDelete={true}
+                  onClick={() => setIsDeleteModalOpen(false)}
+                >
                   Back
-                </StyledLogoutButton>
+                </StyledSecondaryButton>
               </DivModalActionsContainer>
             )}
           </DivModal>
@@ -158,10 +161,10 @@ const DivModalActionsContainer = styled.div`
   padding: 15px 0;
 `;
 
-const StyledSaveButton = styled.button`
+const StyledPrimaryButton = styled.button`
   margin-top: 10px;
   cursor: pointer;
-  font-weight: 500;
+  font-weight: bold;
   padding: 11px 28px;
   border-radius: 12px;
   font-size: 0.8rem;
@@ -175,7 +178,7 @@ const StyledSaveButton = styled.button`
   }
 `;
 
-const StyledLogoutButton = styled.button`
+const StyledSecondaryButton = styled.button`
   margin-top: 10px;
   cursor: pointer;
   font-weight: 500;
@@ -183,7 +186,7 @@ const StyledLogoutButton = styled.button`
   border-radius: 12px;
   font-size: 0.8rem;
   border: none;
-  color: red;
+  color: ${({ isDelete }) => (isDelete ? "black" : "red")};
   background-color: transparent;
   transition: all 0.25s ease;
 

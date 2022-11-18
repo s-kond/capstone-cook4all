@@ -98,9 +98,10 @@ const StyledArticle = styled.article`
   align-items: flex-start;
   margin: 50px auto;
   padding-bottom: 10px;
-  box-shadow: 1px 2px 3px;
+  box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px,
+    rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
   border-radius: 20px;
-  background-color: var(--secondary-color);
+  background-color: transparent;
 
   &:first-of-type {
     margin-top: 40px;
@@ -116,11 +117,11 @@ const StyledArticle = styled.article`
     align-self: left;
     text-align: left;
     font-size: 1.2rem;
-    margin: 0 10% 0 10%;
+    margin: 15px 10% 0 5%;
   }
 
   details {
-    margin: 30px 10% 20px 10%;
+    margin: 30px 10% 20px 25px;
     &:hover {
       cursor: pointer;
     }
@@ -154,21 +155,18 @@ const StyledTime = styled.p`
 const StyledInfoButton = styled.button`
   display: flex;
   align-items: center;
-  margin: 10px 10% 0 8%;
+  margin: 10px 10% 10px 3%;
   border: unset;
   background-color: transparent;
   font-size: 1.1rem;
   cursor: pointer;
-
-  &:hover {
-    background-color: lightgrey;
-  }
 `;
 
 const StyledImg = styled.img`
   margin-bottom: 10px;
   align-self: center;
-  border-radius: 20px;
+  border-radius: 20px 20px 0 0;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 12px;
   width: 100%;
   height: 300px;
 `;
@@ -182,6 +180,7 @@ const StyledInfoSection = styled.section`
   }
   ul {
     list-style: none;
+    padding-left: 25px;
   }
   li {
     margin: 10px 0;
@@ -189,6 +188,6 @@ const StyledInfoSection = styled.section`
 
   a {
     display: block;
-    margin: 20px 10% 10px 10%;
+    margin: 20px 10% 10px 25px;
   }
 `;

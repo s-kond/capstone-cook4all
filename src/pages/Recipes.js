@@ -94,13 +94,13 @@ export default function Recipes() {
         <RecipeSearchLabel htmlFor="recipeSearch">
           So, what do you want to eat?
         </RecipeSearchLabel>
-        <input
+        <RecipeSearchInput
           id="recipeSearch"
           name="recipeSearch"
           type="text"
-          placeholder="e.g. pasta"
+          placeholder="e.g. strawberry, ..."
         />
-        <button type="submit">Search</button>
+        <RecipeSearchButton type="submit">Search</RecipeSearchButton>
       </StyledForm>
       <hr />
       <ErrorBoundary
@@ -184,4 +184,21 @@ const StyledMoreButton = styled.button`
 const EdamamBadge = styled.img`
   width: 150px;
   margin-bottom: 20px;
+`;
+
+const RecipeSearchInput = styled.input`
+  border-radius: 15px 0 0 15px;
+  width: 50%;
+  border: 1px solid grey;
+  padding: 5px;
+`;
+
+const RecipeSearchButton = styled.button`
+  margin-left: 0;
+  padding: 5px 10px;
+  background-color: var(--primary-color);
+  border-radius: 0 15px 15px 0;
+  border: 1px solid grey;
+  border-left: unset;
+  cursor: pointer;
 `;

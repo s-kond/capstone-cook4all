@@ -83,11 +83,23 @@ const StyledArticle = styled.article`
   min-width: 300px;
   max-width: 80%;
   text-align: left;
-  background-color: var(--secondary-color);
+  background-color: rgba(0, 0, 0, 0);
+  box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px,
+    rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
   border-radius: 35px;
+  animation: wiggle 0.5s;
 
   input {
     margin-left: 20px;
+  }
+
+  @keyframes wiggle {
+    0% {
+      transform: rotateY(-80deg);
+    }
+    100% {
+      transform: rotateY(0deg);
+    }
   }
 `;
 

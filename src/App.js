@@ -93,6 +93,7 @@ function App() {
       setIsLoggedIn(false);
       setGuestArray([]);
       setFavoriteArray([]);
+      setUsername();
     }
     if (saveChanges === "noSave") {
       setIsLogoutModalOpen(false);
@@ -100,11 +101,13 @@ function App() {
       setGuestArray([]);
       setFavoriteArray([]);
       setIsLoggedIn(false);
+      setUsername();
     }
     if (changesCounter === 0) {
       setIsLoggedIn(false);
       setGuestArray([]);
       setFavoriteArray([]);
+      setUsername();
     }
   }
 
@@ -133,13 +136,13 @@ function App() {
   //Basic CRUD-Operations, used on CreateGuest.js and EditGuest.js
   async function createGuest(newName, intolerancesArray, newNotes) {
     const newGuestArray = [
+      ...guestArray,
       {
         name: newName,
         intolerances: intolerancesArray,
         notes: newNotes,
         selected: false,
       },
-      ...guestArray,
     ];
     //it's necessary to save the new guest to the db, so that an _id is generated directly:
     const response = await fetch(`/api/users/addGuest/${username}`, {
@@ -161,6 +164,7 @@ function App() {
 
       if (response.ok) {
         setGuestArray(data.guestList);
+        setChangesCounter(changesCounter + 1);
       }
     } catch (error) {
       console.error(error.message);

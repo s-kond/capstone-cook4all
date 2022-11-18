@@ -87,6 +87,7 @@ const ButtonContainer = styled.div`
   height: 200px;
   background-color: transparent;
   width: 50%;
+  min-width: 250px;
   max-width: 350px;
 
   button {
