@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { UserContext } from "../util/UserContext";
+import { UserContext } from "../context/UserContext";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import deleteIcon from "../assets/icons/ei_trash.svg";

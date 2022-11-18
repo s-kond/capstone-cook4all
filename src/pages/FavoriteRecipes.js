@@ -7,7 +7,7 @@ import RecipeCard from "../components/RecipeCard";
 import getIntolerances from "../util/GetSelectedGuestsIntolerances";
 import edamamBadge from "../assets/Edamam_Badge_Transparent.svg";
 import reloadIcon from "../assets/icons/uiw_reload.svg";
-import { UserContext } from "../util/UserContext";
+import { UserContext } from "../context/UserContext";
 
 export default function FavoriteRecipes() {
   const {

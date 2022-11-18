@@ -1,15 +1,15 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { StyledForm, ButtonContainer } from "./CreateGuest";
 import SearchIntolerances from "../components/SearchIntolerances";
-import { UserContext } from "../util/UserContext";
+import { UserContext } from "../context/UserContext";
 import { useContext, useState } from "react";
 import Header from "../components/Header";
 import GuestNameInput from "../components/GuestNameInput";
 import BasicButton from "../components/BasicButton";
 
-export default function EditGuest({ onHandleEditSubmit }) {
+export default function EditGuest() {
   const navigate = useNavigate();
-  const { guestArray } = useContext(UserContext);
+  const { guestArray, editGuest } = useContext(UserContext);
   const { id } = useParams();
   const guestDetails = guestArray.filter((guest) => guest._id === id);
   const { name, intolerances, notes, _id } = guestDetails[0];
@@ -23,7 +23,7 @@ export default function EditGuest({ onHandleEditSubmit }) {
       newName.value = "";
       alert("Each name must have one letter at least.");
     } else {
-      onHandleEditSubmit(_id, newName.value, activeEditList, newNotes.value);
+      editGuest(_id, newName.value, activeEditList, newNotes.value);
       navigate("/");
     }
   }

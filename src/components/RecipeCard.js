@@ -4,7 +4,7 @@ import arrowRightIcon from "../assets/icons/ep_arrow-right.svg";
 import arrowDownIcon from "../assets/icons/ep_arrow-down.svg";
 import emptyHeartIcon from "../assets/icons/heart-outlined.svg";
 import filledHeartIcon from "../assets/icons/heart-filled.svg";
-import { UserContext } from "../util/UserContext";
+import { UserContext } from "../context/UserContext";
 
 export default function RecipeCard({ recipeData }) {
   const { label, image, totalTime, uri, url, healthLabels, ingredients } =

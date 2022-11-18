@@ -8,7 +8,7 @@ import { useContext, useEffect, useState } from "react";
 import InfoModal from "./InfoModal";
 import ProfileMenu from "./ProfileMenu";
 import userIcon from "../assets/icons/user-profile-outline.svg";
-import { UserContext } from "../util/UserContext";
+import { UserContext } from "../context/UserContext";
 
 export default function NavBar() {
   const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);

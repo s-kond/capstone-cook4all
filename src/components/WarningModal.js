@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import styled from "styled-components";
-import { UserContext } from "../util/UserContext";
+import { UserContext } from "../context/UserContext";
 
 export default function WarningModal() {
   const {

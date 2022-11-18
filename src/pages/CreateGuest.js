@@ -1,13 +1,15 @@
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Header from "../components/Header";
 import SearchIntolerances from "../components/SearchIntolerances";
 import GuestNameInput from "../components/GuestNameInput";
 import BasicButton from "../components/BasicButton";
+import { UserContext } from "../context/UserContext";
 
-export default function CreateGuest({ createGuest }) {
+export default function CreateGuest() {
   const navigate = useNavigate();
+  const { createGuest } = useContext(UserContext);
   const [activeList, setActiveList] = useState([]);
 
   function handleSubmit(event) {
@@ -70,6 +72,7 @@ export const StyledForm = styled.form`
 
   textarea {
     margin: 10px auto 20px auto;
+    padding: 5px 10px;
     border-radius: 10px;
     border: 1px solid black;
     width: 100%;

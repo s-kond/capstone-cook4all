@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useContext, useState } from "react";
-import { UserContext } from "../util/UserContext";
+import { UserContext } from "../context/UserContext";
 import emptyCircle from "../assets/icons/circle_empty.svg";
 import checkedCircle from "../assets/icons/circle-check.svg";
 import detailIcon from "../assets/icons/more-menu-vertical.svg";
@@ -10,11 +10,15 @@ import deleteIcon from "../assets/icons/delete-icon.svg";
 
 export default function GuestCard({ personalData }) {
   const { name, intolerances, notes, _id, selected } = personalData;
-  const { deleteGuest } = useContext(UserContext);
   const [showGuestInfo, setShowGuestInfo] = useState(false);
   const navigate = useNavigate();
 
-  const { guestArray, setGuestArray } = useContext(UserContext);
+  const { guestArray, setGuestArray, deleteGuest } = useContext(UserContext);
+
+  function handleDelete() {
+    deleteGuest(_id);
+    navigate("/");
+  }
 
   function toggleSelected(guestId) {
     setGuestArray(
@@ -59,7 +63,7 @@ export default function GuestCard({ personalData }) {
         <StyledInfoP>{notes.length > 0 && "Further Notes:"}</StyledInfoP>
         <StyledNotes>{notes}</StyledNotes>
         <StyledButtonContainer>
-          <StyledDeleteButton onClick={() => deleteGuest(_id)}>
+          <StyledDeleteButton onClick={handleDelete}>
             <img src={deleteIcon} alt="delete guest" />
             <p>delete</p>
           </StyledDeleteButton>
