@@ -10,20 +10,18 @@ export default function DisplaySelectedGuests() {
 
   return (
     <StyledSection>
-      <StyledSubheader>
-        {intolerances.length > 0
-          ? "Selected guests:"
-          : "Go to your guestlist and choose guests you want to cook for!"}
-      </StyledSubheader>
+      {intolerances.length > 0 ? (
+        <StyledSubheader>Selected guests:</StyledSubheader>
+      ) : (
+        <StyledSubheaderLight>
+          Go to your guestlist and choose guests you want to cook for!
+        </StyledSubheaderLight>
+      )}
       <p>{selectedGuests.map((guest) => guest.name).join(", ")}</p>
       <StyledSubheader>
-        {intolerances.length > 0 ? "Active search filter:" : null}
+        {intolerances.length > 0 && "Active search filter:"}
       </StyledSubheader>
-      <StyledSubSection>
-        {intolerances.map((item) => (
-          <span key={item}> {item}</span>
-        ))}
-      </StyledSubSection>
+      <StyledSubSection>{intolerances.join(", ")}</StyledSubSection>
     </StyledSection>
   );
 }
@@ -35,6 +33,11 @@ const StyledSection = styled.section`
 
 const StyledSubheader = styled.h3`
   margin: 20px 0 5px 0;
+`;
+
+const StyledSubheaderLight = styled.h3`
+  margin: 20px 0 5px 0;
+  font-weight: unset;
 `;
 
 const StyledSubSection = styled.section`

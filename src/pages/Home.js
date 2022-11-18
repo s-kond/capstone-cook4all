@@ -14,13 +14,15 @@ export default function Home() {
 
   return (
     <>
-      <Header title="cook4all" />
+      <Header title="Cook4All" />
       <main>
         {isLoggedIn ? <h2>Welcome {username}!</h2> : <h2>Welcome!</h2>}
         <WelcomeMessage>
           {guestArray.length > 0
             ? "Who do you want to cook for today?"
-            : "Nobody here... Login to add new guests!"}
+            : isLoggedIn
+            ? "Here you can add everyone you want to cook for:"
+            : "Login to add new guests:"}
         </WelcomeMessage>
         {!isLoggedIn && <LoginSection />}
         <StyledGuestList>

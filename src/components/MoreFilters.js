@@ -200,7 +200,7 @@ export default function MoreFilters({
 
 const StyledTypeSelect = styled.button`
   text-align: left;
-  padding: 3px 5px 5px 5px;
+  padding: 5px 10px;
   font-size: 0.9rem;
   background-color: transparent;
   border-radius: 5px;
@@ -212,8 +212,11 @@ const StyledTypeSelect = styled.button`
   }
 `;
 
-const StyledMoreFilterHeader = styled.h3`
-  margin: 8px 0;
+const StyledMoreFilterHeader = styled.label`
+  display: block;
+  text-align: left;
+  margin: 10px 0 10px 0;
+  font-weight: bold;
 `;
 
 const StyledOptions = styled.article`
@@ -227,7 +230,9 @@ const StyledOptions = styled.article`
     &:hover {
       background-color: var(--secondary-color);
     }
-
+    &:first-of-type {
+      margin-top: 10px;
+    }
     input {
       margin-right: 5px;
     }
@@ -236,12 +241,17 @@ const StyledOptions = styled.article`
 
 const StyledSelectedFilterButton = styled.button`
   border: unset;
-  background-color: lightgrey;
-  padding: 5px;
-  border-radius: 5px;
+  background-color: transparent;
+  padding: 0 0 5px 0;
   font-size: 1rem;
   cursor: pointer;
 
+  &:after {
+    content: ", ";
+  }
+  &:last-of-type:after {
+    content: unset;
+  }
   &:hover {
     text-decoration: underline;
     text-underline-offset: 2px;
@@ -252,10 +262,10 @@ const StyledSubSection = styled.section`
   display: flex;
   justify-content: flex-start;
   flex-wrap: wrap;
-  gap: 15px;
+  gap: 5px;
 
   &:last-of-type {
     justify-content: flex-start;
-    gap: 20px;
+    gap: 10px;
   }
 `;

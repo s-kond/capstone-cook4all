@@ -87,5 +87,10 @@ export const ButtonContainer = styled.section`
   button {
     background-color: transparent;
     border: unset;
+    cursor: pointer;
+
+    &:hover {
+      transform: scale(1.1);
+    }
   }
 `;

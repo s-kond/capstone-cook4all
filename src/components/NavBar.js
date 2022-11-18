@@ -13,7 +13,12 @@ import { UserContext } from "../util/UserContext";
 export default function NavBar() {
   const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
   const [showTopBtn, setShowTopBtn] = useState(false);
-  const { isProfileMenuOpen, setIsProfileMenuOpen } = useContext(UserContext);
+  const {
+    isLoggedIn,
+    isProfileMenuOpen,
+    setIsProfileMenuOpen,
+    changesCounter,
+  } = useContext(UserContext);
 
   useEffect(() => {
     window.addEventListener("scroll", () => {
@@ -34,6 +39,9 @@ export default function NavBar() {
 
   return (
     <>
+      {isProfileMenuOpen && (
+        <MenuModal onClick={() => setIsProfileMenuOpen(false)} />
+      )}
       <StyledNavBar>
         <StyledNavLink to="/" end>
           <img src={homeIcon} alt="Go to Home" />
@@ -51,6 +59,9 @@ export default function NavBar() {
           onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
         >
           <img src={userIcon} alt="user" />
+          {changesCounter > 0 && !isProfileMenuOpen && isLoggedIn && (
+            <ChangeIcon>{changesCounter}</ChangeIcon>
+          )}
           <p>Account</p>
         </StyledProfileButton>
         <ProfileMenu
@@ -109,6 +120,7 @@ const StyledNavLink = styled(NavLink)`
 `;
 
 const StyledProfileButton = styled.button`
+  position: relative;
   height: 80px;
   width: 100%;
   display: flex;
@@ -127,7 +139,6 @@ const StyledProfileButton = styled.button`
   p {
     margin-top: 2px;
     font-size: 0.9rem;
-    color: black;
   }
 `;
 
@@ -144,4 +155,34 @@ const StyledToTopButton = styled.button`
   &:hover {
     transform: scale(1.1);
   }
+`;
+
+const ChangeIcon = styled.p`
+  position: absolute;
+  top: 3px;
+  right: 20px;
+  padding: 3px 8px;
+  border-radius: 50px;
+  background-color: lightcoral;
+  color: white;
+
+  @media (min-width: 600px) {
+    right: 50px;
+  }
+  @media (min-width: 800px) {
+    right: 70px;
+  }
+  @media (min-width: 1000px) {
+    right: 90px;
+  }
+`;
+
+const MenuModal = styled.div`
+  background-color: rgba(0, 0, 0, 0.2);
+  width: 100%;
+  height: 100%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  position: absolute;
 `;
