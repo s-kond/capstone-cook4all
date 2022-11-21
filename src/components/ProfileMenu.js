@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useEffect, useContext } from "react";
 import { UserContext } from "../context/UserContext";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
@@ -21,6 +21,16 @@ export default function ProfileMenu({
     handleLogout,
   } = useContext(UserContext);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    function keyListener(e) {
+      if (e.keyCode === 27) {
+        setIsProfileMenuOpen(false);
+      }
+    }
+    document.addEventListener("keydown", keyListener);
+    return () => document.removeEventListener("keydown", keyListener);
+  });
 
   function goToLogin() {
     setIsProfileMenuOpen(false);

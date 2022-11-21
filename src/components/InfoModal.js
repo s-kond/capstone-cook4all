@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { useEffect } from "react";
 import IntoleranceFilterInformation from "./IntoleranceFilterTable";
 
 export default function InfoModal({ isInfoModalOpen, setIsInfoModalOpen }) {
@@ -6,6 +7,16 @@ export default function InfoModal({ isInfoModalOpen, setIsInfoModalOpen }) {
     setIsInfoModalOpen(false);
     event.stopPropagation();
   }
+
+  useEffect(() => {
+    function keyListener(e) {
+      if (e.keyCode === 27) {
+        setIsInfoModalOpen(false);
+      }
+    }
+    document.addEventListener("keydown", keyListener);
+    return () => document.removeEventListener("keydown", keyListener);
+  });
 
   return (
     <>

@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useEffect, useContext } from "react";
 import styled from "styled-components";
 import { UserContext } from "../context/UserContext";
 
@@ -11,6 +11,18 @@ export default function WarningModal() {
     setIsDeleteModalOpen,
     handleDeleteUser,
   } = useContext(UserContext);
+
+  useEffect(() => {
+    function keyListener(e) {
+      if (e.keyCode === 27) {
+        isLogoutModalOpen
+          ? setIsLogoutModalOpen(false)
+          : setIsDeleteModalOpen(false);
+      }
+    }
+    document.addEventListener("keydown", keyListener);
+    return () => document.removeEventListener("keydown", keyListener);
+  });
 
   return (
     <>
