@@ -39,9 +39,6 @@ export default function NavBar() {
 
   return (
     <>
-      {isProfileMenuOpen && (
-        <MenuModal onClick={() => setIsProfileMenuOpen(false)} />
-      )}
       <StyledNavBar>
         <StyledNavLink to="/" end>
           <img src={homeIcon} alt="Go to Home" />
@@ -123,6 +120,7 @@ const StyledProfileButton = styled.button`
   position: relative;
   height: 80px;
   width: 100%;
+  z-index: 25;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -175,14 +173,4 @@ const ChangeIcon = styled.p`
   @media (min-width: 1000px) {
     right: 90px;
   }
-`;
-
-const MenuModal = styled.div`
-  background-color: rgba(0, 0, 0, 0.2);
-  width: 100%;
-  height: 100%;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  position: absolute;
 `;

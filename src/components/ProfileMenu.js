@@ -36,6 +36,9 @@ export default function ProfileMenu({
   return (
     <>
       {isProfileMenuOpen && (
+        <MenuBackdrop onClick={() => setIsProfileMenuOpen(false)} />
+      )}
+      {isProfileMenuOpen && (
         <ButtonContainer>
           {!isLoggedIn && (
             <button onClick={goToLogin}>
@@ -77,8 +80,9 @@ export default function ProfileMenu({
 }
 
 const ButtonContainer = styled.div`
-  position: absolute;
-  top: -210px;
+  position: fixed;
+  z-index: 25;
+  bottom: 90px;
   right: 0;
   display: flex;
   flex-direction: column-reverse;
@@ -128,4 +132,15 @@ const ChangeIcon = styled.p`
   border-radius: 50px;
   background-color: lightcoral;
   color: white;
+`;
+
+const MenuBackdrop = styled.div`
+  background-color: rgba(0, 0, 0, 0.6);
+  width: 100vw;
+  height: 100vh;
+  z-index: 20;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  position: fixed;
 `;
