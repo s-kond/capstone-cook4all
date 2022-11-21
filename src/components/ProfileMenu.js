@@ -49,7 +49,7 @@ export default function ProfileMenu({
           {isLoggedIn && (
             <LogoutButton type="button" onClick={handleLogoutAndClose}>
               <p>Logout</p>
-              <img src={logoutIcon} alt="delete" />
+              <img src={logoutIcon} alt="logout" />
             </LogoutButton>
           )}
           {isLoggedIn && (
@@ -64,13 +64,13 @@ export default function ProfileMenu({
             onClick={() => setIsInfoModalOpen(true)}
           >
             <p>Information</p>
-            <img src={infoIcon} alt="delete" />
+            <img src={infoIcon} alt="intolerances information" />
           </button>
           {isLoggedIn && changesCounter > 0 && (
             <button type="button" onClick={handleUserDataUpdate}>
               <ChangeIcon>{changesCounter}</ChangeIcon>
               <p>Save changes</p>
-              <img src={saveIcon} alt="delete" />
+              <img src={saveIcon} alt="save" />
             </button>
           )}
         </ButtonContainer>
