@@ -1,5 +1,5 @@
 import { useState, useContext } from "react";
-import { UserContext } from "../util/UserContext";
+import { UserContext } from "../context/UserContext";
 import styled from "styled-components";
 import { ErrorBoundary } from "react-error-boundary";
 import Header from "../components/Header";

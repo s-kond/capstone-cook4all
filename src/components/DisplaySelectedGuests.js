@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import styled from "styled-components";
-import { UserContext } from "../util/UserContext";
+import { UserContext } from "../context/UserContext";
 import getIntolerances from "../util/GetSelectedGuestsIntolerances";
 
 export default function DisplaySelectedGuests() {

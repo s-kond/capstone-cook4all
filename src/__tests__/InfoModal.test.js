@@ -5,7 +5,7 @@ import InfoModal from "../components/InfoModal";
 
 test("close-infoModal-button exists and works", async () => {
   const toggleState = jest.fn();
-  render(<InfoModal isModalOpen={true} setIsModalOpen={toggleState} />);
+  render(<InfoModal isInfoModalOpen={true} setIsInfoModalOpen={toggleState} />);
   const closeButton = screen.getByRole("button", { name: "X" });
   expect(closeButton).toBeInTheDocument();
   await userEvent.click(closeButton);

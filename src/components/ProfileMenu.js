@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { UserContext } from "../util/UserContext";
+import { UserContext } from "../context/UserContext";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import deleteIcon from "../assets/icons/ei_trash.svg";
@@ -36,6 +36,9 @@ export default function ProfileMenu({
   return (
     <>
       {isProfileMenuOpen && (
+        <MenuBackdrop onClick={() => setIsProfileMenuOpen(false)} />
+      )}
+      {isProfileMenuOpen && (
         <ButtonContainer>
           {!isLoggedIn && (
             <button onClick={goToLogin}>
@@ -46,7 +49,7 @@ export default function ProfileMenu({
           {isLoggedIn && (
             <LogoutButton type="button" onClick={handleLogoutAndClose}>
               <p>Logout</p>
-              <img src={logoutIcon} alt="delete" />
+              <img src={logoutIcon} alt="logout" />
             </LogoutButton>
           )}
           {isLoggedIn && (
@@ -61,13 +64,13 @@ export default function ProfileMenu({
             onClick={() => setIsInfoModalOpen(true)}
           >
             <p>Information</p>
-            <img src={infoIcon} alt="delete" />
+            <img src={infoIcon} alt="intolerances information" />
           </button>
           {isLoggedIn && changesCounter > 0 && (
             <button type="button" onClick={handleUserDataUpdate}>
               <ChangeIcon>{changesCounter}</ChangeIcon>
               <p>Save changes</p>
-              <img src={saveIcon} alt="delete" />
+              <img src={saveIcon} alt="save" />
             </button>
           )}
         </ButtonContainer>
@@ -77,8 +80,9 @@ export default function ProfileMenu({
 }
 
 const ButtonContainer = styled.div`
-  position: absolute;
-  top: -210px;
+  position: fixed;
+  z-index: 25;
+  bottom: 90px;
   right: 0;
   display: flex;
   flex-direction: column-reverse;
@@ -128,4 +132,15 @@ const ChangeIcon = styled.p`
   border-radius: 50px;
   background-color: lightcoral;
   color: white;
+`;
+
+const MenuBackdrop = styled.div`
+  background-color: rgba(0, 0, 0, 0.6);
+  width: 100vw;
+  height: 100vh;
+  z-index: 20;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  position: fixed;
 `;

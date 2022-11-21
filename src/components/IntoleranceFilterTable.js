@@ -12,7 +12,7 @@ export default function IntoleranceFilterInformation() {
         <TableCell>Does not contain celery or derivatives</TableCell>
       </TableRow>
       <TableRow>
-        <TableCell>Crustcean-Free</TableCell>
+        <TableCell>Crustacean-Free</TableCell>
         <TableCell>
           Does not contain crustaceans (shrimp, lobster etc.) or derivatives
         </TableCell>
@@ -172,6 +172,8 @@ export default function IntoleranceFilterInformation() {
 
 const StyledTable = styled.section`
   display: table;
+  text-align: left;
+  font-size: 1rem;
 `;
 
 const TableRow = styled.article`
