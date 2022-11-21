@@ -12,7 +12,7 @@ export default function IntoleranceFilterInformation() {
         <TableCell>Does not contain celery or derivatives</TableCell>
       </TableRow>
       <TableRow>
-        <TableCell>Crustcean-Free</TableCell>
+        <TableCell>Crustacean-Free</TableCell>
         <TableCell>
           Does not contain crustaceans (shrimp, lobster etc.) or derivatives
         </TableCell>
