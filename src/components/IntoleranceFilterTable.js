@@ -172,6 +172,8 @@ export default function IntoleranceFilterInformation() {
 
 const StyledTable = styled.section`
   display: table;
+  text-align: left;
+  font-size: 1rem;
 `;
 
 const TableRow = styled.article`
