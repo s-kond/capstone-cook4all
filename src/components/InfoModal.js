@@ -2,6 +2,11 @@ import styled from "styled-components";
 import IntoleranceFilterInformation from "./IntoleranceFilterTable";
 
 export default function InfoModal({ isInfoModalOpen, setIsInfoModalOpen }) {
+  function closeModal(event) {
+    setIsInfoModalOpen(false);
+    event.stopPropagation();
+  }
+
   return (
     <>
       {isInfoModalOpen && (
@@ -16,7 +21,7 @@ export default function InfoModal({ isInfoModalOpen, setIsInfoModalOpen }) {
           </StyledIntro>
           <IntoleranceFilterInformation />
           {
-            <StyledCloseButton onClick={() => setIsInfoModalOpen(false)}>
+            <StyledCloseButton onClick={(event) => closeModal(event)}>
               X
             </StyledCloseButton>
           }
