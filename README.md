@@ -5,7 +5,9 @@ I designed and coded this App in 4 weeks to show and practice my newly acquired 
 [Try it out!](https://capstone-cook4all.vercel.app/)
 
 ## About the app
-Cook4All helps you to cook a single meal for all of your friends, relatives and anyone else - considering their possible intolerances and diets.
+You invited friends and want to cook for them - but someone has a gluten-intolerance, someone else is vegetarian, ... It's difficult to find one meal for everyone.
+
+Cook4All helps you to save intolerances, diets etc. from people you want to cook for. Searching through more than 2 million recipes it will show you recipes that everyone can eat and enjoy.
 
 ### How it works
 First, you login as a new user and create guests you want to cook for. 
@@ -15,11 +17,28 @@ For each guest you can save up to 34 different intolerances and diets.
 You can also filter the recipes for the type of meal, dish or cuisine you are looking for and you can save your favorite recipes.
 
 ## Technologies I used
-Basically the MERN-Stack, so:
 - React 
-- styled components
+- React Router
+- React Testing Library / Jest
+- Styled Components
 - Express
-- node
+- Node.js
 - MongoDB
+
+## Setup
+- Clone this repository
+- Inside root folder install all dependencies via ``$ npm install``
+- Create your own ``.env``file inside the root folder. It should contain **your own** ``API-Key`` and ``API-ID`` from the [edamam recipe api](https://developer.edamam.com/edamam-recipe-api) and a link for your mongoDB-Server. It should look similar to this afterwards:
+
+```
+REACT_APP_API_KEY=032sjd0gje028sjfb9274g1838lbam3h
+REACT_APP_API_ID=935aj4ot
+MONGO_URI=mongodb+srv://<username>:<password>@cluster0.ncmitzu.mongodb.net/?retryWrites=true&w=majority
+```
+
+- Run app in development mode via ``$ npm run fullstack``
+- Server: http://localhost:8080/
+- Client: http://localhost:3000/
+- Run tests via ``$ npm run test``
 
 <img src="https://user-images.githubusercontent.com/79710919/202211861-9a638cbb-5e67-48a3-9725-dd4f49fa1073.svg" width=200 align="right"/>
