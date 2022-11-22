@@ -15,6 +15,32 @@ export default function WarningModal() {
   const modalRef = useRef();
 
   useEffect(() => {
+    const handleTabKey = (e) => {
+      const focusableModalElements =
+        modalRef.current?.querySelectorAll("button");
+      const firstElement = focusableModalElements[0];
+      const lastElement =
+        focusableModalElements[focusableModalElements.length - 1];
+      let isButtonfocused = false;
+      for (let i = 0; i <= focusableModalElements.length; i++) {
+        if (focusableModalElements[i] === document.activeElement) {
+          isButtonfocused = true;
+        }
+      }
+      if (!isButtonfocused) {
+        firstElement.focus();
+      }
+
+      if (!e.shiftKey && document.activeElement === lastElement) {
+        firstElement.focus();
+        return e.preventDefault();
+      }
+      if (e.shiftKey && document.activeElement === firstElement) {
+        lastElement.focus();
+        return e.preventDefault();
+      }
+    };
+
     function keyListener(e) {
       if (e.keyCode === 27) {
         isLogoutModalOpen
@@ -27,31 +53,6 @@ export default function WarningModal() {
     document.addEventListener("keydown", keyListener);
     return () => document.removeEventListener("keydown", keyListener);
   });
-
-  const handleTabKey = (e) => {
-    const focusableModalElements = modalRef.current?.querySelectorAll("button");
-    const firstElement = focusableModalElements[0];
-    const lastElement =
-      focusableModalElements[focusableModalElements.length - 1];
-    let isButtonfocused = false;
-    for (let i = 0; i <= focusableModalElements.length; i++) {
-      if (focusableModalElements[i] === document.activeElement) {
-        isButtonfocused = true;
-      }
-    }
-    if (!isButtonfocused) {
-      firstElement.focus();
-    }
-
-    if (!e.shiftKey && document.activeElement === lastElement) {
-      firstElement.focus();
-      return e.preventDefault();
-    }
-    if (e.shiftKey && document.activeElement === firstElement) {
-      lastElement.focus();
-      return e.preventDefault();
-    }
-  };
 
   return (
     <>
