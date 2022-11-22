@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useEffect, useContext, useRef } from "react";
 import { UserContext } from "../context/UserContext";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
@@ -21,10 +21,51 @@ export default function ProfileMenu({
     handleLogout,
   } = useContext(UserContext);
   const navigate = useNavigate();
+  const modalRef = useRef();
+
+  useEffect(() => {
+    const handleTabKey = (e) => {
+      const focusableModalElements =
+        modalRef.current?.querySelectorAll("button");
+      const firstElement = focusableModalElements[0];
+      const lastElement =
+        focusableModalElements[focusableModalElements.length - 1];
+      let isButtonfocused = false;
+      for (let i = 0; i <= focusableModalElements.length; i++) {
+        if (focusableModalElements[i] === document.activeElement) {
+          isButtonfocused = true;
+        }
+      }
+      !isButtonfocused && firstElement.focus();
+      if (!e.shiftKey && document.activeElement === lastElement) {
+        firstElement.focus();
+        return e.preventDefault();
+      }
+      if (e.shiftKey && document.activeElement === firstElement) {
+        lastElement.focus();
+        e.preventDefault();
+      }
+    };
+
+    function keyListener(e) {
+      if (e.keyCode === 27) {
+        setIsProfileMenuOpen(false);
+      } else if (e.keyCode === 9 || e.keyCode === "Tab") {
+        isProfileMenuOpen && handleTabKey(e);
+      }
+    }
+    document.addEventListener("keydown", keyListener);
+    return () => document.removeEventListener("keydown", keyListener);
+  });
 
   function goToLogin() {
     setIsProfileMenuOpen(false);
     navigate("/");
+  }
+
+  function openInfoModal() {
+    setIsProfileMenuOpen(false);
+    setIsInfoModalOpen(true);
   }
 
   function handleLogoutAndClose() {
@@ -33,13 +74,18 @@ export default function ProfileMenu({
     handleLogout();
   }
 
+  function handleDeleteAndClose() {
+    setIsProfileMenuOpen(false);
+    handleDeleteUser();
+  }
+
   return (
     <>
       {isProfileMenuOpen && (
         <MenuBackdrop onClick={() => setIsProfileMenuOpen(false)} />
       )}
       {isProfileMenuOpen && (
-        <ButtonContainer>
+        <ButtonContainer ref={modalRef}>
           {!isLoggedIn && (
             <button onClick={goToLogin}>
               <p>Login</p>
@@ -53,7 +99,7 @@ export default function ProfileMenu({
             </LogoutButton>
           )}
           {isLoggedIn && (
-            <LogoutButton type="button" onClick={handleDeleteUser}>
+            <LogoutButton type="button" onClick={handleDeleteAndClose}>
               <p>Delete this account</p>
               <img src={deleteIcon} alt="delete" />
             </LogoutButton>
@@ -61,7 +107,7 @@ export default function ProfileMenu({
           <button
             type="button"
             title="intolerances, diets, ..."
-            onClick={() => setIsInfoModalOpen(true)}
+            onClick={openInfoModal}
           >
             <p>Information</p>
             <img src={infoIcon} alt="intolerances information" />

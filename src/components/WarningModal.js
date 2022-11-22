@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useEffect, useContext, useRef } from "react";
 import styled from "styled-components";
 import { UserContext } from "../context/UserContext";
 
@@ -12,6 +12,48 @@ export default function WarningModal() {
     handleDeleteUser,
   } = useContext(UserContext);
 
+  const modalRef = useRef();
+
+  useEffect(() => {
+    const handleTabKey = (e) => {
+      const focusableModalElements =
+        modalRef.current?.querySelectorAll("button");
+      const firstElement = focusableModalElements[0];
+      const lastElement =
+        focusableModalElements[focusableModalElements.length - 1];
+      let isButtonfocused = false;
+      for (let i = 0; i <= focusableModalElements.length; i++) {
+        if (focusableModalElements[i] === document.activeElement) {
+          isButtonfocused = true;
+        }
+      }
+      if (!isButtonfocused) {
+        firstElement.focus();
+      }
+
+      if (!e.shiftKey && document.activeElement === lastElement) {
+        firstElement.focus();
+        return e.preventDefault();
+      }
+      if (e.shiftKey && document.activeElement === firstElement) {
+        lastElement.focus();
+        return e.preventDefault();
+      }
+    };
+
+    function keyListener(e) {
+      if (e.keyCode === 27) {
+        isLogoutModalOpen
+          ? setIsLogoutModalOpen(false)
+          : setIsDeleteModalOpen(false);
+      } else if (e.keyCode === 9 || e.keyCode === "Tab") {
+        (isLogoutModalOpen || isDeleteModalOpen) && handleTabKey(e);
+      }
+    }
+    document.addEventListener("keydown", keyListener);
+    return () => document.removeEventListener("keydown", keyListener);
+  });
+
   return (
     <>
       {(isLogoutModalOpen || isDeleteModalOpen) && (
@@ -19,7 +61,7 @@ export default function WarningModal() {
       )}
       {(isLogoutModalOpen || isDeleteModalOpen) && (
         <DivCentered>
-          <DivModal>
+          <DivModal ref={modalRef}>
             <DivModalHeader>
               {isLogoutModalOpen && (
                 <StyledModalHeader>Before you go</StyledModalHeader>
@@ -79,10 +121,10 @@ export default function WarningModal() {
 }
 
 const StyledContainer = styled.section`
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: rgba(0, 0, 0, 0.5);
   width: 100vw;
   height: 100vh;
-  z-index: 1;
+  z-index: 30;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -92,7 +134,7 @@ const StyledContainer = styled.section`
 const DivCentered = styled.div`
   position: fixed;
   width: 80%;
-  z-index: 5;
+  z-index: 35;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
