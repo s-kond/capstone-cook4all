@@ -21,7 +21,7 @@ export default function WarningModal() {
           ? setIsLogoutModalOpen(false)
           : setIsDeleteModalOpen(false);
       } else if (e.keyCode === 9 || e.keyCode === "Tab") {
-        handleTabKey(e);
+        (isLogoutModalOpen || isDeleteModalOpen) && handleTabKey(e);
       }
     }
     document.addEventListener("keydown", keyListener);
@@ -39,14 +39,17 @@ export default function WarningModal() {
         isButtonfocused = true;
       }
     }
-    !isButtonfocused && firstElement.focus();
+    if (!isButtonfocused) {
+      firstElement.focus();
+    }
+
     if (!e.shiftKey && document.activeElement === lastElement) {
       firstElement.focus();
       return e.preventDefault();
     }
     if (e.shiftKey && document.activeElement === firstElement) {
       lastElement.focus();
-      e.preventDefault();
+      return e.preventDefault();
     }
   };
 
@@ -117,10 +120,10 @@ export default function WarningModal() {
 }
 
 const StyledContainer = styled.section`
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: rgba(0, 0, 0, 0.5);
   width: 100vw;
   height: 100vh;
-  z-index: 1;
+  z-index: 30;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -130,7 +133,7 @@ const StyledContainer = styled.section`
 const DivCentered = styled.div`
   position: fixed;
   width: 80%;
-  z-index: 5;
+  z-index: 35;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);

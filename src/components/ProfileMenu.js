@@ -28,7 +28,7 @@ export default function ProfileMenu({
       if (e.keyCode === 27) {
         setIsProfileMenuOpen(false);
       } else if (e.keyCode === 9 || e.keyCode === "Tab") {
-        handleTabKey(e);
+        isProfileMenuOpen && handleTabKey(e);
       }
     }
     document.addEventListener("keydown", keyListener);
@@ -68,6 +68,11 @@ export default function ProfileMenu({
     handleLogout();
   }
 
+  function handleDeleteAndClose() {
+    setIsProfileMenuOpen(false);
+    handleDeleteUser();
+  }
+
   return (
     <>
       {isProfileMenuOpen && (
@@ -88,7 +93,7 @@ export default function ProfileMenu({
             </LogoutButton>
           )}
           {isLoggedIn && (
-            <LogoutButton type="button" onClick={handleDeleteUser}>
+            <LogoutButton type="button" onClick={handleDeleteAndClose}>
               <p>Delete this account</p>
               <img src={deleteIcon} alt="delete" />
             </LogoutButton>
