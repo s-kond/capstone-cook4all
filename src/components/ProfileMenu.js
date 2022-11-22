@@ -63,6 +63,11 @@ export default function ProfileMenu({
     navigate("/");
   }
 
+  function openInfoModal() {
+    setIsProfileMenuOpen(false);
+    setIsInfoModalOpen(true);
+  }
+
   function handleLogoutAndClose() {
     setIsProfileMenuOpen(false);
     navigate("/");
@@ -102,7 +107,7 @@ export default function ProfileMenu({
           <button
             type="button"
             title="intolerances, diets, ..."
-            onClick={() => setIsInfoModalOpen(true)}
+            onClick={openInfoModal}
           >
             <p>Information</p>
             <img src={infoIcon} alt="intolerances information" />
