@@ -50,8 +50,11 @@ export default function ProfileMenu({
     function keyListener(e) {
       if (e.keyCode === 27) {
         setIsProfileMenuOpen(false);
-      } else if (e.keyCode === 9 || e.keyCode === "Tab") {
-        isProfileMenuOpen && handleTabKey(e);
+      } else if (
+        isProfileMenuOpen &&
+        (e.keyCode === 9 || e.keyCode === "Tab")
+      ) {
+        handleTabKey(e);
       }
     }
     document.addEventListener("keydown", keyListener);
@@ -87,7 +90,7 @@ export default function ProfileMenu({
       {isProfileMenuOpen && (
         <ButtonContainer ref={modalRef}>
           {!isLoggedIn && (
-            <button onClick={goToLogin}>
+            <button type="button" onClick={goToLogin}>
               <p>Login</p>
               <img src={loginIcon} alt="go to login" />
             </button>

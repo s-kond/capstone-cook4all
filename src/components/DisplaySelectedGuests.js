@@ -6,7 +6,7 @@ import getIntolerances from "../util/GetSelectedGuestsIntolerances";
 export default function DisplaySelectedGuests() {
   const { guestArray } = useContext(UserContext);
   const selectedGuests = guestArray.filter((guest) => guest.selected);
-  let intolerances = getIntolerances(guestArray);
+  const intolerances = getIntolerances(guestArray);
 
   return (
     <StyledSection>

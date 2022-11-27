@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom";
 import CompareArrays from "../util/CompareArrays";
 
-test("Function to compare two arrays works", async () => {
+test("Function to compare two arrays works", () => {
   const array1 = [
     { id: 1, name: 20342 },
     { id: 2, name: "dum" },
@@ -20,7 +20,7 @@ test("Function to compare two arrays works", async () => {
   ]);
 });
 
-test("Edge case 1 comparing two arrays", async () => {
+test("Edge case 1 comparing two arrays", () => {
   const array1 = [
     { id: 1, name: 20342 },
     { id: 2, name: "dum" },
@@ -38,7 +38,7 @@ test("Edge case 1 comparing two arrays", async () => {
   ]);
 });
 
-test("Edge case 2 comparing two arrays", async () => {
+test("Edge case 2 comparing two arrays", () => {
   const array1 = [
     { id: 1, name: 20342 },
     { id: 2, name: "dum" },

@@ -46,8 +46,11 @@ export default function WarningModal() {
         isLogoutModalOpen
           ? setIsLogoutModalOpen(false)
           : setIsDeleteModalOpen(false);
-      } else if (e.keyCode === 9 || e.keyCode === "Tab") {
-        (isLogoutModalOpen || isDeleteModalOpen) && handleTabKey(e);
+      } else if (
+        (isLogoutModalOpen || isDeleteModalOpen) &&
+        (e.keyCode === 9 || e.keyCode === "Tab")
+      ) {
+        handleTabKey(e);
       }
     }
     document.addEventListener("keydown", keyListener);

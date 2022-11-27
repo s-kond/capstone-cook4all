@@ -26,7 +26,7 @@ export const UserContextProvider = ({ children }) => {
       }
     } catch (error) {
       alert(`Sorry, username "${username}" doesn't exist.`);
-      console.error(error.message);
+      throw new Error(`This username doesn't exist: ${error.message}`);
     }
   }
 
@@ -49,28 +49,32 @@ export const UserContextProvider = ({ children }) => {
       alert(
         "This user already exists or you submitted an empty username. Please try again!"
       );
-      console.error(json.error);
+      throw new Error(json.error);
     }
     if (response.ok) {
       setIsLoggedIn(true);
     }
   }
 
-  async function handleDeleteUser(confirmation) {
-    setIsDeleteModalOpen(true);
-    if (confirmation === true) {
-      const response = await fetch(`/api/users/${username}`, {
-        method: "DELETE",
-      });
-      const json = await response.json();
-      if (response.ok) {
-        setIsDeleteModalOpen(false);
-        setIsProfileMenuOpen(false);
-        handleLogout();
-      }
-      if (!response.ok) {
-        console.error(json.error);
-      }
+  async function handleUserDataUpdate() {
+    const updates = {
+      guestList: guestArray,
+      favoriteRecipes: favoriteArray,
+    };
+    const response = await fetch(`/api/users/${username}`, {
+      method: "PUT",
+      body: JSON.stringify(updates),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const json = await response.json();
+
+    if (!response.ok) {
+      throw new Error(json.error);
+    }
+    if (response.ok) {
+      setChangesCounter(0);
     }
   }
 
@@ -102,25 +106,21 @@ export const UserContextProvider = ({ children }) => {
     }
   }
 
-  async function handleUserDataUpdate() {
-    const updates = {
-      guestList: guestArray,
-      favoriteRecipes: favoriteArray,
-    };
-    const response = await fetch(`/api/users/${username}`, {
-      method: "PUT",
-      body: JSON.stringify(updates),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const json = await response.json();
-
-    if (!response.ok) {
-      console.error(json.error);
-    }
-    if (response.ok) {
-      setChangesCounter(0);
+  async function handleDeleteUser(confirmation) {
+    setIsDeleteModalOpen(true);
+    if (confirmation === true) {
+      const response = await fetch(`/api/users/${username}`, {
+        method: "DELETE",
+      });
+      const json = await response.json();
+      if (response.ok) {
+        setIsDeleteModalOpen(false);
+        setIsProfileMenuOpen(false);
+        handleLogout();
+      }
+      if (!response.ok) {
+        throw new Error(json.error);
+      }
     }
   }
 

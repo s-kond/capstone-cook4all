@@ -127,6 +127,7 @@ export default function MoreFilters({
                     <label
                       key={type.label}
                       htmlFor={type.label}
+                      role="button"
                       onClick={(event) => event.stopPropagation()}
                     >
                       <input
@@ -149,6 +150,7 @@ export default function MoreFilters({
                     <label
                       key={type.label}
                       htmlFor={type.label}
+                      role="button"
                       onClick={(event) => event.stopPropagation()}
                     >
                       <input
@@ -171,6 +173,7 @@ export default function MoreFilters({
                     <label
                       key={type.label}
                       htmlFor={type.label}
+                      role="button"
                       onClick={(event) => event.stopPropagation()}
                     >
                       <input
