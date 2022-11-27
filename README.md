@@ -28,6 +28,8 @@ You can also filter the recipes for the type of meal, dish or cuisine you are lo
 ## Setup
 - Clone this repository
 - Inside root folder install all dependencies via ``$ npm install``
+- go inside the api folder via ``$ cd api`` and install the backend dependencies ``$ npm install``
+- go back to root folder ``$ cd ..``
 - Create your own ``.env``file inside the root folder. It should contain **your own** ``API-Key`` and ``API-ID`` from the [edamam recipe api](https://developer.edamam.com/edamam-recipe-api) and a link for your mongoDB-Server. It should look similar to this afterwards:
 
 ```
