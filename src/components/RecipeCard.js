@@ -21,16 +21,12 @@ export default function RecipeCard({ recipeData }) {
 
   useEffect(() => {
     function recipeIsFavorite() {
-      if (
-        favoriteArray.some(
-          (favorite) => favorite.recipe.uri === recipeData.recipe.uri
-        )
-      ) {
+      if (favoriteArray.some((favorite) => favorite.recipe.uri === uri)) {
         setFavorite(true);
       }
     }
     recipeIsFavorite();
-  }, []);
+  }, [favoriteArray, uri]);
 
   function changeFavorite(id) {
     const isInitialFavoriteRecipe = initialFavoriteRecipes
