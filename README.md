@@ -5,7 +5,7 @@ I designed and coded this App in 4 weeks to show and practice my newly acquired 
 [Try it out!](https://capstone-cook4all.vercel.app/)
 
 ## About the app
-You invited friends and want to cook for them - but someone has a gluten-intolerance, someone else is vegetarian, ... It's difficult to find one meal for everyone.
+You invited friends and want to cook for them - but someone has a gluten-intolerance, someone else is vegetarian ... It's difficult to find one meal for everyone.
 
 Cook4All helps you to save intolerances, diets etc. from people you want to cook for. Searching through more than 2 million recipes it will show you recipes that everyone can eat and enjoy.
 
