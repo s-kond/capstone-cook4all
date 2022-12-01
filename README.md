@@ -18,12 +18,15 @@ You can also filter the recipes for the type of meal, dish or cuisine you are lo
 
 ## Technologies I used
 - React 
+- React Context API
 - React Router
-- React Testing Library / Jest
+- Jest
 - Styled Components
 - Express
 - Node.js
+- Mongoose
 - MongoDB
+- Edamam API
 
 ## Setup
 - Clone this repository
