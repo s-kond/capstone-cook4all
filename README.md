@@ -1,6 +1,6 @@
 # Cook4All 
 In this repo you find the code from my capstone-project 'cook4all'. It's the final product of an intensive 3-month-bootcamp at neuefische. 
-I designed and coded this App in 4 weeks to show and practice my newly acquired skills.
+I designed and coded this App in 4 weeks to show and practice my newly acquired skills. It's optimized for mobiles, so it might not look perfect on larger screens.
 
 [Try it out!](https://capstone-cook4all.vercel.app/)
 
