@@ -4,7 +4,7 @@ I designed and coded this App in 4 weeks to show and practice my newly acquired 
 
 Have a look at the video-preview:
 
-[Stefan Kondring-1-1.webm](https://user-images.githubusercontent.com/79710919/205022749-65187e00-8fef-4ce2-89dc-640117c5ae1a.webm)
+[![Have a look at the video-preview]({https://user-images.githubusercontent.com/79710919/205026231-b1d5e692-36ca-4d79-b06c-e218d31d2160.png})]({https://user-images.githubusercontent.com/79710919/205025036-4e17a97a-e693-4ee5-a398-3a49c450c72e.mp4} "Cook4All Preview")
 
 [Or try it out yourself!](https://capstone-cook4all.vercel.app/)
 
@@ -27,6 +27,10 @@ You can also filter the recipes for the type of meal, dish or cuisine you are lo
 - Jest
 
 - Styled Components
+
+
+
+
 - Express
 - Node.js
 - Mongoose
