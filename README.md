@@ -2,7 +2,11 @@
 In this repo you find the code from my capstone-project 'cook4all'. It's the final product of an intensive 3-month-bootcamp at neuefische. 
 I designed and coded this App in 4 weeks to show and practice my newly acquired skills. It's optimized for mobiles, so it might not look perfect on larger screens.
 
-[Try it out!](https://capstone-cook4all.vercel.app/)
+Have a look at the video-preview:
+
+[Stefan Kondring-1-1.webm](https://user-images.githubusercontent.com/79710919/205022749-65187e00-8fef-4ce2-89dc-640117c5ae1a.webm)
+
+[Or try it out yourself!](https://capstone-cook4all.vercel.app/)
 
 ## About the app
 You invited friends and want to cook for them - but someone has a gluten-intolerance, someone else is vegetarian ... It's difficult to find one meal for everyone.
@@ -21,6 +25,7 @@ You can also filter the recipes for the type of meal, dish or cuisine you are lo
 - React Context API
 - React Router
 - Jest
+
 - Styled Components
 - Express
 - Node.js
