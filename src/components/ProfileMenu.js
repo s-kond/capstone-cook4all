@@ -1,3 +1,4 @@
+import React from "react";
 import { useEffect, useContext, useRef } from "react";
 import { UserContext } from "../context/UserContext";
 import styled from "styled-components";

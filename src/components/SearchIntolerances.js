@@ -1,3 +1,4 @@
+import React from "react";
 import { useState, useRef } from "react";
 import styled from "styled-components";
 import { search } from "fast-fuzzy";
