@@ -2,7 +2,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { StyledForm, ButtonContainer } from "./CreateGuest";
 import SearchIntolerances from "../components/SearchIntolerances";
 import { UserContext } from "../context/UserContext";
-import { useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import Header from "../components/Header";
 import GuestNameInput from "../components/GuestNameInput";
 import BasicButton from "../components/BasicButton";

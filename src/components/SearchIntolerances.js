@@ -1,5 +1,4 @@
-import React, { useContext } from "react";
-import { useState, useRef } from "react";
+import React, { useState, useRef, useContext } from "react";
 import styled from "styled-components";
 import { search } from "fast-fuzzy";
 import { possibleIntolerances } from "../assets/data";

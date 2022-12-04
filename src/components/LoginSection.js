@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import React, { useContext } from "react";
 import { UserContext } from "../context/UserContext";
 import styled from "styled-components";
 

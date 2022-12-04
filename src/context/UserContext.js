@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import React, { createContext, useState } from "react";
 
 export const UserContext = createContext();
 export const UserContextProvider = ({ children }) => {
@@ -171,10 +171,10 @@ export const UserContextProvider = ({ children }) => {
     }
     //fetch the newly created guest from db and save him in guestArray:
     try {
-      const response = await fetch(`/api/users/${username}`);
-      const data = await response.json();
+      const secondResponse = await fetch(`/api/users/${username}`);
+      const data = await secondResponse.json();
 
-      if (response.ok) {
+      if (secondResponse.ok) {
         setGuestArray(data.guestList);
         setChangesCounter(changesCounter + 1);
       }

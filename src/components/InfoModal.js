@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useContext, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import IntoleranceFilterInformation from "./IntoleranceFilterTable";
 import { UserContext } from "../context/UserContext";
 

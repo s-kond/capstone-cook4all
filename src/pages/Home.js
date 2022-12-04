@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import GuestCard from "../components/GuestCard";
-import { useContext } from "react";
+import React, { useContext } from "react";
 import { UserContext } from "../context/UserContext";
 import NavBar from "../components/NavBar";
 import addIcon from "../assets/icons/add-circle-20-regular.svg";

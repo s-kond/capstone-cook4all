@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import { UserContext } from "../context/UserContext";
 import emptyCircle from "../assets/icons/circle_empty.svg";
 import checkedCircle from "../assets/icons/circle-check.svg";
