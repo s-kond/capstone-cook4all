@@ -5,14 +5,17 @@ import { UserContext } from "../context/UserContext";
 export default function WarningModal() {
   const {
     isLogoutModalOpen,
-    setIsLogoutModalOpen,
+    toggleModal,
     handleLogout,
     isDeleteModalOpen,
-    setIsDeleteModalOpen,
     handleDeleteUser,
   } = useContext(UserContext);
 
   const modalRef = useRef();
+
+  function closeModal() {
+    isLogoutModalOpen ? toggleModal("logout") : toggleModal("delete");
+  }
 
   useEffect(() => {
     const handleTabKey = (e) => {
@@ -43,9 +46,7 @@ export default function WarningModal() {
 
     function keyListener(e) {
       if (e.keyCode === 27) {
-        isLogoutModalOpen
-          ? setIsLogoutModalOpen(false)
-          : setIsDeleteModalOpen(false);
+        closeModal();
       } else if (
         (isLogoutModalOpen || isDeleteModalOpen) &&
         (e.keyCode === 9 || e.keyCode === "Tab")
@@ -60,7 +61,7 @@ export default function WarningModal() {
   return (
     <>
       {(isLogoutModalOpen || isDeleteModalOpen) && (
-        <StyledContainer onClick={() => setIsLogoutModalOpen(false)} />
+        <StyledContainer onClick={closeModal} />
       )}
       {(isLogoutModalOpen || isDeleteModalOpen) && (
         <DivCentered>
@@ -73,15 +74,7 @@ export default function WarningModal() {
                 <StyledModalHeader>Delete account</StyledModalHeader>
               )}
             </DivModalHeader>
-            <StyledCloseButton
-              onClick={() =>
-                isLogoutModalOpen
-                  ? setIsLogoutModalOpen(false)
-                  : setIsDeleteModalOpen(false)
-              }
-            >
-              X
-            </StyledCloseButton>
+            <StyledCloseButton onClick={closeModal}>X</StyledCloseButton>
             <DivModalContent>
               {isLogoutModalOpen && (
                 <p>Do you want to save your changes before you logout?</p>
@@ -110,7 +103,7 @@ export default function WarningModal() {
                 </StyledPrimaryButton>
                 <StyledSecondaryButton
                   isDelete={true}
-                  onClick={() => setIsDeleteModalOpen(false)}
+                  onClick={() => toggleModal("delete")}
                 >
                   Back
                 </StyledSecondaryButton>

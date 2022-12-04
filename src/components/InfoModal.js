@@ -1,17 +1,14 @@
 import styled from "styled-components";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import IntoleranceFilterInformation from "./IntoleranceFilterTable";
+import { UserContext } from "../context/UserContext";
 
-export default function InfoModal({ isInfoModalOpen, setIsInfoModalOpen }) {
-  function closeModal(event) {
-    setIsInfoModalOpen(false);
-    event.stopPropagation();
-  }
-
+export default function InfoModal() {
+  const { isInfoModalOpen, toggleModal } = useContext(UserContext);
   useEffect(() => {
     function keyListener(e) {
       if (e.keyCode === 27) {
-        setIsInfoModalOpen(false);
+        toggleModal("info");
       }
     }
     document.addEventListener("keydown", keyListener);
@@ -21,10 +18,10 @@ export default function InfoModal({ isInfoModalOpen, setIsInfoModalOpen }) {
   return (
     <>
       {isInfoModalOpen && (
-        <Backdrop onClick={() => setIsInfoModalOpen(false)}></Backdrop>
+        <Backdrop onClick={(event) => toggleModal("info", event)}></Backdrop>
       )}
       {isInfoModalOpen && (
-        <ModalContainer onClick={() => setIsInfoModalOpen(false)}>
+        <ModalContainer onClick={(event) => toggleModal("info", event)}>
           <h2>Intolerance filters</h2>
           <StyledIntro>
             Find out what all the available filters for intolerances, diets,
@@ -32,7 +29,7 @@ export default function InfoModal({ isInfoModalOpen, setIsInfoModalOpen }) {
           </StyledIntro>
           <IntoleranceFilterInformation />
           {
-            <StyledCloseButton onClick={(event) => closeModal(event)}>
+            <StyledCloseButton onClick={(event) => toggleModal("info", event)}>
               X
             </StyledCloseButton>
           }

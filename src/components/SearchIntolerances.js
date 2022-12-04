@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useState, useRef } from "react";
 import styled from "styled-components";
 import { search } from "fast-fuzzy";
@@ -6,13 +6,14 @@ import { possibleIntolerances } from "../assets/data";
 import infoIcon from "../assets/icons/info-regular.svg";
 import compareArrays from "../util/CompareArrays";
 import InfoModal from "./InfoModal";
+import { UserContext } from "../context/UserContext";
 
 export default function SearchIntolerances({
   completelyNewSearch,
   activeList,
   setActiveList,
 }) {
-  const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
+  const { toggleModal } = useContext(UserContext);
   const [filteredIntolerance, setFilteredIntolerance] = useState([]);
   const [editedIntolerances, setEditedIntolerances] = useState([]);
   const intolerancesRef = useRef();
@@ -60,10 +61,7 @@ export default function SearchIntolerances({
 
   return (
     <>
-      <InfoModal
-        isInfoModalOpen={isInfoModalOpen}
-        setIsInfoModalOpen={setIsInfoModalOpen}
-      />
+      <InfoModal />
       <label htmlFor="newIntolerances">Food should be</label>
       <StyledUl>
         {activeList.map((item) => (
@@ -90,7 +88,7 @@ export default function SearchIntolerances({
         <StyledInfoButton
           type="button"
           title="intolerances, diets, ..."
-          onClick={() => setIsInfoModalOpen(true)}
+          onClick={() => toggleModal("info")}
         >
           <img src={infoIcon} alt="more information" />
         </StyledInfoButton>

@@ -9,8 +9,29 @@ export const UserContextProvider = ({ children }) => {
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
   const [changesCounter, setChangesCounter] = useState(0);
   const [initialFavoriteRecipes, setInitialFavoritesRecipes] = useState(0);
+
+  function toggleModal(type, event) {
+    switch (type) {
+      case "logout":
+        setIsLogoutModalOpen(!isLogoutModalOpen);
+        break;
+      case "profileMenu":
+        setIsProfileMenuOpen(!isProfileMenuOpen);
+        break;
+      case "delete":
+        setIsDeleteModalOpen(!isDeleteModalOpen);
+        break;
+      case "info":
+        setIsInfoModalOpen(!isInfoModalOpen);
+        event?.stopPropagation();
+        break;
+      default:
+        return;
+    }
+  }
 
   //handling GET-/POST-/PUT-Requests
   async function fetchUserData() {
@@ -80,10 +101,10 @@ export const UserContextProvider = ({ children }) => {
 
   function handleLogout(saveChanges) {
     if (changesCounter > 0) {
-      setIsLogoutModalOpen(true);
+      toggleModal("logout");
     }
     if (saveChanges === "save") {
-      setIsLogoutModalOpen(false);
+      toggleModal("logout");
       handleUserDataUpdate();
       setIsLoggedIn(false);
       setGuestArray([]);
@@ -91,7 +112,7 @@ export const UserContextProvider = ({ children }) => {
       setUsername();
     }
     if (saveChanges === "noSave") {
-      setIsLogoutModalOpen(false);
+      toggleModal("logout");
       setChangesCounter(0);
       setGuestArray([]);
       setFavoriteArray([]);
@@ -107,15 +128,15 @@ export const UserContextProvider = ({ children }) => {
   }
 
   async function handleDeleteUser(confirmation) {
-    setIsDeleteModalOpen(true);
+    toggleModal("delete");
     if (confirmation === true) {
       const response = await fetch(`/api/users/${username}`, {
         method: "DELETE",
       });
       const json = await response.json();
       if (response.ok) {
-        setIsDeleteModalOpen(false);
-        setIsProfileMenuOpen(false);
+        toggleModal("delete");
+        toggleModal("profileMenu");
         handleLogout();
       }
       if (!response.ok) {
@@ -205,11 +226,10 @@ export const UserContextProvider = ({ children }) => {
         handleNewUser,
         handleDeleteUser,
         isLogoutModalOpen,
-        setIsLogoutModalOpen,
         isProfileMenuOpen,
-        setIsProfileMenuOpen,
         isDeleteModalOpen,
-        setIsDeleteModalOpen,
+        isInfoModalOpen,
+        toggleModal,
         initialFavoriteRecipes,
       }}
     >

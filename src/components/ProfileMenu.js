@@ -9,17 +9,15 @@ import infoIcon from "../assets/icons/info-regular.svg";
 import logoutIcon from "../assets/icons/logout-outlined.svg";
 import loginIcon from "../assets/icons/uiw_login.svg";
 
-export default function ProfileMenu({
-  isProfileMenuOpen,
-  setIsProfileMenuOpen,
-  setIsInfoModalOpen,
-}) {
+export default function ProfileMenu() {
   const {
     isLoggedIn,
+    isProfileMenuOpen,
     changesCounter,
     handleUserDataUpdate,
     handleDeleteUser,
     handleLogout,
+    toggleModal,
   } = useContext(UserContext);
   const navigate = useNavigate();
   const modalRef = useRef();
@@ -50,7 +48,7 @@ export default function ProfileMenu({
 
     function keyListener(e) {
       if (e.keyCode === 27) {
-        setIsProfileMenuOpen(false);
+        toggleModal("profileMenu");
       } else if (
         isProfileMenuOpen &&
         (e.keyCode === 9 || e.keyCode === "Tab")
@@ -60,33 +58,33 @@ export default function ProfileMenu({
     }
     document.addEventListener("keydown", keyListener);
     return () => document.removeEventListener("keydown", keyListener);
-  });
+  }, [isProfileMenuOpen, toggleModal]);
 
   function goToLogin() {
-    setIsProfileMenuOpen(false);
+    toggleModal("profileMenu");
     navigate("/");
   }
 
   function openInfoModal() {
-    setIsProfileMenuOpen(false);
-    setIsInfoModalOpen(true);
+    toggleModal("profileMenu");
+    toggleModal("info");
   }
 
   function handleLogoutAndClose() {
-    setIsProfileMenuOpen(false);
+    toggleModal("profileMenu");
     navigate("/");
     handleLogout();
   }
 
   function handleDeleteAndClose() {
-    setIsProfileMenuOpen(false);
+    toggleModal("profileMenu");
     handleDeleteUser();
   }
 
   return (
     <>
       {isProfileMenuOpen && (
-        <MenuBackdrop onClick={() => setIsProfileMenuOpen(false)} />
+        <MenuBackdrop onClick={() => toggleModal("profileMenu")} />
       )}
       {isProfileMenuOpen && (
         <ButtonContainer ref={modalRef}>

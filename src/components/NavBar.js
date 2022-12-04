@@ -11,14 +11,9 @@ import userIcon from "../assets/icons/user-profile-outline.svg";
 import { UserContext } from "../context/UserContext";
 
 export default function NavBar() {
-  const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
   const [showTopBtn, setShowTopBtn] = useState(false);
-  const {
-    isLoggedIn,
-    isProfileMenuOpen,
-    setIsProfileMenuOpen,
-    changesCounter,
-  } = useContext(UserContext);
+  const { isLoggedIn, isProfileMenuOpen, toggleModal, changesCounter } =
+    useContext(UserContext);
 
   useEffect(() => {
     window.addEventListener("scroll", () => {
@@ -52,24 +47,15 @@ export default function NavBar() {
           <img src={favoritesIcon} alt="Go to favorite recipes" />
           <p>Favorites</p>
         </StyledNavLink>
-        <StyledProfileButton
-          onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
-        >
+        <StyledProfileButton onClick={() => toggleModal("profileMenu")}>
           <img src={userIcon} alt="user" />
           {changesCounter > 0 && !isProfileMenuOpen && isLoggedIn && (
             <ChangeIcon>{changesCounter}</ChangeIcon>
           )}
           <p>Account</p>
         </StyledProfileButton>
-        <ProfileMenu
-          isProfileMenuOpen={isProfileMenuOpen}
-          setIsProfileMenuOpen={setIsProfileMenuOpen}
-          setIsInfoModalOpen={setIsInfoModalOpen}
-        />
-        <InfoModal
-          isInfoModalOpen={isInfoModalOpen}
-          setIsInfoModalOpen={setIsInfoModalOpen}
-        />
+        <ProfileMenu />
+        <InfoModal />
         {showTopBtn && (
           <StyledToTopButton
             type="button"
