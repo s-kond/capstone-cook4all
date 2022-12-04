@@ -68,6 +68,7 @@ export default function SearchIntolerances({
             key={item.id}
             role="button"
             onClick={() => removeFromActive(item)}
+            onKeyDown={() => removeFromActive(item)}
           >
             <StyledActiveIntolerance type="button">
               {item.name}

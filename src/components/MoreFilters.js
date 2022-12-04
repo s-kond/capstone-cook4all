@@ -129,6 +129,7 @@ export default function MoreFilters({
                       htmlFor={type.label}
                       role="button"
                       onClick={(event) => event.stopPropagation()}
+                      onKeyDown={(event) => event.stopPropagation()}
                     >
                       <input
                         key={index}
@@ -152,6 +153,7 @@ export default function MoreFilters({
                       htmlFor={type.label}
                       role="button"
                       onClick={(event) => event.stopPropagation()}
+                      onKeyDown={(event) => event.stopPropagation()}
                     >
                       <input
                         key={index}
@@ -175,6 +177,7 @@ export default function MoreFilters({
                       htmlFor={type.label}
                       role="button"
                       onClick={(event) => event.stopPropagation()}
+                      onKeyDown={(event) => event.stopPropagation()}
                     >
                       <input
                         key={index}
