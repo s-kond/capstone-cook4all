@@ -2,36 +2,29 @@ import React, { useContext } from "react";
 import { UserContext } from "../context/UserContext";
 import styled from "styled-components";
 
-export default function LoginSection() {
-  const { fetchUserData, username, setUsername, isLoggedIn, handleNewUser } =
+function LoginSection() {
+  const { fetchUserData, updateUsername, handleNewUser } =
     useContext(UserContext);
   return (
     <LoginContainer>
-      {isLoggedIn && <h2>Hello {username}!</h2>}
-      {!isLoggedIn && (
-        <StyledUsernameInput
-          name="username"
-          id="username"
-          type="text"
-          //this pattern prevents users from submiting empty whitespace-filled names (from stackoverflow)
-          pattern=".*[^\s]{1,}.*"
-          title="max. 15 letters, no empty usernames"
-          placeholder="your username"
-          minLength="1"
-          maxLength="15"
-          onChange={(event) => setUsername(event.target.value.trim())}
-        />
-      )}
-      {!isLoggedIn && (
-        <button type="button" onClick={fetchUserData}>
-          Login
-        </button>
-      )}
-      {!isLoggedIn && (
-        <button type="button" onClick={handleNewUser}>
-          Login as new user
-        </button>
-      )}
+      <StyledUsernameInput
+        name="username"
+        id="username"
+        type="text"
+        //this pattern prevents users from submiting empty whitespace-filled names (from stackoverflow)
+        pattern=".*[^\s]{1,}.*"
+        title="max. 15 letters, no empty usernames"
+        placeholder="your username"
+        minLength="1"
+        maxLength="15"
+        onChange={(event) => updateUsername(event)}
+      />
+      <button type="button" onClick={fetchUserData}>
+        Login
+      </button>
+      <button type="button" onClick={handleNewUser}>
+        Login as new user
+      </button>
     </LoginContainer>
   );
 }
@@ -74,3 +67,5 @@ const StyledUsernameInput = styled.input`
     border: 2px solid red;
   }
 `;
+
+export default React.memo(LoginSection);

@@ -8,10 +8,9 @@ import infoIcon from "../assets/icons/info-regular.svg";
 import logoutIcon from "../assets/icons/logout-outlined.svg";
 import loginIcon from "../assets/icons/uiw_login.svg";
 
-export default function ProfileMenu() {
+function ProfileMenu() {
   const {
     isLoggedIn,
-    isProfileMenuOpen,
     changesCounter,
     handleUserDataUpdate,
     handleDeleteUser,
@@ -20,7 +19,6 @@ export default function ProfileMenu() {
   } = useContext(UserContext);
   const navigate = useNavigate();
   const modalRef = useRef();
-
   useEffect(() => {
     const handleTabKey = (e) => {
       const focusableModalElements =
@@ -48,16 +46,13 @@ export default function ProfileMenu() {
     function keyListener(e) {
       if (e.keyCode === 27) {
         toggleModal("profileMenu");
-      } else if (
-        isProfileMenuOpen &&
-        (e.keyCode === 9 || e.keyCode === "Tab")
-      ) {
+      } else if (e.keyCode === 9 || e.keyCode === "Tab") {
         handleTabKey(e);
       }
     }
     document.addEventListener("keydown", keyListener);
     return () => document.removeEventListener("keydown", keyListener);
-  }, [isProfileMenuOpen, toggleModal]);
+  }, [toggleModal]);
 
   function goToLogin() {
     toggleModal("profileMenu");
@@ -82,52 +77,48 @@ export default function ProfileMenu() {
 
   return (
     <>
-      {isProfileMenuOpen && (
-        <MenuBackdrop onClick={() => toggleModal("profileMenu")} />
-      )}
-      {isProfileMenuOpen && (
-        <ButtonContainer ref={modalRef}>
-          {!isLoggedIn && (
-            <button type="button" onClick={goToLogin}>
-              <p>Login</p>
-              <img src={loginIcon} alt="go to login" />
-            </button>
-          )}
-          {isLoggedIn && (
-            <LogoutButton type="button" onClick={handleLogoutAndClose}>
-              <p>Logout</p>
-              <img src={logoutIcon} alt="logout" />
-            </LogoutButton>
-          )}
-          {isLoggedIn && (
-            <LogoutButton type="button" onClick={handleDeleteAndClose}>
-              <p>Delete this account</p>
-              <img src={deleteIcon} alt="delete" />
-            </LogoutButton>
-          )}
-          <button
-            type="button"
-            title="intolerances, diets, ..."
-            onClick={openInfoModal}
-          >
-            <p>Information</p>
-            <img src={infoIcon} alt="intolerances information" />
+      <MenuBackdrop onClick={() => toggleModal("profileMenu")} />
+      <ButtonContainer ref={modalRef}>
+        {!isLoggedIn && (
+          <button type="button" onClick={goToLogin}>
+            <p>Login</p>
+            <img src={loginIcon} alt="go to login" />
           </button>
-          {isLoggedIn && changesCounter > 0 && (
-            <button type="button" onClick={handleUserDataUpdate}>
-              <ChangeIcon>{changesCounter}</ChangeIcon>
-              <p>Save changes</p>
-              <img src={saveIcon} alt="save" />
-            </button>
-          )}
-        </ButtonContainer>
-      )}
+        )}
+        {isLoggedIn && (
+          <LogoutButton type="button" onClick={handleLogoutAndClose}>
+            <p>Logout</p>
+            <img src={logoutIcon} alt="logout" />
+          </LogoutButton>
+        )}
+        {isLoggedIn && (
+          <LogoutButton type="button" onClick={handleDeleteAndClose}>
+            <p>Delete this account</p>
+            <img src={deleteIcon} alt="delete" />
+          </LogoutButton>
+        )}
+        <button
+          type="button"
+          title="intolerances, diets, ..."
+          onClick={openInfoModal}
+        >
+          <p>Information</p>
+          <img src={infoIcon} alt="intolerances information" />
+        </button>
+        {isLoggedIn && changesCounter > 0 && (
+          <button type="button" onClick={handleUserDataUpdate}>
+            <ChangeIcon>{changesCounter}</ChangeIcon>
+            <p>Save changes</p>
+            <img src={saveIcon} alt="save" />
+          </button>
+        )}
+      </ButtonContainer>
     </>
   );
 }
 
 const ButtonContainer = styled.div`
-  position: fixed;
+  position: absolute;
   z-index: 25;
   bottom: 90px;
   right: 0;
@@ -191,3 +182,5 @@ const MenuBackdrop = styled.div`
   transform: translate(-50%, -50%);
   position: fixed;
 `;
+
+export default React.memo(ProfileMenu);

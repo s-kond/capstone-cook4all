@@ -7,13 +7,21 @@ import upArrow from "../assets/icons/arrow-up-circle.svg";
 import React, { useContext, useEffect, useState } from "react";
 import InfoModal from "./InfoModal";
 import ProfileMenu from "./ProfileMenu";
+import WarningModal from "./WarningModal";
 import userIcon from "../assets/icons/user-profile-outline.svg";
 import { UserContext } from "../context/UserContext";
 
-export default function NavBar() {
+function NavBar() {
   const [showTopBtn, setShowTopBtn] = useState(false);
-  const { isLoggedIn, isProfileMenuOpen, toggleModal, changesCounter } =
-    useContext(UserContext);
+  const {
+    isLoggedIn,
+    isInfoModalOpen,
+    isProfileMenuOpen,
+    isDeleteModalOpen,
+    isLogoutModalOpen,
+    toggleModal,
+    changesCounter,
+  } = useContext(UserContext);
 
   useEffect(() => {
     window.addEventListener("scroll", () => {
@@ -53,8 +61,9 @@ export default function NavBar() {
         )}
         <p>Account</p>
       </StyledProfileButton>
-      <ProfileMenu />
-      <InfoModal />
+      {isProfileMenuOpen && <ProfileMenu />}
+      {(isDeleteModalOpen || isLogoutModalOpen) && <WarningModal />}
+      {isInfoModalOpen && <InfoModal />}
       {showTopBtn && (
         <StyledToTopButton
           type="button"
@@ -158,3 +167,5 @@ const ChangeIcon = styled.p`
     right: 90px;
   }
 `;
+
+export default React.memo(NavBar);

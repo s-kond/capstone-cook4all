@@ -54,7 +54,7 @@ export default function FavoriteRecipes() {
   return (
     <>
       <Header title="Favorites" />
-      <DisplaySelectedGuests />
+      {isLoggedIn && <DisplaySelectedGuests />}
       <hr />
       <StyledDivSection>
         <EdamamBadge src={edamamBadge} alt="powered by Edamam" />

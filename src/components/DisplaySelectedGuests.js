@@ -3,11 +3,10 @@ import styled from "styled-components";
 import { UserContext } from "../context/UserContext";
 import getIntolerances from "../util/GetSelectedGuestsIntolerances";
 
-export default function DisplaySelectedGuests() {
+function DisplaySelectedGuests() {
   const { guestArray } = useContext(UserContext);
   const selectedGuests = guestArray.filter((guest) => guest.selected);
   const intolerances = getIntolerances(guestArray);
-
   return (
     <StyledSection>
       {intolerances.length > 0 ? (
@@ -46,3 +45,5 @@ const StyledSubSection = styled.section`
     margin-right: 10px;
   }
 `;
+
+export default React.memo(DisplaySelectedGuests);

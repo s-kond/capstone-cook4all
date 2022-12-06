@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useState, useCallback } from "react";
 
 export const UserContext = createContext();
 export const UserContextProvider = ({ children }) => {
@@ -13,25 +13,33 @@ export const UserContextProvider = ({ children }) => {
   const [changesCounter, setChangesCounter] = useState(0);
   const [initialFavoriteRecipes, setInitialFavoritesRecipes] = useState(0);
 
-  function toggleModal(type, event) {
-    switch (type) {
-      case "logout":
-        setIsLogoutModalOpen(!isLogoutModalOpen);
-        break;
-      case "profileMenu":
-        setIsProfileMenuOpen(!isProfileMenuOpen);
-        break;
-      case "delete":
-        setIsDeleteModalOpen(!isDeleteModalOpen);
-        break;
-      case "info":
-        setIsInfoModalOpen(!isInfoModalOpen);
-        event?.stopPropagation();
-        break;
-      default:
-        return;
-    }
-  }
+  const toggleModal = useCallback(
+    (type, event) => {
+      console.log("rendering toggle-function");
+      switch (type) {
+        case "logout":
+          setIsLogoutModalOpen(!isLogoutModalOpen);
+          break;
+        case "profileMenu":
+          setIsProfileMenuOpen(!isProfileMenuOpen);
+          break;
+        case "delete":
+          setIsDeleteModalOpen(!isDeleteModalOpen);
+          break;
+        case "info":
+          setIsInfoModalOpen(!isInfoModalOpen);
+          event?.stopPropagation();
+          break;
+        default:
+          return;
+      }
+    },
+    [isLogoutModalOpen, isProfileMenuOpen, isDeleteModalOpen, isInfoModalOpen]
+  );
+
+  const updateUsername = (event) => {
+    setUsername(event.target.value.trim());
+  };
 
   //handling GET-/POST-/PUT-Requests
   async function fetchUserData() {
@@ -183,27 +191,49 @@ export const UserContextProvider = ({ children }) => {
     }
   }
 
-  function deleteGuest(guestId) {
-    setGuestArray(guestArray.filter((guest) => guest._id !== guestId));
-    setChangesCounter(changesCounter + 1);
-  }
+  const deleteGuest = useCallback(
+    (guestId) => {
+      setGuestArray(guestArray.filter((guest) => guest._id !== guestId));
+      setChangesCounter(changesCounter + 1);
+    },
+    [guestArray, changesCounter]
+  );
 
-  function editGuest(guestId, newName, newIntolerances, newNotes) {
-    setGuestArray(
-      guestArray.map((guest) =>
-        guest._id === guestId
-          ? {
-              ...guest,
-              name: newName,
-              intolerances: newIntolerances,
-              notes: newNotes,
-              selected: false,
-            }
-          : guest
-      )
-    );
-    setChangesCounter(changesCounter + 1);
-  }
+  const editGuest = useCallback(
+    (guestId, newName, newIntolerances, newNotes) => {
+      setGuestArray(
+        guestArray.map((guest) =>
+          guest._id === guestId
+            ? {
+                ...guest,
+                name: newName,
+                intolerances: newIntolerances,
+                notes: newNotes,
+                selected: false,
+              }
+            : guest
+        )
+      );
+      setChangesCounter(changesCounter + 1);
+    },
+    [guestArray, changesCounter]
+  );
+
+  const toggleSelectGuest = useCallback(
+    (guestId) => {
+      setGuestArray(
+        guestArray.map((guest) =>
+          guest._id === guestId
+            ? {
+                ...guest,
+                selected: !guest.selected,
+              }
+            : guest
+        )
+      );
+    },
+    [guestArray]
+  );
 
   return (
     <UserContext.Provider
@@ -212,12 +242,13 @@ export const UserContextProvider = ({ children }) => {
         setGuestArray,
         editGuest,
         createGuest,
+        deleteGuest,
+        toggleSelectGuest,
         favoriteArray,
         setFavoriteArray,
-        deleteGuest,
         fetchUserData,
         username,
-        setUsername,
+        updateUsername,
         isLoggedIn,
         changesCounter,
         setChangesCounter,

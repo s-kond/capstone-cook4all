@@ -12,7 +12,6 @@ export default function WarningModal() {
   } = useContext(UserContext);
 
   const modalRef = useRef();
-
   function closeModal() {
     isLogoutModalOpen ? toggleModal("logout") : toggleModal("delete");
   }
@@ -119,17 +118,18 @@ export default function WarningModal() {
 const StyledContainer = styled.section`
   background-color: rgba(0, 0, 0, 0.5);
   width: 100vw;
+  max-width: 1080px;
   height: 100vh;
   z-index: 30;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  top: calc(-100vh + 80px);
+  left: 0;
   position: absolute;
 `;
 
 const DivCentered = styled.div`
   position: fixed;
   width: 80%;
+  max-width: 800px;
   z-index: 35;
   top: 50%;
   left: 50%;

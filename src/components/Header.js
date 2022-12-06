@@ -1,6 +1,7 @@
 import styled from "styled-components";
+import React from "react";
 
-export default function Header({ title }) {
+function Header({ title }) {
   return (
     <StyledHeader>
       <h1>{title}</h1>
@@ -23,3 +24,5 @@ const StyledHeader = styled.header`
     font-weight: unset;
   }
 `;
+
+export default React.memo(Header);

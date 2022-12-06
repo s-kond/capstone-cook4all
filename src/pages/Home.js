@@ -8,7 +8,7 @@ import addIcon from "../assets/icons/add-circle-20-regular.svg";
 import Header from "../components/Header";
 import LoginSection from "../components/LoginSection";
 
-export default function Home() {
+function Home() {
   const navigate = useNavigate();
   const { guestArray, isLoggedIn, username } = useContext(UserContext);
 
@@ -69,3 +69,5 @@ const StyledAddButton = styled.button`
     }
   }
 `;
+
+export default React.memo(Home);

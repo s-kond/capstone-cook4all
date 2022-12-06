@@ -12,7 +12,7 @@ import MoreFilters from "../components/MoreFilters";
 import edamamBadge from "../assets/Edamam_Badge_Transparent.svg";
 
 export default function Recipes() {
-  const { guestArray } = useContext(UserContext);
+  const { guestArray, isLoggedIn } = useContext(UserContext);
   const intolerances = getIntolerances(guestArray);
   const modifiedIntolerances = intolerances.map((intolerance) => {
     if (intolerance === "DASH" || intolerance === "Mediterranean") {
@@ -82,7 +82,7 @@ export default function Recipes() {
   return (
     <>
       <Header title="Recipes" />
-      <DisplaySelectedGuests />
+      {isLoggedIn && <DisplaySelectedGuests />}
       <StyledForm onSubmit={(event) => handleRecipeSearch(event)}>
         <MoreFilters
           selectedMealType={selectedMealType}
