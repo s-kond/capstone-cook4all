@@ -1,17 +1,14 @@
 import styled from "styled-components";
-import { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import IntoleranceFilterInformation from "./IntoleranceFilterTable";
+import { UserContext } from "../context/UserContext";
 
-export default function InfoModal({ isInfoModalOpen, setIsInfoModalOpen }) {
-  function closeModal(event) {
-    setIsInfoModalOpen(false);
-    event.stopPropagation();
-  }
-
+function InfoModal() {
+  const { toggleModal } = useContext(UserContext);
   useEffect(() => {
     function keyListener(e) {
       if (e.keyCode === 27) {
-        setIsInfoModalOpen(false);
+        toggleModal("info");
       }
     }
     document.addEventListener("keydown", keyListener);
@@ -20,24 +17,20 @@ export default function InfoModal({ isInfoModalOpen, setIsInfoModalOpen }) {
 
   return (
     <>
-      {isInfoModalOpen && (
-        <Backdrop onClick={() => setIsInfoModalOpen(false)}></Backdrop>
-      )}
-      {isInfoModalOpen && (
-        <ModalContainer onClick={() => setIsInfoModalOpen(false)}>
-          <h2>Intolerance filters</h2>
-          <StyledIntro>
-            Find out what all the available filters for intolerances, diets,
-            etc. mean exactly:
-          </StyledIntro>
-          <IntoleranceFilterInformation />
-          {
-            <StyledCloseButton onClick={(event) => closeModal(event)}>
-              X
-            </StyledCloseButton>
-          }
-        </ModalContainer>
-      )}
+      <Backdrop onClick={(event) => toggleModal("info", event)}></Backdrop>
+      <ModalContainer onClick={(event) => toggleModal("info", event)}>
+        <h2>Intolerance filters</h2>
+        <StyledIntro>
+          Find out what all the available filters for intolerances, diets, etc.
+          mean exactly:
+        </StyledIntro>
+        <IntoleranceFilterInformation />
+        {
+          <StyledCloseButton onClick={(event) => toggleModal("info", event)}>
+            X
+          </StyledCloseButton>
+        }
+      </ModalContainer>
     </>
   );
 }
@@ -86,3 +79,5 @@ const StyledIntro = styled.p`
   margin: 10px 0;
   font-size: 1.1rem;
 `;
+
+export default React.memo(InfoModal);

@@ -1,7 +1,8 @@
+import React from "react";
 import backIcon from "../assets/icons/arrow-left-circle.svg";
 import checkIcon from "../assets/icons/ph_check-circle.svg";
 
-export default function BasicButton({ description, handleClick }) {
+function BasicButton({ description, handleClick }) {
   return (
     <button
       type={description === "submit" ? "submit" : "button"}
@@ -12,3 +13,5 @@ export default function BasicButton({ description, handleClick }) {
     </button>
   );
 }
+
+export default React.memo(BasicButton);

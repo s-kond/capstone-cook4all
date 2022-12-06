@@ -29,7 +29,7 @@ describe("input field requires valid usernames", () => {
     expect(form).not.toBeValid();
   });
 
-  it("should require an input", async () => {
+  it("should require an input", () => {
     render(
       <form data-testid="form">
         <GuestNameInput />

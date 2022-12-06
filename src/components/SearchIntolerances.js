@@ -1,21 +1,25 @@
-import { useState, useRef } from "react";
+import React, { useState, useRef, useContext } from "react";
 import styled from "styled-components";
 import { search } from "fast-fuzzy";
 import { possibleIntolerances } from "../assets/data";
 import infoIcon from "../assets/icons/info-regular.svg";
 import compareArrays from "../util/CompareArrays";
 import InfoModal from "./InfoModal";
+import { UserContext } from "../context/UserContext";
 
 export default function SearchIntolerances({
   completelyNewSearch,
   activeList,
   setActiveList,
 }) {
-  const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
-  const [filteredIntolerance, setFilteredIntolerance] = useState([]);
+  //completelyNewSearch zeigt an, ob dieses Modul auf der CreateGuest page (true) oder der EditGuest page (false) verwendet wird
+  //filteredIntolerances werden als Vorschläge für den User gerendert, während er etwas in die Suche eintippt
+  //editedIntolerances werden intern verwendet, wenn es schon vorausgewählte Intolerances auf der EditGuest page gibt
+
+  const { toggleModal, isInfoModalOpen } = useContext(UserContext);
+  const [filteredIntolerances, setFilteredIntolerances] = useState([]);
   const [editedIntolerances, setEditedIntolerances] = useState([]);
   const intolerancesRef = useRef();
-
   function searchIntolerance(input) {
     if (!completelyNewSearch) {
       setEditedIntolerances(compareArrays(activeList, possibleIntolerances));
@@ -27,27 +31,27 @@ export default function SearchIntolerances({
         keySelector: (obj) => obj.name,
       }
     ).slice(0, 3);
-    setFilteredIntolerance(compareArrays(activeList, results));
+    setFilteredIntolerances(compareArrays(activeList, results));
   }
 
   function addToActive(intolerance) {
     setActiveList([...activeList, intolerance]);
-    setFilteredIntolerance(
-      filteredIntolerance.filter((item) => item.id !== intolerance.id)
+    setFilteredIntolerances(
+      filteredIntolerances.filter((item) => item.id !== intolerance.id)
     );
     if (!completelyNewSearch) {
       setEditedIntolerances(
         editedIntolerances.filter((item) => item.id !== intolerance.id)
       );
     }
-    setFilteredIntolerance([]);
+    setFilteredIntolerances([]);
     intolerancesRef.current.value = "";
     intolerancesRef.current.focus();
   }
 
   function removeFromActive(intolerance) {
     if (!completelyNewSearch) {
-      setFilteredIntolerance([...filteredIntolerance, intolerance]);
+      setFilteredIntolerances([...filteredIntolerances, intolerance]);
     }
     setActiveList(activeList.filter((item) => item !== intolerance));
     if (!completelyNewSearch) {
@@ -59,14 +63,16 @@ export default function SearchIntolerances({
 
   return (
     <>
-      <InfoModal
-        isInfoModalOpen={isInfoModalOpen}
-        setIsInfoModalOpen={setIsInfoModalOpen}
-      />
+      {isInfoModalOpen && <InfoModal />}
       <label htmlFor="newIntolerances">Food should be</label>
       <StyledUl>
         {activeList.map((item) => (
-          <li key={item.id} onClick={() => removeFromActive(item)}>
+          <li
+            key={item.id}
+            role="button"
+            onClick={() => removeFromActive(item)}
+            onKeyDown={() => removeFromActive(item)}
+          >
             <StyledActiveIntolerance type="button">
               {item.name}
             </StyledActiveIntolerance>
@@ -85,13 +91,13 @@ export default function SearchIntolerances({
         <StyledInfoButton
           type="button"
           title="intolerances, diets, ..."
-          onClick={() => setIsInfoModalOpen(true)}
+          onClick={() => toggleModal("info")}
         >
           <img src={infoIcon} alt="more information" />
         </StyledInfoButton>
       </StyledInputSection>
       <section>
-        {filteredIntolerance.map((item) => (
+        {filteredIntolerances.map((item) => (
           <StyledSearchResult
             key={item.id}
             type="button"

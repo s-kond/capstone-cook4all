@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { UserContext } from "../context/UserContext";
 import styled from "styled-components";
 import { ErrorBoundary } from "react-error-boundary";
@@ -12,14 +12,13 @@ import MoreFilters from "../components/MoreFilters";
 import edamamBadge from "../assets/Edamam_Badge_Transparent.svg";
 
 export default function Recipes() {
-  const { guestArray } = useContext(UserContext);
-  let intolerances = getIntolerances(guestArray);
-  let modifiedIntolerances = intolerances.map((intolerance) => {
+  const { guestArray, isLoggedIn } = useContext(UserContext);
+  const intolerances = getIntolerances(guestArray);
+  const modifiedIntolerances = intolerances.map((intolerance) => {
     if (intolerance === "DASH" || intolerance === "Mediterranean") {
       return intolerance;
-    } else {
-      return intolerance.replaceAll(" ", "-").toLowerCase();
     }
+    return intolerance.replaceAll(" ", "-").toLowerCase();
   });
 
   const [recipeData, setRecipeData] = useState([]);
@@ -47,9 +46,9 @@ export default function Recipes() {
     const url = `https://api.edamam.com/api/recipes/v2?type=public&q=${searchInput}&app_id=${API_ID}&app_key=${API_KEY}${healthParams}${mealTypeParams}${dishTypeParams}${cuisineTypeParams}`;
     const response = await fetch(url);
     const data = await response.json();
-    data.hits.length > 0 && setNextPage(data._links.next.href);
-    setRecipeData(data.hits);
-    setAvailableData(data.hits.length > 0 ? true : false);
+    setNextPage(data?._links.next.href);
+    setRecipeData(data?.hits);
+    setAvailableData(data?.hits.length > 0 ? true : false);
   }
 
   async function fetchNextPage(url) {
@@ -73,7 +72,9 @@ export default function Recipes() {
       <StyledRecipeSection role="alert">
         <p>Sorry, something went wrong. Error:</p>
         <pre style={{ color: "red" }}>{error.message}</pre>
-        <button onClick={resetErrorBoundary}>Try again</button>
+        <button type="button" onClick={resetErrorBoundary}>
+          Try again
+        </button>
       </StyledRecipeSection>
     );
   }
@@ -81,7 +82,7 @@ export default function Recipes() {
   return (
     <>
       <Header title="Recipes" />
-      <DisplaySelectedGuests />
+      {isLoggedIn && <DisplaySelectedGuests />}
       <StyledForm onSubmit={(event) => handleRecipeSearch(event)}>
         <MoreFilters
           selectedMealType={selectedMealType}

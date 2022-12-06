@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import { UserContext } from "../context/UserContext";
 import emptyCircle from "../assets/icons/circle_empty.svg";
 import checkedCircle from "../assets/icons/circle-check.svg";
@@ -12,31 +12,11 @@ export default function GuestCard({ personalData }) {
   const { name, intolerances, notes, _id, selected } = personalData;
   const [showGuestInfo, setShowGuestInfo] = useState(false);
   const navigate = useNavigate();
-
-  const { guestArray, setGuestArray, deleteGuest } = useContext(UserContext);
-
-  function handleDelete() {
-    deleteGuest(_id);
-    navigate("/");
-  }
-
-  function toggleSelected(guestId) {
-    setGuestArray(
-      guestArray.map((guest) =>
-        guest._id === guestId
-          ? {
-              ...guest,
-              selected: !guest.selected,
-            }
-          : guest
-      )
-    );
-  }
-
+  const { toggleSelectGuest, deleteGuest } = useContext(UserContext);
   return (
     <StyledArticle>
       <StyledBasicSection>
-        <StyledCheckButton type="button" onClick={() => toggleSelected(_id)}>
+        <StyledCheckButton type="button" onClick={() => toggleSelectGuest(_id)}>
           {selected ? (
             <img src={checkedCircle} alt="selected" />
           ) : (
@@ -63,7 +43,7 @@ export default function GuestCard({ personalData }) {
         <StyledInfoP>{notes.length > 0 && "Further Notes:"}</StyledInfoP>
         <StyledNotes>{notes}</StyledNotes>
         <StyledButtonContainer>
-          <StyledDeleteButton onClick={handleDelete}>
+          <StyledDeleteButton onClick={() => deleteGuest(_id)}>
             <img src={deleteIcon} alt="delete guest" />
             <p>delete</p>
           </StyledDeleteButton>

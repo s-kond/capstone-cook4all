@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import React, { createContext, useState, useCallback } from "react";
 
 export const UserContext = createContext();
 export const UserContextProvider = ({ children }) => {
@@ -9,8 +9,37 @@ export const UserContextProvider = ({ children }) => {
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
   const [changesCounter, setChangesCounter] = useState(0);
   const [initialFavoriteRecipes, setInitialFavoritesRecipes] = useState(0);
+
+  const toggleModal = useCallback(
+    (type, event) => {
+      console.log("rendering toggle-function");
+      switch (type) {
+        case "logout":
+          setIsLogoutModalOpen(!isLogoutModalOpen);
+          break;
+        case "profileMenu":
+          setIsProfileMenuOpen(!isProfileMenuOpen);
+          break;
+        case "delete":
+          setIsDeleteModalOpen(!isDeleteModalOpen);
+          break;
+        case "info":
+          setIsInfoModalOpen(!isInfoModalOpen);
+          event?.stopPropagation();
+          break;
+        default:
+          return;
+      }
+    },
+    [isLogoutModalOpen, isProfileMenuOpen, isDeleteModalOpen, isInfoModalOpen]
+  );
+
+  const updateUsername = (event) => {
+    setUsername(event.target.value.trim());
+  };
 
   //handling GET-/POST-/PUT-Requests
   async function fetchUserData() {
@@ -26,7 +55,7 @@ export const UserContextProvider = ({ children }) => {
       }
     } catch (error) {
       alert(`Sorry, username "${username}" doesn't exist.`);
-      console.error(error.message);
+      throw new Error(`This username doesn't exist: ${error.message}`);
     }
   }
 
@@ -49,56 +78,10 @@ export const UserContextProvider = ({ children }) => {
       alert(
         "This user already exists or you submitted an empty username. Please try again!"
       );
-      console.error(json.error);
+      throw new Error(json.error);
     }
     if (response.ok) {
       setIsLoggedIn(true);
-    }
-  }
-
-  async function handleDeleteUser(confirmation) {
-    setIsDeleteModalOpen(true);
-    if (confirmation === true) {
-      const response = await fetch(`/api/users/${username}`, {
-        method: "DELETE",
-      });
-      const json = await response.json();
-      if (response.ok) {
-        setIsDeleteModalOpen(false);
-        setIsProfileMenuOpen(false);
-        handleLogout();
-      }
-      if (!response.ok) {
-        console.error(json.error);
-      }
-    }
-  }
-
-  function handleLogout(saveChanges) {
-    if (changesCounter > 0) {
-      setIsLogoutModalOpen(true);
-    }
-    if (saveChanges === "save") {
-      setIsLogoutModalOpen(false);
-      handleUserDataUpdate();
-      setIsLoggedIn(false);
-      setGuestArray([]);
-      setFavoriteArray([]);
-      setUsername();
-    }
-    if (saveChanges === "noSave") {
-      setIsLogoutModalOpen(false);
-      setChangesCounter(0);
-      setGuestArray([]);
-      setFavoriteArray([]);
-      setIsLoggedIn(false);
-      setUsername();
-    }
-    if (changesCounter === 0) {
-      setIsLoggedIn(false);
-      setGuestArray([]);
-      setFavoriteArray([]);
-      setUsername();
     }
   }
 
@@ -117,10 +100,56 @@ export const UserContextProvider = ({ children }) => {
     const json = await response.json();
 
     if (!response.ok) {
-      console.error(json.error);
+      throw new Error(json.error);
     }
     if (response.ok) {
       setChangesCounter(0);
+    }
+  }
+
+  function handleLogout(saveChanges) {
+    if (changesCounter > 0) {
+      toggleModal("logout");
+    }
+    if (saveChanges === "save") {
+      toggleModal("logout");
+      handleUserDataUpdate();
+      setIsLoggedIn(false);
+      setGuestArray([]);
+      setFavoriteArray([]);
+      setUsername();
+    }
+    if (saveChanges === "noSave") {
+      toggleModal("logout");
+      setChangesCounter(0);
+      setGuestArray([]);
+      setFavoriteArray([]);
+      setIsLoggedIn(false);
+      setUsername();
+    }
+    if (changesCounter === 0) {
+      setIsLoggedIn(false);
+      setGuestArray([]);
+      setFavoriteArray([]);
+      setUsername();
+    }
+  }
+
+  async function handleDeleteUser(confirmation) {
+    toggleModal("delete");
+    if (confirmation === true) {
+      const response = await fetch(`/api/users/${username}`, {
+        method: "DELETE",
+      });
+      const json = await response.json();
+      if (response.ok) {
+        toggleModal("delete");
+        toggleModal("profileMenu");
+        handleLogout();
+      }
+      if (!response.ok) {
+        throw new Error(json.error);
+      }
     }
   }
 
@@ -150,10 +179,10 @@ export const UserContextProvider = ({ children }) => {
     }
     //fetch the newly created guest from db and save him in guestArray:
     try {
-      const response = await fetch(`/api/users/${username}`);
-      const data = await response.json();
+      const secondResponse = await fetch(`/api/users/${username}`);
+      const data = await secondResponse.json();
 
-      if (response.ok) {
+      if (secondResponse.ok) {
         setGuestArray(data.guestList);
         setChangesCounter(changesCounter + 1);
       }
@@ -162,27 +191,49 @@ export const UserContextProvider = ({ children }) => {
     }
   }
 
-  function deleteGuest(guestId) {
-    setGuestArray(guestArray.filter((guest) => guest._id !== guestId));
-    setChangesCounter(changesCounter + 1);
-  }
+  const deleteGuest = useCallback(
+    (guestId) => {
+      setGuestArray(guestArray.filter((guest) => guest._id !== guestId));
+      setChangesCounter(changesCounter + 1);
+    },
+    [guestArray, changesCounter]
+  );
 
-  function editGuest(guestId, newName, newIntolerances, newNotes) {
-    setGuestArray(
-      guestArray.map((guest) =>
-        guest._id === guestId
-          ? {
-              ...guest,
-              name: newName,
-              intolerances: newIntolerances,
-              notes: newNotes,
-              selected: false,
-            }
-          : guest
-      )
-    );
-    setChangesCounter(changesCounter + 1);
-  }
+  const editGuest = useCallback(
+    (guestId, newName, newIntolerances, newNotes) => {
+      setGuestArray(
+        guestArray.map((guest) =>
+          guest._id === guestId
+            ? {
+                ...guest,
+                name: newName,
+                intolerances: newIntolerances,
+                notes: newNotes,
+                selected: false,
+              }
+            : guest
+        )
+      );
+      setChangesCounter(changesCounter + 1);
+    },
+    [guestArray, changesCounter]
+  );
+
+  const toggleSelectGuest = useCallback(
+    (guestId) => {
+      setGuestArray(
+        guestArray.map((guest) =>
+          guest._id === guestId
+            ? {
+                ...guest,
+                selected: !guest.selected,
+              }
+            : guest
+        )
+      );
+    },
+    [guestArray]
+  );
 
   return (
     <UserContext.Provider
@@ -191,12 +242,13 @@ export const UserContextProvider = ({ children }) => {
         setGuestArray,
         editGuest,
         createGuest,
+        deleteGuest,
+        toggleSelectGuest,
         favoriteArray,
         setFavoriteArray,
-        deleteGuest,
         fetchUserData,
         username,
-        setUsername,
+        updateUsername,
         isLoggedIn,
         changesCounter,
         setChangesCounter,
@@ -205,11 +257,10 @@ export const UserContextProvider = ({ children }) => {
         handleNewUser,
         handleDeleteUser,
         isLogoutModalOpen,
-        setIsLogoutModalOpen,
         isProfileMenuOpen,
-        setIsProfileMenuOpen,
         isDeleteModalOpen,
-        setIsDeleteModalOpen,
+        isInfoModalOpen,
+        toggleModal,
         initialFavoriteRecipes,
       }}
     >

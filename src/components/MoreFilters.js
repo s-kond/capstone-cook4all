@@ -1,8 +1,8 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { filterData } from "../assets/data";
 
-export default function MoreFilters({
+function MoreFilters({
   selectedMealType,
   setSelectedMealType,
   selectedDishType,
@@ -13,7 +13,6 @@ export default function MoreFilters({
   const [isMealTypeOpen, setIsMealTypeOpen] = useState(false);
   const [isDishTypeOpen, setIsDishTypeOpen] = useState(false);
   const [isCuisineTypeOpen, setIsCuisineTypeOpen] = useState(false);
-
   function handleSelect(event, type) {
     if (type === "mealTypes") {
       if (!selectedMealType.includes(event.target.value)) {
@@ -127,7 +126,9 @@ export default function MoreFilters({
                     <label
                       key={type.label}
                       htmlFor={type.label}
+                      role="button"
                       onClick={(event) => event.stopPropagation()}
+                      onKeyDown={(event) => event.stopPropagation()}
                     >
                       <input
                         key={index}
@@ -149,7 +150,9 @@ export default function MoreFilters({
                     <label
                       key={type.label}
                       htmlFor={type.label}
+                      role="button"
                       onClick={(event) => event.stopPropagation()}
+                      onKeyDown={(event) => event.stopPropagation()}
                     >
                       <input
                         key={index}
@@ -171,7 +174,9 @@ export default function MoreFilters({
                     <label
                       key={type.label}
                       htmlFor={type.label}
+                      role="button"
                       onClick={(event) => event.stopPropagation()}
+                      onKeyDown={(event) => event.stopPropagation()}
                     >
                       <input
                         key={index}
@@ -269,3 +274,5 @@ const StyledSubSection = styled.section`
     gap: 10px;
   }
 `;
+
+export default React.memo(MoreFilters);

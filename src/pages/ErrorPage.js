@@ -1,3 +1,4 @@
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
@@ -7,7 +8,9 @@ export default function ErrorPage() {
     <StyledErrorPage>
       <h2>Upsy-daisy...</h2>
       <p>This URL seems to be invalid. Please return to home:</p>
-      <button onClick={() => navigate("/")}>Return</button>
+      <button type="button" onClick={() => navigate("/")}>
+        Return
+      </button>
     </StyledErrorPage>
   );
 }

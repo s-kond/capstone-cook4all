@@ -13,7 +13,7 @@ const getUser = async (req, res) => {
 //add a new user
 const addUser = async (req, res) => {
   const { name, guestList, favoriteRecipes } = req.body;
-  const existingUser = await User.find({ name: name });
+  const existingUser = await User.find({ name });
   if (existingUser.length > 0) {
     return res.status(400).json({ error: "This user already exists." });
   }
@@ -31,7 +31,7 @@ const deleteUser = async (req, res) => {
   const { username } = req.params;
   try {
     await User.deleteOne({ name: username });
-    res.status(200).json({ msg: username + " was deleted successfully." });
+    res.status(200).json({ msg: `${username} was deleted successfully.` });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

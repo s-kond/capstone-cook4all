@@ -1,18 +1,20 @@
-import { useEffect, useContext, useRef } from "react";
+import React, { useEffect, useContext, useRef } from "react";
 import styled from "styled-components";
 import { UserContext } from "../context/UserContext";
 
 export default function WarningModal() {
   const {
     isLogoutModalOpen,
-    setIsLogoutModalOpen,
+    toggleModal,
     handleLogout,
     isDeleteModalOpen,
-    setIsDeleteModalOpen,
     handleDeleteUser,
   } = useContext(UserContext);
 
   const modalRef = useRef();
+  function closeModal() {
+    isLogoutModalOpen ? toggleModal("logout") : toggleModal("delete");
+  }
 
   useEffect(() => {
     const handleTabKey = (e) => {
@@ -43,11 +45,12 @@ export default function WarningModal() {
 
     function keyListener(e) {
       if (e.keyCode === 27) {
-        isLogoutModalOpen
-          ? setIsLogoutModalOpen(false)
-          : setIsDeleteModalOpen(false);
-      } else if (e.keyCode === 9 || e.keyCode === "Tab") {
-        (isLogoutModalOpen || isDeleteModalOpen) && handleTabKey(e);
+        closeModal();
+      } else if (
+        (isLogoutModalOpen || isDeleteModalOpen) &&
+        (e.keyCode === 9 || e.keyCode === "Tab")
+      ) {
+        handleTabKey(e);
       }
     }
     document.addEventListener("keydown", keyListener);
@@ -57,7 +60,7 @@ export default function WarningModal() {
   return (
     <>
       {(isLogoutModalOpen || isDeleteModalOpen) && (
-        <StyledContainer onClick={() => setIsLogoutModalOpen(false)} />
+        <StyledContainer onClick={closeModal} />
       )}
       {(isLogoutModalOpen || isDeleteModalOpen) && (
         <DivCentered>
@@ -70,15 +73,7 @@ export default function WarningModal() {
                 <StyledModalHeader>Delete account</StyledModalHeader>
               )}
             </DivModalHeader>
-            <StyledCloseButton
-              onClick={() =>
-                isLogoutModalOpen
-                  ? setIsLogoutModalOpen(false)
-                  : setIsDeleteModalOpen(false)
-              }
-            >
-              X
-            </StyledCloseButton>
+            <StyledCloseButton onClick={closeModal}>X</StyledCloseButton>
             <DivModalContent>
               {isLogoutModalOpen && (
                 <p>Do you want to save your changes before you logout?</p>
@@ -107,7 +102,7 @@ export default function WarningModal() {
                 </StyledPrimaryButton>
                 <StyledSecondaryButton
                   isDelete={true}
-                  onClick={() => setIsDeleteModalOpen(false)}
+                  onClick={() => toggleModal("delete")}
                 >
                   Back
                 </StyledSecondaryButton>
@@ -123,17 +118,18 @@ export default function WarningModal() {
 const StyledContainer = styled.section`
   background-color: rgba(0, 0, 0, 0.5);
   width: 100vw;
+  max-width: 1080px;
   height: 100vh;
   z-index: 30;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  top: calc(-100vh + 80px);
+  left: 0;
   position: absolute;
 `;
 
 const DivCentered = styled.div`
   position: fixed;
   width: 80%;
+  max-width: 800px;
   z-index: 35;
   top: 50%;
   left: 50%;

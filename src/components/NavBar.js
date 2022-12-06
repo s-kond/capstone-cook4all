@@ -4,19 +4,22 @@ import homeIcon from "../assets/icons/home-line.svg";
 import recipesIcon from "../assets/icons/hot-meal-outline.svg";
 import favoritesIcon from "../assets/icons/heart-outlined.svg";
 import upArrow from "../assets/icons/arrow-up-circle.svg";
-import { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import InfoModal from "./InfoModal";
 import ProfileMenu from "./ProfileMenu";
+import WarningModal from "./WarningModal";
 import userIcon from "../assets/icons/user-profile-outline.svg";
 import { UserContext } from "../context/UserContext";
 
-export default function NavBar() {
-  const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
+function NavBar() {
   const [showTopBtn, setShowTopBtn] = useState(false);
   const {
     isLoggedIn,
+    isInfoModalOpen,
     isProfileMenuOpen,
-    setIsProfileMenuOpen,
+    isDeleteModalOpen,
+    isLogoutModalOpen,
+    toggleModal,
     changesCounter,
   } = useContext(UserContext);
 
@@ -38,49 +41,39 @@ export default function NavBar() {
   };
 
   return (
-    <>
-      <StyledNavBar>
-        <StyledNavLink to="/" end>
-          <img src={homeIcon} alt="Go to Home" />
-          <p>Home</p>
-        </StyledNavLink>
-        <StyledNavLink to="/recipes">
-          <img src={recipesIcon} alt="Go to Recipes" />
-          <p>Recipes</p>
-        </StyledNavLink>
-        <StyledNavLink to="/favorites">
-          <img src={favoritesIcon} alt="Go to favorite recipes" />
-          <p>Favorites</p>
-        </StyledNavLink>
-        <StyledProfileButton
-          onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
-        >
-          <img src={userIcon} alt="user" />
-          {changesCounter > 0 && !isProfileMenuOpen && isLoggedIn && (
-            <ChangeIcon>{changesCounter}</ChangeIcon>
-          )}
-          <p>Account</p>
-        </StyledProfileButton>
-        <ProfileMenu
-          isProfileMenuOpen={isProfileMenuOpen}
-          setIsProfileMenuOpen={setIsProfileMenuOpen}
-          setIsInfoModalOpen={setIsInfoModalOpen}
-        />
-        <InfoModal
-          isInfoModalOpen={isInfoModalOpen}
-          setIsInfoModalOpen={setIsInfoModalOpen}
-        />
-        {showTopBtn && (
-          <StyledToTopButton
-            type="button"
-            onClick={goToTop}
-            isProfileMenuOpen={isProfileMenuOpen}
-          >
-            <img src={upArrow} alt="arrow up" />
-          </StyledToTopButton>
+    <StyledNavBar>
+      <StyledNavLink to="/" end>
+        <img src={homeIcon} alt="Go to Home" />
+        <p>Home</p>
+      </StyledNavLink>
+      <StyledNavLink to="/recipes">
+        <img src={recipesIcon} alt="Go to Recipes" />
+        <p>Recipes</p>
+      </StyledNavLink>
+      <StyledNavLink to="/favorites">
+        <img src={favoritesIcon} alt="Go to favorite recipes" />
+        <p>Favorites</p>
+      </StyledNavLink>
+      <StyledProfileButton onClick={() => toggleModal("profileMenu")}>
+        <img src={userIcon} alt="user" />
+        {changesCounter > 0 && !isProfileMenuOpen && isLoggedIn && (
+          <ChangeIcon>{changesCounter}</ChangeIcon>
         )}
-      </StyledNavBar>
-    </>
+        <p>Account</p>
+      </StyledProfileButton>
+      {isProfileMenuOpen && <ProfileMenu />}
+      {(isDeleteModalOpen || isLogoutModalOpen) && <WarningModal />}
+      {isInfoModalOpen && <InfoModal />}
+      {showTopBtn && (
+        <StyledToTopButton
+          type="button"
+          onClick={goToTop}
+          isProfileMenuOpen={isProfileMenuOpen}
+        >
+          <img src={upArrow} alt="arrow up" />
+        </StyledToTopButton>
+      )}
+    </StyledNavBar>
   );
 }
 
@@ -174,3 +167,5 @@ const ChangeIcon = styled.p`
     right: 90px;
   }
 `;
+
+export default React.memo(NavBar);

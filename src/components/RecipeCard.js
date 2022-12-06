@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import arrowRightIcon from "../assets/icons/ep_arrow-right.svg";
 import arrowDownIcon from "../assets/icons/ep_arrow-down.svg";
 import emptyHeartIcon from "../assets/icons/heart-outlined.svg";
